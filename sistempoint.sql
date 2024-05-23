@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel tb_mhs
+-- Struktur dari tabel tb_mahasiswa
 --
 
 CREATE TABLE tb_mhs (
