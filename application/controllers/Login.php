@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Login extends CI_Controller
@@ -24,6 +25,16 @@ class Login extends CI_Controller
             //validasi sukses
             $this->proses_login();
         }
+=======
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Login extends CI_Controller {
+
+    public function index()
+    {
+        $data['title'] = 'Login';
+        $this->load->view('login');
+>>>>>>> 8542ac644ce54786091aeb05d7d3aa1c37d5e217
     }
 
     public function proses_login()
@@ -45,6 +56,7 @@ class Login extends CI_Controller
             redirect('login');
         }
     }
+<<<<<<< HEAD
 
     public function logout()
     {
@@ -54,4 +66,6 @@ class Login extends CI_Controller
             Anda Telah Keluar!</div>');
         redirect('auth');
     }
+=======
+>>>>>>> 8542ac644ce54786091aeb05d7d3aa1c37d5e217
 }
