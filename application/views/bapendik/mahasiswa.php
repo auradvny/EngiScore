@@ -18,6 +18,7 @@
                     <th>Jenis Kelamin</th>
                     <th>Prodi</th>
                     <th>No Telp</th>
+                    <th>Point</th>
                     <th>Alamat</th>
                     <th>Aksi</th>
                 </tr>
@@ -33,6 +34,7 @@
                         <td><?= $mhs['gender']; ?></td>
                         <td>0</td>
                         <td><?= $mhs['telp']; ?></td>
+                        <td>0</td>
                         <td><?= $mhs['alamat']; ?></td>
                         <td>
                             <button class="btn btn-warning btn-sn"><i class="fas fa-edit"></i></button>

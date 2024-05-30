@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 24, 2024 at 03:33 PM
+-- Generation Time: May 30, 2024 at 02:46 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,25 +29,31 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `tb_mhs` (
   `nim_mhs` char(9) NOT NULL,
-  `nama_mhs` varchar(50) NOT NULL,
-  `email_mhs` varchar(50) NOT NULL,
-  `pass_mhs` varchar(50) NOT NULL,
-  `prodi_mhs` varchar(50) NOT NULL,
-  `telp_mhs` varchar(25) NOT NULL,
-  `alamat_mhs` text NOT NULL,
-  `jekel_mhs` enum('L','P') NOT NULL,
-  `role_id` int(11) NOT NULL
+  `skor` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `prodi_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_mhs`
 --
 
-INSERT INTO `tb_mhs` (`nim_mhs`, `nama_mhs`, `email_mhs`, `pass_mhs`, `prodi_mhs`, `telp_mhs`, `alamat_mhs`, `jekel_mhs`, `role_id`) VALUES
-('H1D022000', 'Devany', 'dvny@mhs.unsoed.ac.id', '1234', 'Sipil', '0987654321', 'Purbalingga, Indonesia', 'L', 0),
-('H1D022002', 'aaa', 'mhs@gmail.com', '1234', 'Industri', '0987654321', 'Pbg', 'L', 0),
-('H1D022015', 'Aura Devany', 'aura.bachtiar@mhs.unsoed.ac.id', '1234', 'Informatika', '08123456789', 'Cilacap, Indonesia', 'P', 0),
-('H1D022049', 'Calista Anindita', 'calista.anindita@mhs.unsoed.ac.id', '1234', 'Informatika', '08987654321', 'Purwokerto, Indonesia', 'P', 0);
+INSERT INTO `tb_mhs` (`nim_mhs`, `skor`, `user_id`, `prodi_id`) VALUES
+('H1D022000', 0, 0, 0),
+('H1D022002', 0, 0, 0),
+('H1D022015', 0, 0, 0),
+('H1D022049', 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_prodi`
+--
+
+CREATE TABLE `tb_prodi` (
+  `id` int(11) NOT NULL,
+  `prodi` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -69,8 +75,21 @@ CREATE TABLE `tb_sertif` (
 
 INSERT INTO `tb_sertif` (`id`, `bidang`, `capaian`, `kategori`, `skor`) VALUES
 (1, 'Kompetisi', 'Juara 1 Perorangan', 'Kategori A/Internasional', 100),
-(2, 'Kompetisi', 'Juara 2 Perorangan', 'Kategori A/Internasional', 75),
-(3, 'Kompetisi', '', '', 0);
+(2, 'Kompetisi', 'Juara 1 Perorangan', 'Kategori A/Regional', 75),
+(3, 'Kompetisi', '', '', 0),
+(4, 'Pengakuan', '', '', 0),
+(5, '', 'Juri', '', 0),
+(6, '', '', 'A', 0),
+(7, 'Pengakuan', '', '', 0),
+(8, '', 'Juri', '', 0),
+(9, '', '', 'A', 0),
+(10, 'Pengakuan', '', '', 0),
+(11, '', 'Juri', '', 0),
+(12, '', '', 'A', 0),
+(13, 'Pengakuan', '', '', 0),
+(14, '', 'Lainnya (maksimal 5 kegiatan/pengakuan)', '', 0),
+(15, '', '', 'A', 0),
+(16, 'Penghargaan', '(grand final, peraih medali perak berdasar nilai batas)', 'A', 0);
 
 -- --------------------------------------------------------
 
@@ -86,18 +105,21 @@ CREATE TABLE `tb_user` (
   `pass` varchar(250) NOT NULL,
   `role_id` int(11) NOT NULL,
   `is_active` int(1) NOT NULL,
-  `tgl_dibuat` int(11) NOT NULL
+  `tgl_dibuat` int(11) NOT NULL,
+  `gender` enum('L','P') NOT NULL,
+  `telp` varchar(15) NOT NULL,
+  `alamat` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_user`
 --
 
-INSERT INTO `tb_user` (`id`, `nama`, `email`, `image`, `pass`, `role_id`, `is_active`, `tgl_dibuat`) VALUES
-(1, 'Aura', 'aura@gmail.com', 'default.jpg', '1234', 3, 1, 1716451375),
-(2, 'aura1', 'mhs@gmail.com', 'default.jpg', '$2y$10$8Yhl04CQGtHVZ1.0aO.JX.ojq2fg/tp/r9I5dqweWo9gxscrbZ.OS', 1, 1, 1716451375),
-(3, 'aura2', 'admin@gmail.com', 'default.jpg', '$2y$10$Nx9FnYwhnE8oFCyHuNOsXO2lQwi.TkGLi2t/sgeJEPbBYRCsr6Q4S', 2, 1, 1716455594),
-(4, 'aura3', 'pimpinan@gmail.com', 'default.jpg', '$2y$10$seKytyUYdL149iIPzJ3DMuasCTLGLAMbkhQHH5kkhGfKjT486mrVq', 3, 1, 1716518241);
+INSERT INTO `tb_user` (`id`, `nama`, `email`, `image`, `pass`, `role_id`, `is_active`, `tgl_dibuat`, `gender`, `telp`, `alamat`) VALUES
+(1, 'Aura', 'aura@gmail.com', 'default.jpg', '1234', 3, 1, 1716451375, 'P', '0987654321', 'Cilacap'),
+(2, 'Mahasiswa Aura', 'mhs@gmail.com', 'default.jpg', '$2y$10$8Yhl04CQGtHVZ1.0aO.JX.ojq2fg/tp/r9I5dqweWo9gxscrbZ.OS', 1, 1, 1716451375, 'P', '0987654321', 'Cilacap'),
+(3, 'Admin Aura', 'admin@gmail.com', 'default.jpg', '$2y$10$Nx9FnYwhnE8oFCyHuNOsXO2lQwi.TkGLi2t/sgeJEPbBYRCsr6Q4S', 2, 1, 1716455594, 'L', '0987654321', 'Purwokerto'),
+(4, 'Pimpinan Aura', 'pimpinan@gmail.com', 'default.jpg', '$2y$10$seKytyUYdL149iIPzJ3DMuasCTLGLAMbkhQHH5kkhGfKjT486mrVq', 3, 1, 1716518241, 'P', '0987654321', 'Purbalingga');
 
 -- --------------------------------------------------------
 
@@ -203,6 +225,12 @@ ALTER TABLE `tb_mhs`
   ADD PRIMARY KEY (`nim_mhs`);
 
 --
+-- Indexes for table `tb_prodi`
+--
+ALTER TABLE `tb_prodi`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tb_sertif`
 --
 ALTER TABLE `tb_sertif`
@@ -243,10 +271,16 @@ ALTER TABLE `tb_user_sub_menu`
 --
 
 --
+-- AUTO_INCREMENT for table `tb_prodi`
+--
+ALTER TABLE `tb_prodi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tb_sertif`
 --
 ALTER TABLE `tb_sertif`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `tb_user`
