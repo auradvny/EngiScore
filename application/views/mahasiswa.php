@@ -2,15 +2,15 @@
 
 <div class="card">
     <div class="card-header">
-        <a href="<?= base_url('mahasiswa/tambah') ?>" class="btn btn-primary btn-sm"><i class="fas da-plus"></i>Tambah Mahasiswa</a>
-        <a href="<?= base_url('mahasiswa/print') ?>" class="btn btn-info btn-sm"><i class="fas da-print"></i>Print</a>
-        <a href="<?= base_url('mahasiswa/pdf') ?>" class="btn btn-success btn-sm"><i class="fas da-file"></i>Export PDF</a>
+        <a href="<?= base_url('mahasiswa/tambah') ?>" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Tambah Mahasiswa</a>
+        <a href="<?= base_url('mahasiswa/print') ?>" class="btn btn-info btn-sm"><i class="fas fa-print"></i> Print</a>
+        <a href="<?= base_url('mahasiswa/pdf') ?>" class="btn btn-success btn-sm"><i class="fas fa-file"></i> Export PDF</a>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
         <table id="example1" class="table table-bordered table-striped">
-            <thead>
-                <tr class="text-center">
+            <thead class="text-center">
+                <tr>
                     <th>No</th>
                     <th>NIM</th>
                     <th>Nama</th>
@@ -23,28 +23,31 @@
                     <th>Aksi</th>
                 </tr>
             </thead>
-            <?php $no = 1;
-                foreach($mahasiswa as $mhs): ?>
-                    <tbody>
-                        <tr class="text-center">
-                            <td><?= $no++ ?></td>
-                            <td><?= $mhs->nim_mhs ?></td>
-                            <td><?= $mhs->nama_mhs ?></td>
-                            <td><?= $mhs->email_mhs ?></td>
-                            <td><?= $mhs->pass_mhs ?></td>
-                            <td><?= $mhs->prodi_mhs ?></td>
-                            <td><?= $mhs->jekel_mhs ?></td>
-                            <td><?= $mhs->telp_mhs ?></td>
-                            <td><?= $mhs->alamat_mhs ?></td>
-                            <td>
-                                <button data-toggle="modal" data-target="#edit<?= $mhs->nim_mhs ?>" class="btn btn-warning btn-sn"><i class="fas fa-edit"></i></button>
-                                <a href="<?= base_url('mahasiswa/delete/' . $mhs->nim_mhs) ?>" class="btn btn-danger btn-sn" onclick="return confirm('Apakah Anda yakin menghapus data ini?')"><i class="fas fa-trash"></i></a>
-                            </td>
-                        </tr>
-                    </tbody>
-            <?php endforeach ?>
+            <tbody>
+                <?php $no = 1; foreach($mahasiswa as $mhs): ?>
+                <tr class="text-center">
+                    <td><?= $no++ ?></td>
+                    <td><?= $mhs->nim_mhs ?></td>
+                    <td><?= $mhs->nama_mhs ?></td>
+                    <td><?= $mhs->email_mhs ?></td>
+                    <td><?= $mhs->pass_mhs ?></td>
+                    <td><?= $mhs->prodi_mhs ?></td>
+                    <td><?= $mhs->jekel_mhs ?></td>
+                    <td><?= $mhs->telp_mhs ?></td>
+                    <td><?= $mhs->alamat_mhs ?></td>
+                    <td>
+                        <button data-toggle="modal" data-target="#edit<?= $mhs->nim_mhs ?>" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
+                        <a href="<?= base_url('mahasiswa/delete/' . $mhs->nim_mhs) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin menghapus data ini?')"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <?php endforeach ?>
+            </tbody>
         </table>
     </div>
+    <!-- /.card-body -->
+</div>
+<!-- /.card -->
+ 
 
 
 <!-- Modal Edit -->

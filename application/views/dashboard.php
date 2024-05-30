@@ -6,72 +6,76 @@
   </div>
 
   <!-- Main content -->
-  <section class="content">
-    <div class="container-fluid">
-      <!-- Info boxes -->
-      <div class="row">
-        <div class="col-12 col-sm-6 col-md-3">
-          <div class="info-box">
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Info boxes -->
+        <div class="row">
+          
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
             <span class="info-box-icon bg-info elevation-1"><i class="fas fa-plus"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-text">Jumlah Poin</span>
-              <span class="info-box-number">
-                10
-                <small>%</small>
-              </span>
+              <div class="info-box-content">
+                <span class="info-box-text">Jumlah Poin</span>
+                <span class="info-box-number">
+                  10
+                  <small>%</small>
+                </span>
+              </div>
+              <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box-content -->
+            <!-- /.info-box -->
           </div>
-          <!-- /.info-box -->
-        </div>
-        <!-- /.col -->
-        <div class="col-12 col-sm-6 col-md-3">
-          <div class="info-box mb-3">
-            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-file-export" style="color: #ffffff;"></i></span>
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-file-export" style="color: #ffffff;"></i></span>
 
-            <div class="info-box-content">
-              <span class="info-box-text">Jumlah Permohonan</span>
-              <span class="info-box-number">41,410</span>
+              <div class="info-box-content">
+                <span class="info-box-text">Jumlah Permohonan</span>
+                <span class="info-box-number">41,410</span>
+              </div>
+              <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box-content -->
+            <!-- /.info-box -->
           </div>
-          <!-- /.info-box -->
-        </div>
-        <!-- /.col -->
+          <!-- /.col -->
 
-        <!-- fix for small devices only -->
-        <div class="clearfix hidden-md-up"></div>
+          <!-- fix for small devices only -->
+          <div class="clearfix hidden-md-up"></div>
 
-        <div class="col-12 col-sm-6 col-md-3">
-          <div class="info-box mb-3">
-            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-check"></i></span>
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-check"></i></span>
 
-            <div class="info-box-content">
-              <span class="info-box-text">Permohonan Disetujui</span>
-              <span class="info-box-number">760</span>
+              <div class="info-box-content">
+                <span class="info-box-text">Permohonan Disetujui</span>
+                <span class="info-box-number">760</span>
+              </div>
+              <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box-content -->
+            <!-- /.info-box -->
           </div>
-          <!-- /.info-box -->
-        </div>
-        <!-- /.col -->
-        <div class="col-12 col-sm-6 col-md-3">
-          <div class="info-box mb-3">
-            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-times" style="color: #ffffff;"></i></span>
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-times" style="color: #ffffff;"></i></span>
 
-            <div class="info-box-content">
-              <span class="info-box-text">Permohonan Ditolak</span>
-              <span class="info-box-number">2,000</span>
+              <div class="info-box-content">
+                <span class="info-box-text">Permohonan Ditolak</span>
+                <span class="info-box-number">2,000</span>
+              </div>
+              <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box-content -->
+            <!-- /.info-box -->
           </div>
-          <!-- /.info-box -->
+          <!-- /.col -->
         </div>
-        <!-- /.col -->
-      </div>
-    </div><!--/. container-fluid -->
-  </section>
-  <!-- /.content -->
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
   <!-- /.content-wrapper -->
 </div>
+<!-- ./wrapper -->
+
+
 <!-- ./wrapper -->
