@@ -13,8 +13,8 @@ tb_user (jekel, no_telp, alamat) -->
     <!-- /.card-header -->
     <div class="card-body">
         <table id="example1" class="table table-bordered table-striped">
-            <thead>
-                <tr class="text-center">
+            <thead class="text-center">
+                <tr>
                     <th>No</th>
                     <th>NIM</th>
                     <th>Nama</th>
@@ -23,6 +23,7 @@ tb_user (jekel, no_telp, alamat) -->
                     <th>Jenis Kelamin</th>
                     <th>Prodi</th>
                     <th>No Telp</th>
+                    <th>Point</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -46,71 +47,75 @@ tb_user (jekel, no_telp, alamat) -->
             <?php endforeach ?>
         </table>
     </div>
+    <!-- /.card-body -->
+</div>
+<!-- /.card -->
 
 
-    <!-- Modal Edit -->
-    <?php foreach ($mahasiswa as $mhs) : ?>
-        <div class="modal fade" id="edit<?= $mhs->nim_mhs ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit Mahasiswa</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="<?= base_url('mahasiswa/edit/' . $mhs->nim_mhs) ?>" method="POST">
-                            <div class="form-group">
-                                <label for="nim_mhs">NIM Mahasiswa</label>
-                                <input type="text" name="nim_mhs" class="form-control" value='<?= $mhs->nim_mhs ?>' readonly>
-                                <?= form_error('nim_mhs', '<div class="text-small text-danger">', '</div>'); ?>
+
+<!-- Modal Edit -->
+<?php foreach ($mahasiswa as $mhs) : ?>
+    <div class="modal fade" id="edit<?= $mhs->nim_mhs ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Mahasiswa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="<?= base_url('mahasiswa/edit/' . $mhs->nim_mhs) ?>" method="POST">
+                        <div class="form-group">
+                            <label for="nim_mhs">NIM Mahasiswa</label>
+                            <input type="text" name="nim_mhs" class="form-control" value='<?= $mhs->nim_mhs ?>' readonly>
+                            <?= form_error('nim_mhs', '<div class="text-small text-danger">', '</div>'); ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="nama_mhs">Nama Mahasiswa</label>
+                            <input type="text" name="nama_mhs" class="form-control" value='<?= $mhs->nama_mhs ?>'>
+                            <?= form_error('nama_mhs', '<div class="text-small text-danger">', '</div>'); ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="email_mhs">Email Mahasiswa</label>
+                            <input type="email" name="email_mhs" class="form-control" value='<?= $mhs->email_mhs ?>'>
+                            <?= form_error('email_mhs', '<div class="text-small text-danger">', '</div>'); ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="pass_mhs">Password Mahasiswa</label>
+                            <input type="text" name="pass_mhs" class="form-control" value='<?= $mhs->pass_mhs ?>'>
+                            <?= form_error('pass_mhs', '<div class="text-small text-danger">', '</div>'); ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="prodi_mhs">Prodi Mahasiswa</label>
+                            <input type="text" name="prodi_mhs" class="form-control" value='<?= $mhs->prodi_mhs ?>'>
+                            <?= form_error('prodi_mhs', '<div class="text-small text-danger">', '</div>'); ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="jekel_mhs">Jenis Kelamin</label>
+                            <div>
+                                <input type="radio" name="jekel_mhs" value="L" <?= $mhs->jekel_mhs == 'L' ? 'checked' : '' ?>>Laki-Laki
+                                <input type="radio" name="jekel_mhs" value="P" <?= $mhs->jekel_mhs == 'P' ? 'checked' : '' ?>>Perempuan
                             </div>
-                            <div class="form-group">
-                                <label for="nama_mhs">Nama Mahasiswa</label>
-                                <input type="text" name="nama_mhs" class="form-control" value='<?= $mhs->nama_mhs ?>'>
-                                <?= form_error('nama_mhs', '<div class="text-small text-danger">', '</div>'); ?>
-                            </div>
-                            <div class="form-group">
-                                <label for="email_mhs">Email Mahasiswa</label>
-                                <input type="email" name="email_mhs" class="form-control" value='<?= $mhs->email_mhs ?>'>
-                                <?= form_error('email_mhs', '<div class="text-small text-danger">', '</div>'); ?>
-                            </div>
-                            <div class="form-group">
-                                <label for="pass_mhs">Password Mahasiswa</label>
-                                <input type="text" name="pass_mhs" class="form-control" value='<?= $mhs->pass_mhs ?>'>
-                                <?= form_error('pass_mhs', '<div class="text-small text-danger">', '</div>'); ?>
-                            </div>
-                            <div class="form-group">
-                                <label for="prodi_mhs">Prodi Mahasiswa</label>
-                                <input type="text" name="prodi_mhs" class="form-control" value='<?= $mhs->prodi_mhs ?>'>
-                                <?= form_error('prodi_mhs', '<div class="text-small text-danger">', '</div>'); ?>
-                            </div>
-                            <div class="form-group">
-                                <label for="jekel_mhs">Jenis Kelamin</label>
-                                <div>
-                                    <input type="radio" name="jekel_mhs" value="L" <?= $mhs->jekel_mhs == 'L' ? 'checked' : '' ?>>Laki-Laki
-                                    <input type="radio" name="jekel_mhs" value="P" <?= $mhs->jekel_mhs == 'P' ? 'checked' : '' ?>>Perempuan
-                                </div>
-                                <?= form_error('jekel_mhs', '<div class="text-small text-danger">', '</div>'); ?>
-                            </div>
-                            <div class="form-group">
-                                <label for="telp_mhs">No Telp Mahasiswa</label>
-                                <input type="text" name="telp_mhs" class="form-control" value='<?= $mhs->telp_mhs ?>'>
-                                <?= form_error('telp_mhs', '<div class="text-small text-danger">', '</div>'); ?>
-                            </div>
-                            <div class="form-group">
-                                <label for="alamat_mhs">Alamat Mahasiswa</label>
-                                <textarea name="alamat_mhs" id="alamat_mhs" class="form-control"><?= $mhs->alamat_mhs ?></textarea>
-                                <?= form_error('alamat_mhs', '<div class="text-small text-danger">', '</div>'); ?>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-save"></i>Simpan</button>
-                                <button type="reset" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>Reset</button>
-                            </div>
-                        </form>
-                    </div>
+                            <?= form_error('jekel_mhs', '<div class="text-small text-danger">', '</div>'); ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="telp_mhs">No Telp Mahasiswa</label>
+                            <input type="text" name="telp_mhs" class="form-control" value='<?= $mhs->telp_mhs ?>'>
+                            <?= form_error('telp_mhs', '<div class="text-small text-danger">', '</div>'); ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="alamat_mhs">Alamat Mahasiswa</label>
+                            <textarea name="alamat_mhs" id="alamat_mhs" class="form-control"><?= $mhs->alamat_mhs ?></textarea>
+                            <?= form_error('alamat_mhs', '<div class="text-small text-danger">', '</div>'); ?>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-save"></i>Simpan</button>
+                            <button type="reset" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>Reset</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    <?php endforeach ?>
+    </div>
+<?php endforeach ?>

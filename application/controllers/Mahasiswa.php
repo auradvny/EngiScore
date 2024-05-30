@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Mahasiswa extends CI_Controller
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -22,14 +23,13 @@ class Mahasiswa extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function profil()
+    public function tambah()
     {
-        $data['title'] = 'My Profil';
-        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['title'] = 'Tambah Mahasiswa';
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
-        $this->load->view('mahasiswa/profil', $data);
+        $this->load->view('tambah_mahasiswa');
         $this->load->view('templates/footer');
     }
 
