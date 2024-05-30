@@ -20,6 +20,7 @@
                     <th>Jenis Kelamin</th>
                     <th>No Telp</th>
                     <th>Alamat</th>
+                    <th>Point</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -35,6 +36,7 @@
                     <td><?= $mhs->jekel_mhs ?></td>
                     <td><?= $mhs->telp_mhs ?></td>
                     <td><?= $mhs->alamat_mhs ?></td>
+                    <td><?= $mhs->point_mhs ?></td>
                     <td>
                         <button data-toggle="modal" data-target="#edit<?= $mhs->nim_mhs ?>" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
                         <a href="<?= base_url('mahasiswa/delete/' . $mhs->nim_mhs) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin menghapus data ini?')"><i class="fas fa-trash"></i></a>
@@ -105,6 +107,11 @@
                         <label for="alamat_mhs">Alamat Mahasiswa</label>
                         <textarea name="alamat_mhs" id="alamat_mhs" class="form-control"><?= $mhs->alamat_mhs ?></textarea>
                         <?= form_error('alamat_mhs', '<div class="text-small text-danger">', '</div>'); ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="point_mhs">Point Mahasiswa</label>
+                        <input type="text" name="point_mhs" class="form-control" value='<?= $mhs->point_mhs ?>'>
+                        <?= form_error('point_mhs', '<div class="text-small text-danger">', '</div>'); ?>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-save"></i>Simpan</button>
