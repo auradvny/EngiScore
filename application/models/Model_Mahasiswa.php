@@ -1,7 +1,12 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Model_Mahasiswa extends CI_Model {
+class Model_Mahasiswa extends CI_Model
+{
+	// public function getMhs()
+	// {
+	// 	$query = "SELECT '' "
+	// }
 
 	public function get_data($table)
 	{

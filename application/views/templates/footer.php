@@ -1,3 +1,15 @@
+</div>
+<!-- ./wrapper -->
+
+</div>
+<!-- End of Main Content -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
 <footer class="main-footer">
   <div class="container my-auto">
     <div class="copyright text-center my-auto">
