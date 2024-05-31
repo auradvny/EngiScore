@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 30, 2024 at 02:46 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Waktu pembuatan: 31 Bulan Mei 2024 pada 06.49
+-- Versi server: 10.4.32-MariaDB
+-- Versi PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_mhs`
+-- Struktur dari tabel `tb_mhs`
 --
 
 CREATE TABLE `tb_mhs` (
@@ -35,7 +35,7 @@ CREATE TABLE `tb_mhs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tb_mhs`
+-- Dumping data untuk tabel `tb_mhs`
 --
 
 INSERT INTO `tb_mhs` (`nim_mhs`, `skor`, `user_id`, `prodi_id`) VALUES
@@ -47,7 +47,7 @@ INSERT INTO `tb_mhs` (`nim_mhs`, `skor`, `user_id`, `prodi_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_prodi`
+-- Struktur dari tabel `tb_prodi`
 --
 
 CREATE TABLE `tb_prodi` (
@@ -58,7 +58,7 @@ CREATE TABLE `tb_prodi` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_sertif`
+-- Struktur dari tabel `tb_sertif`
 --
 
 CREATE TABLE `tb_sertif` (
@@ -70,31 +70,58 @@ CREATE TABLE `tb_sertif` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tb_sertif`
+-- Dumping data untuk tabel `tb_sertif`
 --
 
 INSERT INTO `tb_sertif` (`id`, `bidang`, `capaian`, `kategori`, `skor`) VALUES
-(1, 'Kompetisi', 'Juara 1 Perorangan', 'Kategori A/Internasional', 100),
-(2, 'Kompetisi', 'Juara 1 Perorangan', 'Kategori A/Regional', 75),
-(3, 'Kompetisi', '', '', 0),
+(1, 'Kompetisi', 'Juara 1 Perorangan', '', 100),
+(2, 'Kompetisi', 'Juara 1 Perorangan', '', 80),
+(3, 'Kompetisi', 'Juara 1 Perorangan', '', 0),
 (4, 'Pengakuan', '', '', 0),
 (5, '', 'Juri', '', 0),
-(6, '', '', 'A', 0),
+(6, '', '', '', 0),
 (7, 'Pengakuan', '', '', 0),
 (8, '', 'Juri', '', 0),
-(9, '', '', 'A', 0),
+(9, '', '', '', 0),
 (10, 'Pengakuan', '', '', 0),
 (11, '', 'Juri', '', 0),
-(12, '', '', 'A', 0),
+(12, '', '', '', 0),
 (13, 'Pengakuan', '', '', 0),
 (14, '', 'Lainnya (maksimal 5 kegiatan/pengakuan)', '', 0),
-(15, '', '', 'A', 0),
-(16, 'Penghargaan', '(grand final, peraih medali perak berdasar nilai batas)', 'A', 0);
+(15, '', '', '', 0),
+(16, 'Penghargaan', '(grand final, peraih medali perak berdasar nilai batas)', '', 0),
+(17, 'Kompetisi', 'Juara Kategori Perorangan Lainnya', 'B', 0),
+(18, 'Kompetisi', 'Juara Kategori Perorangan Lainnya', 'C', 0),
+(19, 'Kompetisi', 'Juara Kategori Perorangan Lainnya', 'D', 0),
+(20, 'Kompetisi', 'Juara Kategori Perorangan Lainnya', 'E', 15),
+(21, 'Kompetisi', 'Juara Kategori Perorangan Lainnya', 'D', 40);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_user`
+-- Struktur dari tabel `tb_sertif_kategori`
+--
+
+CREATE TABLE `tb_sertif_kategori` (
+  `id` int(11) NOT NULL,
+  `kategori` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `tb_sertif_kategori`
+--
+
+INSERT INTO `tb_sertif_kategori` (`id`, `kategori`) VALUES
+(1, 'Kategori A (Internasional)'),
+(2, 'Kategori B (Regional)'),
+(3, 'Kategori C (Nasional)'),
+(4, 'Kategori D (Provinsi)'),
+(5, 'Kategori E (Kab/Kota/PT/Fakultas)');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tb_user`
 --
 
 CREATE TABLE `tb_user` (
@@ -112,7 +139,7 @@ CREATE TABLE `tb_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tb_user`
+-- Dumping data untuk tabel `tb_user`
 --
 
 INSERT INTO `tb_user` (`id`, `nama`, `email`, `image`, `pass`, `role_id`, `is_active`, `tgl_dibuat`, `gender`, `telp`, `alamat`) VALUES
@@ -124,7 +151,7 @@ INSERT INTO `tb_user` (`id`, `nama`, `email`, `image`, `pass`, `role_id`, `is_ac
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_user_akses_menu`
+-- Struktur dari tabel `tb_user_akses_menu`
 --
 
 CREATE TABLE `tb_user_akses_menu` (
@@ -134,7 +161,7 @@ CREATE TABLE `tb_user_akses_menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tb_user_akses_menu`
+-- Dumping data untuk tabel `tb_user_akses_menu`
 --
 
 INSERT INTO `tb_user_akses_menu` (`id`, `role_id`, `menu_id`) VALUES
@@ -148,7 +175,7 @@ INSERT INTO `tb_user_akses_menu` (`id`, `role_id`, `menu_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_user_menu`
+-- Struktur dari tabel `tb_user_menu`
 --
 
 CREATE TABLE `tb_user_menu` (
@@ -157,7 +184,7 @@ CREATE TABLE `tb_user_menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tb_user_menu`
+-- Dumping data untuk tabel `tb_user_menu`
 --
 
 INSERT INTO `tb_user_menu` (`id`, `menu`) VALUES
@@ -169,7 +196,7 @@ INSERT INTO `tb_user_menu` (`id`, `menu`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_user_role`
+-- Struktur dari tabel `tb_user_role`
 --
 
 CREATE TABLE `tb_user_role` (
@@ -178,7 +205,7 @@ CREATE TABLE `tb_user_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tb_user_role`
+-- Dumping data untuk tabel `tb_user_role`
 --
 
 INSERT INTO `tb_user_role` (`id`, `role`) VALUES
@@ -189,7 +216,7 @@ INSERT INTO `tb_user_role` (`id`, `role`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_user_sub_menu`
+-- Struktur dari tabel `tb_user_sub_menu`
 --
 
 CREATE TABLE `tb_user_sub_menu` (
@@ -202,7 +229,7 @@ CREATE TABLE `tb_user_sub_menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tb_user_sub_menu`
+-- Dumping data untuk tabel `tb_user_sub_menu`
 --
 
 INSERT INTO `tb_user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_active`) VALUES
@@ -219,95 +246,107 @@ INSERT INTO `tb_user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_act
 --
 
 --
--- Indexes for table `tb_mhs`
+-- Indeks untuk tabel `tb_mhs`
 --
 ALTER TABLE `tb_mhs`
   ADD PRIMARY KEY (`nim_mhs`);
 
 --
--- Indexes for table `tb_prodi`
+-- Indeks untuk tabel `tb_prodi`
 --
 ALTER TABLE `tb_prodi`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tb_sertif`
+-- Indeks untuk tabel `tb_sertif`
 --
 ALTER TABLE `tb_sertif`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tb_user`
+-- Indeks untuk tabel `tb_sertif_kategori`
+--
+ALTER TABLE `tb_sertif_kategori`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `tb_user`
 --
 ALTER TABLE `tb_user`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tb_user_akses_menu`
+-- Indeks untuk tabel `tb_user_akses_menu`
 --
 ALTER TABLE `tb_user_akses_menu`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tb_user_menu`
+-- Indeks untuk tabel `tb_user_menu`
 --
 ALTER TABLE `tb_user_menu`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tb_user_role`
+-- Indeks untuk tabel `tb_user_role`
 --
 ALTER TABLE `tb_user_role`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tb_user_sub_menu`
+-- Indeks untuk tabel `tb_user_sub_menu`
 --
 ALTER TABLE `tb_user_sub_menu`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `tb_prodi`
+-- AUTO_INCREMENT untuk tabel `tb_prodi`
 --
 ALTER TABLE `tb_prodi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tb_sertif`
+-- AUTO_INCREMENT untuk tabel `tb_sertif`
 --
 ALTER TABLE `tb_sertif`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
--- AUTO_INCREMENT for table `tb_user`
+-- AUTO_INCREMENT untuk tabel `tb_sertif_kategori`
+--
+ALTER TABLE `tb_sertif_kategori`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT untuk tabel `tb_user`
 --
 ALTER TABLE `tb_user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `tb_user_akses_menu`
+-- AUTO_INCREMENT untuk tabel `tb_user_akses_menu`
 --
 ALTER TABLE `tb_user_akses_menu`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `tb_user_menu`
+-- AUTO_INCREMENT untuk tabel `tb_user_menu`
 --
 ALTER TABLE `tb_user_menu`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `tb_user_role`
+-- AUTO_INCREMENT untuk tabel `tb_user_role`
 --
 ALTER TABLE `tb_user_role`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `tb_user_sub_menu`
+-- AUTO_INCREMENT untuk tabel `tb_user_sub_menu`
 --
 ALTER TABLE `tb_user_sub_menu`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
