@@ -46,6 +46,20 @@ class Bapendik extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    public function verifikasi()
+    {
+        $data['title'] = 'Verifikasi';
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data['mahasiswa'] = $this->db->get('tb_user')->result_array();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('bapendik/verifikasi', $data);
+        $this->load->view('templates/footer');
+    }
+
+
     public function sertifikat()
     {
         $data['title'] = 'Sertifikat';
@@ -53,9 +67,10 @@ class Bapendik extends CI_Controller
 
         $data['sertifikat'] = $this->db->get('tb_sertif')->result_array();
 
-        $this->form_validation->set_rules('bidang', 'Bidang', 'required');
-        $this->form_validation->set_rules('capaian', 'Capaian', 'required');
-        $this->form_validation->set_rules('kategori', 'Kategori', 'required');
+        $this->form_validation->set_rules('bidang', 'Bidang', 'required', array('required' => 'Bidang harus diisi.'));
+        $this->form_validation->set_rules('capaian', 'Capaian', 'required', array('required' => 'Capaian harus diisi.'));
+        $this->form_validation->set_rules('kategori', 'Kategori', 'required', array('required' => 'Kategori harus diisi.'));
+        $this->form_validation->set_rules('skor', 'Skor', 'required', array('required' => 'Skor harus diisi.'));
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
@@ -66,9 +81,11 @@ class Bapendik extends CI_Controller
             $sertif_data = [
                 'bidang' => $this->input->post('bidang'),
                 'capaian' => $this->input->post('capaian'),
-                'kategori' => $this->input->post('kategori')
+                'kategori' => $this->input->post('kategori'),
+                'skor' => $this->input->post('skor')
             ];
             $this->db->insert('tb_sertif', $sertif_data);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Data sertifikat berhasil ditambahkan!</div>');
             redirect('bapendik/sertifikat');
         }
     }

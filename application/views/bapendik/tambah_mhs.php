@@ -48,16 +48,3 @@
     <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-save"></i>Simpan</button>
     <button type="reset" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>Reset</button>
 </form>
-
-
-</div>
-<!-- ./wrapper -->
-
-</div>
-<!-- End of Main Content -->
-
-</div>
-<!-- End of Content Wrapper -->
-
-</div>
-<!-- End of Page Wrapper -->

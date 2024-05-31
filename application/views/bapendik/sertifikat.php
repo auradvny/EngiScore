@@ -67,7 +67,7 @@
                         <?= form_error('kategori', "<div class='alert alert-danger' role='alert'>", '</div>'); ?>
                     </div>
                     <div class="form-group">
-                        <label for="capaian">Skor</label>
+                        <label for="skor">Skor</label>
                         <input type="number" class="form-control" id="skor" name="skor">
                         <?= form_error('skor', "<div class='alert alert-danger' role='alert'>", '</div>'); ?>
                     </div>
