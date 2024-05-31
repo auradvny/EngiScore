@@ -29,7 +29,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Jumlah Permohonan</span>
-                            <span class="info-box-number">41,410</span>
+                            <span class="info-box-number">41</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
