@@ -15,6 +15,7 @@ class Mahasiswa extends CI_Controller
         $data['title'] = 'Mahasiswa';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
         $data['mahasiswa'] = $this->Model_Mahasiswa->get_data('tb_mhs')->result();
+        $data['jumlah_point'] = $this->Model_Mahasiswa->get_jumlah_point();
         //  $data['user'] = $this->Model_User->get_data('tb_user')->result_array();
 
         $this->load->view('templates/header', $data);

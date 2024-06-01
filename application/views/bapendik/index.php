@@ -1,5 +1,4 @@
 <div class="wrapper">
-
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
         <img class="animation__wobble" src="<?php echo base_url() ?>assets/template/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
@@ -14,10 +13,9 @@
                     <div class="info-box">
                         <span class="info-box-icon bg-info elevation-1"><i class="fas fa-plus"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text">Jumlah Pemohon</span>
+                            <span class="info-box-text">Jumlah Mahasiswa</span>
                             <span class="info-box-number">
-                                10
-                                <small>%</small>
+                                <?= $jumlah_mhs ?> orang
                             </span>
                         </div>
                         <!-- /.info-box-content -->
@@ -31,7 +29,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Jumlah Permohonan</span>
-                            <span class="info-box-number">41,410</span>
+                            <span class="info-box-number">41</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
