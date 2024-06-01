@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 31 Bulan Mei 2024 pada 06.49
+-- Waktu pembuatan: 01 Jun 2024 pada 03.43
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `tb_mhs` (
   `nim_mhs` char(9) NOT NULL,
-  `skor` int(11) NOT NULL,
+  `point` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `prodi_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -38,11 +38,26 @@ CREATE TABLE `tb_mhs` (
 -- Dumping data untuk tabel `tb_mhs`
 --
 
-INSERT INTO `tb_mhs` (`nim_mhs`, `skor`, `user_id`, `prodi_id`) VALUES
+INSERT INTO `tb_mhs` (`nim_mhs`, `point`, `user_id`, `prodi_id`) VALUES
 ('H1D022000', 0, 0, 0),
 ('H1D022002', 0, 0, 0),
 ('H1D022015', 0, 0, 0),
 ('H1D022049', 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tb_permo`
+--
+
+CREATE TABLE `tb_permo` (
+  `id_perm` int(11) NOT NULL,
+  `nim_mhs` char(9) NOT NULL,
+  `kategori` varchar(100) NOT NULL,
+  `bidang` varchar(100) NOT NULL,
+  `capaian` varchar(100) NOT NULL,
+  `file` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -252,6 +267,12 @@ ALTER TABLE `tb_mhs`
   ADD PRIMARY KEY (`nim_mhs`);
 
 --
+-- Indeks untuk tabel `tb_permo`
+--
+ALTER TABLE `tb_permo`
+  ADD PRIMARY KEY (`id_perm`);
+
+--
 -- Indeks untuk tabel `tb_prodi`
 --
 ALTER TABLE `tb_prodi`
@@ -302,6 +323,12 @@ ALTER TABLE `tb_user_sub_menu`
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
 --
+
+--
+-- AUTO_INCREMENT untuk tabel `tb_permo`
+--
+ALTER TABLE `tb_permo`
+  MODIFY `id_perm` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_prodi`
