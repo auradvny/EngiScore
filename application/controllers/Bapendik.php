@@ -100,6 +100,65 @@ class Bapendik extends CI_Controller
         }
     }
 
+    public function tambah_bidang()
+    {
+        $nama_bidang = $this->input->post('nama_bidang');
+        if ($nama_bidang) {
+            $this->db->insert('tb_sertif_bidang', ['bidang' => $nama_bidang]);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Bidang berhasil ditambahkan!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama bidang harus diisi!</div>');
+        }
+        redirect('bapendik/sertifikat');
+    }
+
+    public function delete_bidang($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('tb_sertif_bidang');
+        $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Bidang berhasil dihapus!</div>');
+        redirect('bapendik/sertifikat');
+    }
+
+    public function tambah_kategori()
+    {
+        $nama_kategori = $this->input->post('nama_kategori');
+        if ($nama_kategori) {
+            $this->db->insert('tb_sertif_kategori', ['kategori' => $nama_kategori]);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori berhasil ditambahkan!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama kategori harus diisi!</div>');
+        }
+        redirect('bapendik/sertifikat');
+    }
+
+    public function edit_kategori($id)
+    {
+        $kategori_lama = $this->db->get_where('tb_sertif_kategori', ['id' => $id])->row_array();
+        $data['kategori_lama'] = $kategori_lama;
+
+        $this->form_validation->set_rules('nama_kategori', 'Nama Kategori', 'required');
+
+        if ($this->form_validation->run() === TRUE) {
+            $data_update = ['kategori' => $this->input->post('nama_kategori')];
+            $this->db->where('id', $id);
+            $this->db->update('tb_sertif_kategori', $data_update);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori berhasil diperbarui!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama kategori harus diisi!</div>');
+        }
+        $this->load->view('bapendik/edit_kategori', $data);
+        redirect('bapendik/sertifikat');
+    }
+
+    public function delete_kategori($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('tb_sertif_kategori');
+        $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori berhasil dihapus!</div>');
+        redirect('bapendik/sertifikat');
+    }
+
     public function sertif_kategori()
     {
         $data['title'] = 'Kategori Sertifikat';

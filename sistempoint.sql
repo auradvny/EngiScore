@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 01 Jun 2024 pada 03.43
+-- Waktu pembuatan: 01 Jun 2024 pada 10.51
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -41,7 +41,7 @@ CREATE TABLE `tb_mhs` (
 INSERT INTO `tb_mhs` (`nim_mhs`, `point`, `user_id`, `prodi_id`) VALUES
 ('H1D022000', 0, 0, 0),
 ('H1D022002', 0, 0, 0),
-('H1D022015', 0, 0, 0),
+('H1D022015', 0, 5, 4),
 ('H1D022049', 0, 0, 0);
 
 -- --------------------------------------------------------
@@ -70,6 +70,17 @@ CREATE TABLE `tb_prodi` (
   `prodi` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `tb_prodi`
+--
+
+INSERT INTO `tb_prodi` (`id`, `prodi`) VALUES
+(1, 'Elektro'),
+(2, 'Sipil'),
+(3, 'Geologi'),
+(4, 'Informatika'),
+(5, 'Industri');
+
 -- --------------------------------------------------------
 
 --
@@ -78,38 +89,74 @@ CREATE TABLE `tb_prodi` (
 
 CREATE TABLE `tb_sertif` (
   `id` int(11) NOT NULL,
-  `bidang` varchar(250) NOT NULL,
+  `bidang_id` varchar(250) NOT NULL,
   `capaian` varchar(250) NOT NULL,
-  `kategori` varchar(250) NOT NULL,
-  `skor` int(11) NOT NULL
+  `kategori_id` varchar(250) NOT NULL,
+  `skor` int(11) NOT NULL,
+  `is_active` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `tb_sertif`
 --
 
-INSERT INTO `tb_sertif` (`id`, `bidang`, `capaian`, `kategori`, `skor`) VALUES
-(1, 'Kompetisi', 'Juara 1 Perorangan', '', 100),
-(2, 'Kompetisi', 'Juara 1 Perorangan', '', 80),
-(3, 'Kompetisi', 'Juara 1 Perorangan', '', 0),
-(4, 'Pengakuan', '', '', 0),
-(5, '', 'Juri', '', 0),
-(6, '', '', '', 0),
-(7, 'Pengakuan', '', '', 0),
-(8, '', 'Juri', '', 0),
-(9, '', '', '', 0),
-(10, 'Pengakuan', '', '', 0),
-(11, '', 'Juri', '', 0),
-(12, '', '', '', 0),
-(13, 'Pengakuan', '', '', 0),
-(14, '', 'Lainnya (maksimal 5 kegiatan/pengakuan)', '', 0),
-(15, '', '', '', 0),
-(16, 'Penghargaan', '(grand final, peraih medali perak berdasar nilai batas)', '', 0),
-(17, 'Kompetisi', 'Juara Kategori Perorangan Lainnya', 'B', 0),
-(18, 'Kompetisi', 'Juara Kategori Perorangan Lainnya', 'C', 0),
-(19, 'Kompetisi', 'Juara Kategori Perorangan Lainnya', 'D', 0),
-(20, 'Kompetisi', 'Juara Kategori Perorangan Lainnya', 'E', 15),
-(21, 'Kompetisi', 'Juara Kategori Perorangan Lainnya', 'D', 40);
+INSERT INTO `tb_sertif` (`id`, `bidang_id`, `capaian`, `kategori_id`, `skor`, `is_active`) VALUES
+(1, '1', 'Juara 1 Perorangan', '1', 100, 1),
+(2, '1', 'Juara 1 Perorangan', '2', 80, 1),
+(3, '1', 'Juara 1 Perorangan', '3', 60, 1),
+(4, '1', 'Juara 1 Perorangan', '4', 50, 1),
+(5, '1', 'Juara 1 Perorangan', '5', 30, 1),
+(6, '1', 'Juara 2 Perorangan', '1', 75, 1),
+(7, '1', 'Juara 2 Perorangan', '2', 60, 1),
+(8, '1', 'Juara 2 Perorangan', '3', 45, 1),
+(9, '1', 'Juara 2 Perorangan', '4', 35, 1),
+(10, '1', 'Juara 2 Perorangan', '5', 20, 1),
+(11, '1', 'Juara 3 Perorangan', '1', 50, 1),
+(12, '1', 'Juara 3 Perorangan', '2', 40, 1),
+(13, '1', 'Juara 3 Perorangan', '3', 30, 1),
+(14, '1', 'Juara 3 Perorangan', '4', 25, 1),
+(15, '1', 'Juara 3 Perorangan', '5', 15, 1),
+(16, '1', 'Juara Kategori Perorangan lainnya', '1', 40, 1),
+(17, '1', 'Juara Kategori Perorangan lainnya', '2', 30, 1),
+(18, '1', 'Juara Kategori Perorangan Lainnya', '3', 25, 1),
+(19, '1', 'Juara Kategori Perorangan Lainnya', '4', 20, 1),
+(20, '1', 'Juara Kategori Perorangan Lainnya', '5', 15, 1),
+(21, '1', 'Juara 1 Beregu', '1', 50, 1),
+(22, '2', 'Pelatih/Wasit/Juri bersertifikat', '1', 50, 1),
+(23, '2', 'lainn', '1', 30, 0),
+(24, '3', 'Narasumber/pembicara', '3', 32, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tb_sertif_bidang`
+--
+
+CREATE TABLE `tb_sertif_bidang` (
+  `id` int(11) NOT NULL,
+  `bidang` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `tb_sertif_bidang`
+--
+
+INSERT INTO `tb_sertif_bidang` (`id`, `bidang`) VALUES
+(1, 'Kompetisi'),
+(2, 'Pengakuan (termasuk kepanitiaan'),
+(3, 'Lainnya'),
+(4, 'Lainnya 1');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tb_sertif_capaian`
+--
+
+CREATE TABLE `tb_sertif_capaian` (
+  `id` int(11) NOT NULL,
+  `capaian` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -119,19 +166,20 @@ INSERT INTO `tb_sertif` (`id`, `bidang`, `capaian`, `kategori`, `skor`) VALUES
 
 CREATE TABLE `tb_sertif_kategori` (
   `id` int(11) NOT NULL,
-  `kategori` varchar(100) NOT NULL
+  `kategori` varchar(100) NOT NULL,
+  `is_active` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `tb_sertif_kategori`
 --
 
-INSERT INTO `tb_sertif_kategori` (`id`, `kategori`) VALUES
-(1, 'Kategori A (Internasional)'),
-(2, 'Kategori B (Regional)'),
-(3, 'Kategori C (Nasional)'),
-(4, 'Kategori D (Provinsi)'),
-(5, 'Kategori E (Kab/Kota/PT/Fakultas)');
+INSERT INTO `tb_sertif_kategori` (`id`, `kategori`, `is_active`) VALUES
+(1, 'Kategori A (Internasional)', 0),
+(2, 'Kategori B (Regional)', 0),
+(3, 'Kategori C (Nasional)', 0),
+(4, 'Kategori D (Provinsi)', 0),
+(5, 'Kategori E (Kab/Kota/PT/Fakultas)', 0);
 
 -- --------------------------------------------------------
 
@@ -161,7 +209,8 @@ INSERT INTO `tb_user` (`id`, `nama`, `email`, `image`, `pass`, `role_id`, `is_ac
 (1, 'Aura', 'aura@gmail.com', 'default.jpg', '1234', 3, 1, 1716451375, 'P', '0987654321', 'Cilacap'),
 (2, 'Mahasiswa Aura', 'mhs@gmail.com', 'default.jpg', '$2y$10$8Yhl04CQGtHVZ1.0aO.JX.ojq2fg/tp/r9I5dqweWo9gxscrbZ.OS', 1, 1, 1716451375, 'P', '0987654321', 'Cilacap'),
 (3, 'Admin Aura', 'admin@gmail.com', 'default.jpg', '$2y$10$Nx9FnYwhnE8oFCyHuNOsXO2lQwi.TkGLi2t/sgeJEPbBYRCsr6Q4S', 2, 1, 1716455594, 'L', '0987654321', 'Purwokerto'),
-(4, 'Pimpinan Aura', 'pimpinan@gmail.com', 'default.jpg', '$2y$10$seKytyUYdL149iIPzJ3DMuasCTLGLAMbkhQHH5kkhGfKjT486mrVq', 3, 1, 1716518241, 'P', '0987654321', 'Purbalingga');
+(4, 'Pimpinan Aura', 'pimpinan@gmail.com', 'default.jpg', '$2y$10$seKytyUYdL149iIPzJ3DMuasCTLGLAMbkhQHH5kkhGfKjT486mrVq', 3, 1, 1716518241, 'P', '0987654321', 'Purbalingga'),
+(5, 'Aura Devany Salsabila Bachtiar', 'aura.bachtiar@mhs.unsoed.ac.id', 'default.jpg', '$2y$10$P4Ip82ngGQbIS1ouh4HCG.t6sjt9m/EXQuc8p76z4fod3NT1U7i9m', 1, 1, 1717217366, 'P', '09876543212', 'Cilacap');
 
 -- --------------------------------------------------------
 
@@ -285,6 +334,18 @@ ALTER TABLE `tb_sertif`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `tb_sertif_bidang`
+--
+ALTER TABLE `tb_sertif_bidang`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `tb_sertif_capaian`
+--
+ALTER TABLE `tb_sertif_capaian`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `tb_sertif_kategori`
 --
 ALTER TABLE `tb_sertif_kategori`
@@ -334,25 +395,37 @@ ALTER TABLE `tb_permo`
 -- AUTO_INCREMENT untuk tabel `tb_prodi`
 --
 ALTER TABLE `tb_prodi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_sertif`
 --
 ALTER TABLE `tb_sertif`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT untuk tabel `tb_sertif_bidang`
+--
+ALTER TABLE `tb_sertif_bidang`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT untuk tabel `tb_sertif_capaian`
+--
+ALTER TABLE `tb_sertif_capaian`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_sertif_kategori`
 --
 ALTER TABLE `tb_sertif_kategori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_user_akses_menu`

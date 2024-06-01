@@ -1,85 +1,26 @@
+<?= $this->session->flashdata('pesan'); ?>
 <div class="row">
-    <?= $this->session->flashdata('pesan'); ?>
 
-    <div class="row">
-        <div class="col-lg-6">
-            <a href=" <?= base_url('bapendik/sertif_kategori'); ?>" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newKategori">Tambah Bidang</a>
-            <div class="card">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Bidang</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $i = 1;
-                        foreach ($bidang as $b) : ?>
-                            <tr>
-                                <th scope="row"><?= $i++ ?></th>
-                                <td><?= $b['bidang']; ?></td>
-                                <td>
-                                    <a href="" class="badge badge-warning">Edit</a>
-                                    <a href="" class="badge badge-danger">Delete</a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
 
-        <div class="col-lg-6">
-            <a href=" <?= base_url('bapendik/sertif_kategori'); ?>" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newKategori">Tambah Kategori</a>
-            <div class="card">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Kategori</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $i = 1;
-                        foreach ($kategori as $kat) : ?>
-                            <tr>
-                                <th scope="row"><?= $i++ ?></th>
-                                <td><?= $kat['kategori']; ?></td>
-                                <td>
-                                    <a href="" class="badge badge-warning">Edit</a>
-                                    <a href="" class="badge badge-danger">Delete</a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-lg-12">
-            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#exampleModal">Tambah Sertifikat</a>
+    <div class="col-lg-6">
+        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newBidangModal">Tambah Bidang</a>
+        <div class="card">
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">No</th>
                         <th scope="col">Bidang</th>
-                        <th scope="col">Capaian</th>
-                        <th scope="col">Kategori</th>
-                        <th scope="col">Skor</th>
-                        <th scope="col">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php $i = 1;
-                    foreach ($sertifikat as $sertif) : ?>
+                    foreach ($bidang as $b) : ?>
                         <tr>
                             <th scope="row"><?= $i++ ?></th>
-                            <td><?= $sertif['bidang']; ?></td>
-                            <td><?= $sertif['capaian']; ?></td>
-                            <td><?= $sertif['kategori']; ?></td>
-                            <td><?= $sertif['skor']; ?></td>
+                            <td><?= $b['bidang']; ?></td>
                             <td>
-                                <a href="" class="badge badge-warning">Edit</a>
-                                <a href="" class="badge badge-danger">Delete</a>
+                                <a href="<?= base_url('bapendik/edit_bidang/' . $b['id']); ?>" class="badge badge-warning">Edit</a>
+                                <a href="<?= base_url('bapendik/delete_bidang/' . $b['id']); ?>" class="badge badge-danger">Delete</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -88,14 +29,123 @@
         </div>
     </div>
 
+    <div class="col-lg-6">
+        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newKategoriModal">Tambah Kategori</a>
+        <div class="card">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Kategori</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $i = 1;
+                    foreach ($kategori as $kat) : ?>
+                        <tr>
+                            <th scope="row"><?= $i++ ?></th>
+                            <td><?= $kat['kategori']; ?></td>
+                            <td>
+                                <a href="<?= base_url('bapendik/edit_kategori/' . $kat['id']); ?>" class="badge badge-warning">Edit</a>
+                                <a href="<?= base_url('bapendik/delete_kategori/' . $kat['id']); ?>" class="badge badge-danger">Delete</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSertifikatModal">Tambah Sertifikat</a>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Bidang</th>
+                    <th scope="col">Capaian</th>
+                    <th scope="col">Kategori</th>
+                    <th scope="col">Skor</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $i = 1;
+                foreach ($sertifikat as $sertif) : ?>
+                    <tr>
+                        <th scope="row"><?= $i++ ?></th>
+                        <td><?= $sertif['bidang']; ?></td>
+                        <td><?= $sertif['capaian']; ?></td>
+                        <td><?= $sertif['kategori']; ?></td>
+                        <td><?= $sertif['skor']; ?></td>
+                        <td>
+                            <a href="<?= base_url('bapendik/edit_sertifikat/' . $sertif['id']); ?>" class="badge badge-warning">Edit</a>
+                            <a href="<?= base_url('bapendik/delete_sertifikat/' . $sertif['id']); ?>" class="badge badge-danger">Delete</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 
 
-    <!-- Modal Sertifikat-->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal untuk menambahkan bidang baru -->
+    <div class="modal fade" id="newBidangModal" tabindex="-1" aria-labelledby="newBidangModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Sertifikat</h5>
+                    <h5 class="modal-title" id="newBidangModalLabel">Tambah Bidang</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="<?= base_url('bapendik/tambah_bidang'); ?>" method="POST">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nama_bidang">Nama Bidang</label>
+                            <input type="text" class="form-control" id="nama_bidang" name="nama_bidang" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Tambah</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk menambahkan kategori baru -->
+    <div class="modal fade" id="newKategoriModal" tabindex="-1" aria-labelledby="newKategoriModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newKategoriModalLabel">Tambah Kategori</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="<?= base_url('bapendik/tambah_kategori'); ?>" method="POST">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nama_kategori">Nama Kategori</label>
+                            <input type="text" class="form-control" id="nama_kategori" name="nama_kategori" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Tambah</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk menambahkan sertifikat baru -->
+    <div class="modal fade" id="newSertifikatModal" tabindex="-1" aria-labelledby="newSertifikatModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newSertifikatModalLabel">Tambah Sertifikat</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -153,3 +203,4 @@
             </div>
         </div>
     </div>
+</div>
