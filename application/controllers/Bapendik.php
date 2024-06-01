@@ -44,8 +44,7 @@ class Bapendik extends CI_Controller
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
 
         $data['mahasiswa'] = $this->Model_Mahasiswa->getMhs();
-        $this->db->where('role_id', 1);
-        $data['user'] = $this->db->get('tb_user')->result_array();
+        $data['users'] = $this->db->get_where('tb_user', ['role_id' => 1])->result_array();
         $data['prodi'] = $this->db->get('tb_prodi')->result_array();
 
         $this->load->view('templates/header', $data);
