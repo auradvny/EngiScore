@@ -3,20 +3,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Model_Mahasiswa extends CI_Model
 {
-    // public function getMhs()
-    // {
-    // 	$query = "SELECT '' "
-    // }
     public function __construct()
     {
         parent::__construct();
         $this->load->database();
     }
 
-    public function get_data($table)
+    public function getMhs()
     {
-        return $this->db->get($table);
+        $query = "SELECT tb_mhs.*, tb_user.nama,tb_user.email, tb_user.gender,tb_user.telp, tb_prodi.prodi 
+        FROM tb_mhs 
+        JOIN tb_user ON tb_mhs.user_id = tb_user.id 
+        JOIN tb_prodi ON tb_mhs.prodi_id = tb_prodi.id";
+        return $this->db->query($query)->result_array();
     }
+
 
     public function insert_data($data, $table)
     {

@@ -17,7 +17,7 @@
                             <span class="info-box-text">Jumlah Poin</span>
                             <span class="info-box-number">
                                 <?= $jumlah_point ?>
-                                <small>%</small>
+                                <small>point</small>
                             </span>
                         </div>
                         <!-- /.info-box-content -->
