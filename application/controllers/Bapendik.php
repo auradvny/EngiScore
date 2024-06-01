@@ -37,6 +37,16 @@ class Bapendik extends CI_Controller
         $this->load->view('bapendik/profil', $data);
         $this->load->view('templates/footer');
     }
+    public function laporan()
+    {
+        $data['title'] = 'Laporan';
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('bapendik/laporan', $data);
+        $this->load->view('templates/footer');
+    }
 
     public function mahasiswa()
     {
@@ -267,32 +277,63 @@ class Bapendik extends CI_Controller
 
     public function edit_mhs($id)
     {
+        $data['title'] = 'Edit Mahasiswa';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['mahasiswa'] = $this->Model_Mahasiswa->getMhsById($id);
+        $data['prodi'] = $this->db->get('tb_prodi')->result_array();
 
-        $this->_rules();
-
-        if ($this->form_validation->run() == FALSE) {
-            $this->index();
-        } else {
-            $data = array(
-                'id' => $id,
-                //'nim_mhs' => $nim_mhs,
-                'nama' => $this->input->post('nama'),
-                'email' => $this->input->post('email'),
-                // 'pass_mhs' => $this->input->post('pass_mhs'),
-                'gender' => $this->input->post('gender'),
-                'prodi' => $this->input->post('prodi'),
-                'telp' => $this->input->post('telp'),
-                'alamat' => $this->input->post('alamat'),
-            );
-
-            $this->Model_Mahasiswa->update_data($data, 'tb_user');
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-            Data Berhasil Diubah!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button></div>');
-            redirect('mahasiswa');
-        }
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('bapendik/edit_mhs', $data);
+        $this->load->view('templates/footer');
     }
+
+    public function delete_mhs($id)
+    {
+        $this->Model_Mahasiswa->delete(['id' => $id], 'tb_mhs');
+        $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Mahasiswa berhasil dihapus!</div>');
+        redirect('bapendik/mahasiswa');
+    }
+
+    // public function edit_mhs($id)
+    // {
+    //     $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+
+    //     $this->_rules();
+
+    //     if ($this->form_validation->run() == FALSE) {
+    //         $this->index();
+    //     } else {
+    //         $data = array(
+    //             'id' => $id,
+    //             //'nim_mhs' => $nim_mhs,
+    //             'nama' => $this->input->post('nama'),
+    //             'email' => $this->input->post('email'),
+    //             // 'pass_mhs' => $this->input->post('pass_mhs'),
+    //             'gender' => $this->input->post('gender'),
+    //             'prodi' => $this->input->post('prodi'),
+    //             'telp' => $this->input->post('telp'),
+    //             'alamat' => $this->input->post('alamat'),
+    //         );
+
+    //         $this->Model_Mahasiswa->update_data($data, 'tb_user');
+    //         $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+    //         Data Berhasil Diubah!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    //         <span aria-hidden="true">&times;</span></button></div>');
+    //         redirect('mahasiswa');
+    //     }
+    // }
+
+    // public function delete_mhs($id)
+    // {
+    //     $where = array('id' => $id);
+
+    //     $this->Model_Mahasiswa->delete($where, 'tb_user');
+    //     $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    //     Data Berhasil Di Hapus!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    //         <span aria-hidden="true">&times;</span></button></div>');
+    //     redirect('bapendik/mahasiswa');
+    // }
 
     public function _rules()
     {
@@ -320,16 +361,5 @@ class Bapendik extends CI_Controller
         $this->form_validation->set_rules('alamat', 'Alamat Mahasiswa', 'required', array(
             'required' => '%s harus diisi!'
         ));
-    }
-
-    public function delete($id)
-    {
-        $where = array('id' => $id);
-
-        $this->Model_Mahasiswa->delete($where, 'tb_user');
-        $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-        Data Berhasil Di Hapus!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button></div>');
-        redirect('bapendik/mahasiswa');
     }
 }

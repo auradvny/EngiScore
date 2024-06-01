@@ -17,7 +17,6 @@
                     <th>Prodi</th>
                     <th>No Telp</th>
                     <th>Point</th>
-                    <th>Alamat</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -33,10 +32,9 @@
                         <td><?= $mhs['prodi']; ?></td>
                         <td><?= $mhs['telp']; ?></td>
                         <td><?= $mhs['point']; ?></td>
-                        <td><?= $mhs['alamat']; ?></td>
                         <td>
-                            <button class="btn btn-warning btn-sn"><i class="fas fa-edit"></i></button>
-                            <a href="<?= base_url('bapendik/delete/' . $mhs['id']) ?>" class="btn btn-danger btn-sn" onclick="return confirm('Apakah Anda yakin menghapus data ini?')"><i class="fas fa-trash"></i></a>
+                            <a href="" class="btn btn-warning btn-sn"><i class="fas fa-edit"></i>Edit</a>
+                            <a href="" class="btn btn-danger btn-sn" onclick="return confirm('Apakah Anda yakin menghapus data ini?')"><i class="fas fa-trash"></i>Hapus</a>
                         </td>
                     </tr>
             </tbody>
