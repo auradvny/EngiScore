@@ -68,7 +68,11 @@ class Bapendik extends CI_Controller
         $data['title'] = 'Verifikasi';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
 
-        $data['mahasiswa'] = $this->db->get('tb_user')->result_array();
+        // $data['verifikasi'] = $this->Model_Verifikasi->getVerifikasi();
+        // $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
+        // $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
+        // $data['capaian'] = $this->db->get('tb_sertif_capaian')->result_array();
+        $data['verifikasi'] = $this->db->get('tb_permo')->result_array();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -209,12 +213,22 @@ class Bapendik extends CI_Controller
 
         $data['prodi'] = $this->db->get('tb_prodi')->result_array();
 
-
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('bapendik/tambah_mhs', $data);
             $this->load->view('templates/footer');
+        } else {
+            $this->tambah_aksi();
+        }
+    }
+
+    public function tambah_aksi()
+    {
+        $this->_rules();
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->tambah_mhs();
         } else {
             $nim = $this->input->post('nim_mhs');
             $data_user = array(
@@ -232,44 +246,18 @@ class Bapendik extends CI_Controller
             $this->db->insert('tb_user', $data_user);
             $user_id = $this->db->insert_id();
 
+            $prodi_id = $this->input->post('prodi_id');
             $data_mhs = array(
                 'nim_mhs' => $nim,
-                'prodi_id' => $this->input->post('prodi_id'),
+                'prodi_id' => $prodi_id,
                 'user_id' => $user_id
                 // 'alamat_mhs' => $this->input->post('alamat_mhs'),
             );
 
-            $this->Model_Mahasiswa->insert_data($data_mhs, 'tb_mhs');
+            //$this->Model_Mahasiswa->insert_data($data_mhs, 'tb_mhs');
+            $this->db->insert('tb_mhs', $data_mhs);
             $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
             Data Berhasil di Tambahkan!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button></div>');
-            redirect('bapendik/mahasiswa');
-        }
-    }
-
-    public function tambah_aksi()
-    {
-        $this->_rules();
-
-        if ($this->form_validation->run() == FALSE) {
-            $this->tambah_mhs();
-        } else {
-            $data = array(
-
-                'id' => $this->input->post('id'),
-                'nim_mhs' => $this->input->post('nim_mhs'),
-                'nama' => $this->input->post('nama'),
-                'email' => $this->input->post('email'),
-                'pass_mhs' => $this->input->post('pass_mhs'),
-                'prodi' => $this->input->post('prodi'),
-                'gender' => $this->input->post('gender'),
-                'telp' => $this->input->post('telp'),
-                'alamat' => $this->input->post('alamat'),
-            );
-
-            $this->Model_Mahasiswa->insert_data($data, 'tb_user');
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-            Data Berhasil di _mhskan!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span></button></div>');
             redirect('bapendik/mahasiswa');
         }

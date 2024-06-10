@@ -15,7 +15,7 @@
                         <div class="info-box-content">
                             <span class="info-box-text">Jumlah Mahasiswa</span>
                             <span class="info-box-number">
-                                <?= $jumlah_mhs ?> <small>mahasiswa</small>
+                                <?= $jumlah_mhs ?> <small>orang</small>
                             </span>
                         </div>
                         <!-- /.info-box-content -->
@@ -30,7 +30,7 @@
                         <div class="info-box-content">
                             <span class="info-box-text">Jumlah Permohonan</span>
                             <span class="info-box-number">
-                                <?= $jumlah_permo ?> <small>permohonan</small>
+                                <?= $jumlah_permo ?>
                             </span>
                         </div>
                         <!-- /.info-box-content -->

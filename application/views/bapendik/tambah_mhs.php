@@ -29,13 +29,13 @@
     </div>
     <!-- tb_mhs (prodi_id) dari tb_prodi -->
     <div class="form-group">
-        <label for="prodi">Prodi Mahasiswa</label>
+        <label for="prodiz-id">Prodi Mahasiswa</label>
         <select name="prodi_id" id="prodi_id" class="form-control">
             <option value="">Pilih Prodi</option>
             <?php foreach ($prodi as $p) : ?>
                 <option value="<?= $p['id']; ?>" <?= set_value('prodi_id') == $p['id'] ? 'selected' : ''; ?>><?= $p['prodi']; ?></option> <?php endforeach; ?>
         </select>
-        <?= form_error('prodi', '<div class="text-small text-danger">', '</div>'); ?>
+        <?= form_error('prodi_id', '<div class="text-small text-danger">', '</div>'); ?>
     </div>
     <div class="form-group">
         <label for="telp">No Telp Mahasiswa</label>

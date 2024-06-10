@@ -140,6 +140,32 @@
         </div>
     </div>
 
+    <!-- Modal untuk edit kategori -->
+    <div class="modal fade" id="editKategoriModal" tabindex="-1" aria-labelledby="editKategoriModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editKategoriModalLabel">Edit Kategori</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="<?= base_url('bapendik/edit_kategori'); ?>" method="POST">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="edit_nama_kategori">Nama Kategori</label>
+                            <input type="text" class="form-control" id="nama_kategori" name="nama_kategori" value="value_kategori" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal untuk menambahkan sertifikat baru -->
     <div class="modal fade" id="newSertifikatModal" tabindex="-1" aria-labelledby="newSertifikatModalLabel" aria-hidden="true">
         <div class="modal-dialog">
