@@ -7,10 +7,7 @@ class Mahasiswa extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Model_Mahasiswa');
-<<<<<<< HEAD
         $this->load->model('Model_Sertifikat');
-=======
->>>>>>> a3616c864e405a4f956c8375cfb527e2c3412d48
         // is_logged_in();
     }
 
@@ -18,11 +15,7 @@ class Mahasiswa extends CI_Controller
     {
         $data['title'] = 'Dashboard';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-<<<<<<< HEAD
         $data['mahasiswa'] = $this->Model_Mahasiswa->getMhs();
-=======
-        //$data['mahasiswa'] = $this->Model_Mahasiswa->get_data('tb_mhs')->result();
->>>>>>> a3616c864e405a4f956c8375cfb527e2c3412d48
         $data['jumlah_point'] = $this->Model_Mahasiswa->get_jumlah_point();
 
         $this->load->view('templates/header', $data);
@@ -43,7 +36,6 @@ class Mahasiswa extends CI_Controller
     }
 
     public function pengajuan()
-<<<<<<< HEAD
 {
     $data['title'] = 'Pengajuan';
     $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
@@ -60,31 +52,25 @@ class Mahasiswa extends CI_Controller
     $data['sertifikat'] = $this->Model_Sertifikat->getSertif();
     $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
     $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
+    $data['capaian'] = $this->db->get('tb_sertif')->result_array();
 
-    $this->form_validation->set_rules('bidang', 'Bidang', 'required', array('required' => 'Bidang harus diisi.'));
-    $this->form_validation->set_rules('capaian', 'Capaian', 'required', array('required' => 'Capaian harus diisi.'));
-    $this->form_validation->set_rules('kategori', 'Kategori', 'required', array('required' => 'Kategori harus diisi.'));
+    $this->form_validation->set_rules('bidang_id', 'Bidang', 'required', array('required' => 'Bidang harus diisi.'));
+    $this->form_validation->set_rules('capaian_id', 'Capaian', 'required', array('required' => 'Capaian harus diisi.'));
+    $this->form_validation->set_rules('kategori_id', 'Kategori', 'required', array('required' => 'Kategori harus diisi.'));
 
     if ($this->form_validation->run() == FALSE) {
-=======
-    {
-        $data['title'] = 'Pengajuan';
-        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-
->>>>>>> a3616c864e405a4f956c8375cfb527e2c3412d48
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('mahasiswa/pengajuan', $data);
         $this->load->view('templates/footer');
-<<<<<<< HEAD
     } else {
         // Pastikan id_permo adalah auto-increment di database
         $sertif_data = [
             'nim_mhs' => $nim_mhs, // Gunakan nim_mhs yang telah diambil dari model
-            'bidang' => $this->input->post('bidang'),
-            'capaian' => $this->input->post('capaian'),
-            'kategori' => $this->input->post('kategori'),
-            'file' => $this->input->post('file'),
+            'bidang_id' => $this->input->post('bidang_id'),
+            'capaian_id' => $this->input->post('capaian_id'),
+            'kategori_id' => $this->input->post('kategori_id'),
+            'file' => $_FILES['file']['name'],
         ];
         $this->db->insert('tb_permo', $sertif_data);
         $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Data sertifikat berhasil ditambahkan!</div>');
@@ -92,9 +78,8 @@ class Mahasiswa extends CI_Controller
     }
 }
 
-=======
-    }
->>>>>>> a3616c864e405a4f956c8375cfb527e2c3412d48
+
+
 
     public function laporan()
     {
