@@ -17,9 +17,9 @@
             <a href="<?= base_url('pimpinan'); ?>" class="nav-link">Home</a>
           <?php endif; ?>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
+        <!-- <li class="nav-item d-none d-sm-inline-block">
           <a href="<?= base_url('welcome'); ?>" class="nav-link">Contact</a>
-        </li>
+        </li> -->
       </ul>
     </nav>
     <!-- /.navbar -->

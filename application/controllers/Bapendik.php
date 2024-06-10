@@ -20,6 +20,8 @@ class Bapendik extends CI_Controller
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
         $data['jumlah_mhs'] = $this->Model_User->get_jumlah_mahasiswa();
         $data['jumlah_permo'] = $this->Model_User->get_jumlah_permohonan();
+        $data['jumlah_permosetuju'] = $this->Model_User->get_jumlah_permohonansetuju();
+        $data['jumlah_permotolak'] = $this->Model_User->get_jumlah_permohonantolak();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -72,11 +74,60 @@ class Bapendik extends CI_Controller
         // $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
         // $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
         // $data['capaian'] = $this->db->get('tb_sertif_capaian')->result_array();
-        $data['verifikasi'] = $this->db->get('tb_permo')->result_array();
+        $data['verifikasi'] = $this->db->get_where('tb_permo', ['persetujuan' => 0])->result_array();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('bapendik/verifikasi', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function tambah_verif()
+    {
+        $persetujuan = $this->input->post('persetujuan');
+        $nim_mhs = $this->input->post('nim_mhs');
+
+        $data = [
+            'persetujuan' => $persetujuan
+        ];
+
+        $this->db->where('nim_mhs', $nim_mhs);
+        $this->db->update('tb_permo', $data);
+
+        redirect('bapendik/verifikasi');
+    }
+
+    public function verif_setuju()
+    {
+        $data['title'] = 'Verifikasi Disetujui';
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+
+        // $data['verifikasi'] = $this->Model_Verifikasi->getVerifikasi();
+        // $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
+        // $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
+        // $data['capaian'] = $this->db->get('tb_sertif_capaian')->result_array();
+        $data['verifikasi'] = $this->db->get_where('tb_permo', ['persetujuan' => 1])->result_array();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('bapendik/verif_setuju', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function verif_tolak()
+    {
+        $data['title'] = 'Verifikasi Ditolak';
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+
+        // $data['verifikasi'] = $this->Model_Verifikasi->getVerifikasi();
+        // $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
+        // $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
+        // $data['capaian'] = $this->db->get('tb_sertif_capaian')->result_array();
+        $data['verifikasi'] = $this->db->get_where('tb_permo', ['persetujuan' => 2])->result_array();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('bapendik/verif_tolak', $data);
         $this->load->view('templates/footer');
     }
 

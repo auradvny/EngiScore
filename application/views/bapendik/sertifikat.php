@@ -1,7 +1,5 @@
 <?= $this->session->flashdata('pesan'); ?>
 <div class="row">
-
-
     <div class="col-lg-6">
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newBidangModal">Tambah Bidang</a>
         <div class="card">
@@ -86,7 +84,6 @@
             </tbody>
         </table>
     </div>
-
 
     <!-- Modal untuk menambahkan bidang baru -->
     <div class="modal fade" id="newBidangModal" tabindex="-1" aria-labelledby="newBidangModalLabel" aria-hidden="true">
@@ -188,7 +185,7 @@
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <?= form_error('bidang_id', "<div class='alert alert-danger' role='alert'>", '</div>'); ?>
+                            <?= form_error('bidang', "<div class='alert alert-danger' role='alert'>", '</div>'); ?>
                         </div>
                         <div class="form-group">
                             <label for="capaian">Capaian</label>

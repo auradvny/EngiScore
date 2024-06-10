@@ -27,6 +27,34 @@ class Model_User extends CI_Model
     {
         $this->db->select('COUNT(*) AS jumlah_permo');
         $this->db->from('tb_permo');
+        $this->db->where('persetujuan', 0);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->row()->jumlah_permo;
+        } else {
+            return 0;
+        }
+    }
+    public function get_jumlah_permohonansetuju()
+    {
+        $this->db->select('COUNT(*) AS jumlah_permo');
+        $this->db->from('tb_permo');
+        $this->db->where('persetujuan', 1);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->row()->jumlah_permo;
+        } else {
+            return 0;
+        }
+    }
+    public function get_jumlah_permohonantolak()
+    {
+        $this->db->select('COUNT(*) AS jumlah_permo');
+        $this->db->from('tb_permo');
+        $this->db->where('persetujuan', 2);
+
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {

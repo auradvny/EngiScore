@@ -48,7 +48,9 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Permohonan Disetujui</span>
-                            <span class="info-box-number">760</span>
+                            <span class="info-box-number">
+                                <?= $jumlah_permosetuju ?>
+                            </span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -60,7 +62,9 @@
                         <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-times" style="color: #ffffff;"></i></span>
                         <div class="info-box-content">
                             <span class="info-box-text">Permohonan Ditolak</span>
-                            <span class="info-box-number">2,000</span>
+                            <span class="info-box-number">
+                                <?= $jumlah_permotolak ?>
+                            </span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
