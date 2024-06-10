@@ -8,6 +8,7 @@ class Mahasiswa extends CI_Controller
         parent::__construct();
         $this->load->model('Model_Mahasiswa');
         $this->load->model('Model_Sertifikat');
+        $this->load->model('Model_NIM');
         // is_logged_in();
     }
 
@@ -16,8 +17,14 @@ class Mahasiswa extends CI_Controller
         $data['title'] = 'Dashboard';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
         $data['mahasiswa'] = $this->Model_Mahasiswa->getMhs();
-        $data['jumlah_point'] = $this->Model_Mahasiswa->get_jumlah_point();
 
+       $data['points'] = $this->Model_Mahasiswa->getPoin($data['user']['email']);
+
+       // Tambahkan pengecekan apakah poin berhasil diambil
+       if ($data['points'] === null) {
+           show_error('Poin tidak ditemukan untuk pengguna yang sedang login.', 500, 'Kesalahan Data Pengguna');
+       }
+        
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('mahasiswa/index', $data);

@@ -36,16 +36,25 @@ class Model_Mahasiswa extends CI_Model
         $this->db->delete($table);
     }
 
-    public function get_jumlah_point()
-    {
-        $this->db->select('SUM(point) AS jumlah_point');
-        $this->db->from('tb_mhs');
+    public function getPoin($email) {
+        $this->db->select('tb_mhs.point');
+        $this->db->from('tb_user');
+        $this->db->join('tb_mhs', 'tb_user.id = tb_mhs.user_id');
+        $this->db->where('tb_user.email', $email);
         $query = $this->db->get();
-
+        
         if ($query->num_rows() > 0) {
-            return $query->row()->jumlah_point;
+            $result = $query->row();
+            if (isset($result->point)) {
+                return $result->point;
+            } else {
+                return null;
+            }
         } else {
-            return 0;
+            return null;
         }
     }
+
+
+    
 }

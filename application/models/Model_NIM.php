@@ -22,4 +22,6 @@ class Model_NIM extends CI_Model {
             return null;
         }
     }
+
+    
 }
