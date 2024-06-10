@@ -72,7 +72,7 @@ class Auth extends CI_Controller
 			'is_unique' => 'Email inni sudah terdaftar'
 		]);
 		$this->form_validation->set_rules('pass1', 'Password', 'required|trim|min_length[3]|matches[pass2]', ['matches' => 'Password tidak sama', 'min_length' => 'Password terlalu pendek!']);
-		$this->form_validation->set_rules('pass2', 'Passwprd', 'required|trim|matches[pass1]');
+		$this->form_validation->set_rules('pass2', 'Password', 'required|trim|matches[pass1]');
 
 		if ($this->form_validation->run() == FALSE) {
 			$data['title'] = 'Registrasi User';

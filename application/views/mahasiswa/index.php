@@ -4,6 +4,7 @@
     <div class="preloader flex-column justify-content-center align-items-center">
         <img class="animation__wobble" src="<?php echo base_url() ?>assets/template/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
     </div>
+
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -15,7 +16,8 @@
                         <div class="info-box-content">
                             <span class="info-box-text">Jumlah Poin</span>
                             <span class="info-box-number">
-                            <?= $jumlah_point ?>
+                                <?= $jumlah_point ?>
+                                <small>point</small>
                             </span>
                         </div>
                         <!-- /.info-box-content -->
@@ -71,14 +73,3 @@
     </section>
     <!-- /.content -->
     <!-- /.content-wrapper -->
-</div>
-<!-- ./wrapper -->
-
-</div>
-<!-- End of Main Content -->
-
-</div>
-<!-- End of Content Wrapper -->
-
-</div>
-<!-- End of Page Wrapper -->

@@ -15,7 +15,7 @@
                         <div class="info-box-content">
                             <span class="info-box-text">Jumlah Mahasiswa</span>
                             <span class="info-box-number">
-                            <?= $jumlah_mhs ?> orang
+                                <?= $jumlah_mhs ?> <small>orang</small>
                             </span>
                         </div>
                         <!-- /.info-box-content -->
@@ -29,7 +29,9 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Jumlah Permohonan</span>
-                            <span class="info-box-number">41</span>
+                            <span class="info-box-number">
+                                <?= $jumlah_permo ?>
+                            </span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -70,14 +72,3 @@
     </section>
     <!-- /.content -->
     <!-- /.content-wrapper -->
-</div>
-<!-- ./wrapper -->
-
-</div>
-<!-- End of Main Content -->
-
-</div>
-<!-- End of Content Wrapper -->
-
-</div>
-<!-- End of Page Wrapper -->

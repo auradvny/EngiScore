@@ -14,9 +14,10 @@
           <div class="info-box">
             <span class="info-box-icon bg-info elevation-1"><i class="fas fa-plus"></i></span>
             <div class="info-box-content">
-              <span class="info-box-text">Jumlah </span>
+              <span class="info-box-text">Jumlah Poin</span>
               <span class="info-box-number">
-                <?= $point_mhs ?>
+                10
+                <small>%</small>
               </span>
             </div>
             <!-- /.info-box-content -->

@@ -3,8 +3,6 @@
 <div class="card">
     <div class="card-header">
         <a href="<?= base_url('bapendik/tambah_mhs') ?>" class="btn btn-primary btn-sm"><i class="fas da-plus"></i>Tambah Mahasiswa</a>
-        <a href="<?= base_url('bapendik/print') ?>" class="btn btn-info btn-sm"><i class="fas da-print"></i>Print</a>
-        <a href="<?= base_url('bapendik/pdf') ?>" class="btn btn-success btn-sm"><i class="fas da-file"></i>Export PDF</a>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
@@ -18,7 +16,7 @@
                     <th>Jenis Kelamin</th>
                     <th>Prodi</th>
                     <th>No Telp</th>
-                    <th>Alamat</th>
+                    <th>Point</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -27,16 +25,16 @@
                 foreach ($mahasiswa as $mhs) : ?>
                     <tr class="text-center">
                         <td><?= $no++ ?></td>
-                        <td>0</td>
+                        <td><?= $mhs['nim_mhs']; ?></td>
                         <td><?= $mhs['nama']; ?></td>
                         <td><?= $mhs['email']; ?></td>
                         <td><?= $mhs['gender']; ?></td>
-                        <td>0</td>
+                        <td><?= $mhs['prodi']; ?></td>
                         <td><?= $mhs['telp']; ?></td>
-                        <td><?= $mhs['alamat']; ?></td>
+                        <td><?= $mhs['point']; ?></td>
                         <td>
-                            <button class="btn btn-warning btn-sn"><i class="fas fa-edit"></i></button>
-                            <a href="<?= base_url('bapendik/delete/' . $mhs['id']) ?>" class="btn btn-danger btn-sn" onclick="return confirm('Apakah Anda yakin menghapus data ini?')"><i class="fas fa-trash"></i></a>
+                            <a href="" class="btn btn-warning btn-sn"><i class="fas fa-edit"></i>Edit</a>
+                            <a href="" class="btn btn-danger btn-sn" onclick="return confirm('Apakah Anda yakin menghapus data ini?')"><i class="fas fa-trash"></i>Hapus</a>
                         </td>
                     </tr>
             </tbody>
@@ -45,7 +43,7 @@
     </div>
 
 
-    <!-- Modal Edit -->
+    <!-- Modal Edit
     <?php foreach ($mahasiswa as $mhs) : ?>
         <div class="modal fade" id="edit<?= $mhs->id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -110,23 +108,4 @@
                 </div>
             </div>
         </div>
-    <?php endforeach ?>
-
-
-
-
-
-
-
-
-</div>
-<!-- ./wrapper -->
-
-</div>
-<!-- End of Main Content -->
-
-</div>
-<!-- End of Content Wrapper -->
-
-</div>
-<!-- End of Page Wrapper -->
+    <?php endforeach ?> -->

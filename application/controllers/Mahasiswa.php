@@ -7,6 +7,7 @@ class Mahasiswa extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Model_Mahasiswa');
+        $this->load->model('Model_Sertifikat');
         // is_logged_in();
     }
 
@@ -14,7 +15,7 @@ class Mahasiswa extends CI_Controller
     {
         $data['title'] = 'Dashboard';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-        $data['mahasiswa'] = $this->Model_Mahasiswa->get_data('tb_mhs')->result();
+        $data['mahasiswa'] = $this->Model_Mahasiswa->getMhs();
         $data['jumlah_point'] = $this->Model_Mahasiswa->get_jumlah_point();
 
         $this->load->view('templates/header', $data);
@@ -35,15 +36,47 @@ class Mahasiswa extends CI_Controller
     }
 
     public function pengajuan()
-    {
-        $data['title'] = 'Pengajuan';
-        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+{
+    $data['title'] = 'Pengajuan';
+    $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
 
+    // Load model Model_NIM dan ambil nim_mhs berdasarkan email pengguna yang login
+    $this->load->model('Model_NIM');
+    $nim_mhs = $this->Model_NIM->getNim($data['user']['email']);
+
+    // Tambahkan pengecekan apakah nim_mhs berhasil diambil
+    if ($nim_mhs === null) {
+        show_error('NIM tidak ditemukan untuk pengguna yang sedang login.', 500, 'Kesalahan Data Pengguna');
+    }
+
+    $data['sertifikat'] = $this->Model_Sertifikat->getSertif();
+    $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
+    $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
+
+    $this->form_validation->set_rules('bidang', 'Bidang', 'required', array('required' => 'Bidang harus diisi.'));
+    $this->form_validation->set_rules('capaian', 'Capaian', 'required', array('required' => 'Capaian harus diisi.'));
+    $this->form_validation->set_rules('kategori', 'Kategori', 'required', array('required' => 'Kategori harus diisi.'));
+
+    if ($this->form_validation->run() == FALSE) {
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('mahasiswa/pengajuan', $data);
         $this->load->view('templates/footer');
+    } else {
+        // Pastikan id_permo adalah auto-increment di database
+        $sertif_data = [
+            'nim_mhs' => $nim_mhs, // Gunakan nim_mhs yang telah diambil dari model
+            'bidang' => $this->input->post('bidang'),
+            'capaian' => $this->input->post('capaian'),
+            'kategori' => $this->input->post('kategori'),
+            'file' => $this->input->post('file'),
+        ];
+        $this->db->insert('tb_permo', $sertif_data);
+        $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Data sertifikat berhasil ditambahkan!</div>');
+        redirect('mahasiswa/pengajuan');
     }
+}
+
 
     public function laporan()
     {
