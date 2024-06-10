@@ -7,7 +7,10 @@ class Mahasiswa extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Model_Mahasiswa');
+<<<<<<< HEAD
         $this->load->model('Model_Sertifikat');
+=======
+>>>>>>> a3616c864e405a4f956c8375cfb527e2c3412d48
         // is_logged_in();
     }
 
@@ -15,7 +18,11 @@ class Mahasiswa extends CI_Controller
     {
         $data['title'] = 'Dashboard';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+<<<<<<< HEAD
         $data['mahasiswa'] = $this->Model_Mahasiswa->getMhs();
+=======
+        //$data['mahasiswa'] = $this->Model_Mahasiswa->get_data('tb_mhs')->result();
+>>>>>>> a3616c864e405a4f956c8375cfb527e2c3412d48
         $data['jumlah_point'] = $this->Model_Mahasiswa->get_jumlah_point();
 
         $this->load->view('templates/header', $data);
@@ -36,6 +43,7 @@ class Mahasiswa extends CI_Controller
     }
 
     public function pengajuan()
+<<<<<<< HEAD
 {
     $data['title'] = 'Pengajuan';
     $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
@@ -58,10 +66,17 @@ class Mahasiswa extends CI_Controller
     $this->form_validation->set_rules('kategori', 'Kategori', 'required', array('required' => 'Kategori harus diisi.'));
 
     if ($this->form_validation->run() == FALSE) {
+=======
+    {
+        $data['title'] = 'Pengajuan';
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+
+>>>>>>> a3616c864e405a4f956c8375cfb527e2c3412d48
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('mahasiswa/pengajuan', $data);
         $this->load->view('templates/footer');
+<<<<<<< HEAD
     } else {
         // Pastikan id_permo adalah auto-increment di database
         $sertif_data = [
@@ -77,6 +92,9 @@ class Mahasiswa extends CI_Controller
     }
 }
 
+=======
+    }
+>>>>>>> a3616c864e405a4f956c8375cfb527e2c3412d48
 
     public function laporan()
     {
