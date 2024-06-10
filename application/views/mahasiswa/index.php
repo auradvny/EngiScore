@@ -16,7 +16,7 @@
                             <span class="info-box-text">Jumlah Poin</span>
                             <span class="info-box-number">
                             <?= $points ?>
-                                <small>point</small>
+                                point
                             </span>
                         </div>
                         <!-- /.info-box-content -->
@@ -30,7 +30,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Jumlah Permohonan</span>
-                            <span class="info-box-number">41,410</span>
+                            <span class="info-box-number"><?= $jumlah_pengajuan ?> buah</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>

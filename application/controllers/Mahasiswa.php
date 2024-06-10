@@ -19,11 +19,16 @@ class Mahasiswa extends CI_Controller
         $data['mahasiswa'] = $this->Model_Mahasiswa->getMhs();
 
        $data['points'] = $this->Model_Mahasiswa->getPoin($data['user']['email']);
-
-       // Tambahkan pengecekan apakah poin berhasil diambil
        if ($data['points'] === null) {
            show_error('Poin tidak ditemukan untuk pengguna yang sedang login.', 500, 'Kesalahan Data Pengguna');
        }
+
+       // Ambil nim mahasiswa
+       $this->load->model('Model_NIM');
+       $nim_mhs = $this->Model_NIM->getNim($data['user']['email']);
+       
+       // Ambil jumlah pengajuan berdasarkan nim mahasiswa
+       $data['jumlah_pengajuan'] = $this->Model_Mahasiswa->countPengajuan($nim_mhs);
         
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
