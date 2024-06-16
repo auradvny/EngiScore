@@ -18,18 +18,23 @@ class Mahasiswa extends CI_Controller
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
         $data['mahasiswa'] = $this->Model_Mahasiswa->getMhs();
 
-       $data['points'] = $this->Model_Mahasiswa->getPoin($data['user']['email']);
-       if ($data['points'] === null) {
-           show_error('Poin tidak ditemukan untuk pengguna yang sedang login.', 500, 'Kesalahan Data Pengguna');
-       }
+        $data['points'] = $this->Model_Mahasiswa->getPoin($data['user']['email']);
+        if ($data['points'] === null) {
+            show_error('Poin tidak ditemukan untuk pengguna yang sedang login.', 500, 'Kesalahan Data Pengguna');
+        }
 
-       // Ambil nim mahasiswa
-       $this->load->model('Model_NIM');
-       $nim_mhs = $this->Model_NIM->getNim($data['user']['email']);
-       
-       // Ambil jumlah pengajuan berdasarkan nim mahasiswa
-       $data['jumlah_pengajuan'] = $this->Model_Mahasiswa->countPengajuan($nim_mhs);
-        
+        // Ambil nim mahasiswa
+        $this->load->model('Model_NIM');
+        $nim_mhs = $this->Model_NIM->getNim($data['user']['email']);
+
+        // Ambil jumlah pengajuan berdasarkan nim mahasiswa
+        $data['jumlah_pengajuan'] = $this->Model_Mahasiswa->countPengajuan($nim_mhs);
+
+
+        // Ambil data mahasiswa berdasarkan email pengguna yang sedang login
+        $mhs_data = $this->Model_Mahasiswa->getDataMhs($data['user']['email']);
+        $data['mhs_data'] = $mhs_data;
+
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('mahasiswa/index', $data);
@@ -48,47 +53,47 @@ class Mahasiswa extends CI_Controller
     }
 
     public function pengajuan()
-{
-    $data['title'] = 'Pengajuan';
-    $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+    {
+        $data['title'] = 'Pengajuan';
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
 
-    // Load model Model_NIM dan ambil nim_mhs berdasarkan email pengguna yang login
-    $this->load->model('Model_NIM');
-    $nim_mhs = $this->Model_NIM->getNim($data['user']['email']);
+        // Load model Model_NIM dan ambil nim_mhs berdasarkan email pengguna yang login
+        $this->load->model('Model_NIM');
+        $nim_mhs = $this->Model_NIM->getNim($data['user']['email']);
 
-    // Tambahkan pengecekan apakah nim_mhs berhasil diambil
-    if ($nim_mhs === null) {
-        show_error('NIM tidak ditemukan untuk pengguna yang sedang login.', 500, 'Kesalahan Data Pengguna');
+        // Tambahkan pengecekan apakah nim_mhs berhasil diambil
+        if ($nim_mhs === null) {
+            show_error('NIM tidak ditemukan untuk pengguna yang sedang login.', 500, 'Kesalahan Data Pengguna');
+        }
+
+        $data['sertifikat'] = $this->Model_Sertifikat->getSertif();
+        $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
+        $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
+        $data['capaian'] = $this->db->get('tb_sertif')->result_array();
+
+        $this->form_validation->set_rules('bidang_id', 'Bidang', 'required', array('required' => 'Bidang harus diisi.'));
+        $this->form_validation->set_rules('capaian_id', 'Capaian', 'required', array('required' => 'Capaian harus diisi.'));
+        $this->form_validation->set_rules('kategori_id', 'Kategori', 'required', array('required' => 'Kategori harus diisi.'));
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('mahasiswa/pengajuan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            // Pastikan id_permo adalah auto-increment di database
+            $sertif_data = [
+                'nim_mhs' => $nim_mhs, // Gunakan nim_mhs yang telah diambil dari model
+                'bidang_id' => $this->input->post('bidang_id'),
+                'capaian_id' => $this->input->post('capaian_id'),
+                'kategori_id' => $this->input->post('kategori_id'),
+                'file' => $_FILES['file']['name'],
+            ];
+            $this->db->insert('tb_permo', $sertif_data);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Data sertifikat berhasil ditambahkan!</div>');
+            redirect('mahasiswa/pengajuan');
+        }
     }
-
-    $data['sertifikat'] = $this->Model_Sertifikat->getSertif();
-    $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
-    $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
-    $data['capaian'] = $this->db->get('tb_sertif')->result_array();
-
-    $this->form_validation->set_rules('bidang_id', 'Bidang', 'required', array('required' => 'Bidang harus diisi.'));
-    $this->form_validation->set_rules('capaian_id', 'Capaian', 'required', array('required' => 'Capaian harus diisi.'));
-    $this->form_validation->set_rules('kategori_id', 'Kategori', 'required', array('required' => 'Kategori harus diisi.'));
-
-    if ($this->form_validation->run() == FALSE) {
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('mahasiswa/pengajuan', $data);
-        $this->load->view('templates/footer');
-    } else {
-        // Pastikan id_permo adalah auto-increment di database
-        $sertif_data = [
-            'nim_mhs' => $nim_mhs, // Gunakan nim_mhs yang telah diambil dari model
-            'bidang_id' => $this->input->post('bidang_id'),
-            'capaian_id' => $this->input->post('capaian_id'),
-            'kategori_id' => $this->input->post('kategori_id'),
-            'file' => $_FILES['file']['name'],
-        ];
-        $this->db->insert('tb_permo', $sertif_data);
-        $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Data sertifikat berhasil ditambahkan!</div>');
-        redirect('mahasiswa/pengajuan');
-    }
-}
 
 
 

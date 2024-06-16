@@ -15,7 +15,7 @@
                         <div class="info-box-content">
                             <span class="info-box-text">Jumlah Poin</span>
                             <span class="info-box-number">
-                            <?= $points ?>
+                                <?= $points ?>
                                 point
                             </span>
                         </div>
@@ -68,7 +68,81 @@
                 </div>
                 <!-- /.col -->
             </div>
+
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Biodata</h3>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 text-center card-body box-profile">
+                        <img src="<?= base_url('assets/img/profile/') . $user['image']; ?>" width="170px" />
+                    </div>
+
+                    <div class="col-md-10">
+                        <table class="table table-sm ">
+                            <td width="15%">NIM</td>
+                            <td width="2%">:</td>
+                            <td><?= $mhs_data['nim_mhs']; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Nama</td>
+                                <td>:</td>
+                                <td><?= $user['nama']; ?></td>
+                            </tr>
+                            <tr>
+                                <td>No HP</td>
+                                <td>:</td>
+                                <td><?= $user['telp']; ?></td>
+                            </tr>
+                            <tr>
+                                <td>E-Mail</td>
+                                <td>:</td>
+                                <td><?= $user['email']; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Fakultas</td>
+                                <td>:</td>
+                                <td>Teknik</td>
+                            </tr>
+                            <tr>
+                                <td>Program Studi</td>
+                                <td>:</td>
+                                <td><?= $mhs_data['prodi']; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Pembiayaan</td>
+                                <td>:</td>
+                                <td><?= $mhs_data['pembiayaan']; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Status Kini</td>
+                                <td>:</td>
+                                <td><?php
+                                    if ($user['is_active'] == 1) {
+                                        echo 'Aktif';
+                                    } elseif ($user['is_active'] == 2) {
+                                        echo 'Tidak Aktif';
+                                    } else {
+                                        echo 'Status Tidak Diketahui';
+                                    }
+                                    ?></td>
+                            </tr>
+                            <tr>
+                                <td>Cuti</td>
+                                <td>:</td>
+                                <td><?= $mhs_data['cuti']; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Pembimbing Akademik</td>
+                                <td>:</td>
+                                <td><?= $mhs_data['pa']; ?></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div><!--/. container-fluid -->
     </section>
     <!-- /.content -->
     <!-- /.content-wrapper -->
+</div>

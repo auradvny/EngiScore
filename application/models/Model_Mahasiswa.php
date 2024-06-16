@@ -36,13 +36,14 @@ class Model_Mahasiswa extends CI_Model
         $this->db->delete($table);
     }
 
-    public function getPoin($email) {
+    public function getPoin($email)
+    {
         $this->db->select('tb_mhs.point');
         $this->db->from('tb_user');
         $this->db->join('tb_mhs', 'tb_user.id = tb_mhs.user_id');
         $this->db->where('tb_user.email', $email);
         $query = $this->db->get();
-        
+
         if ($query->num_rows() > 0) {
             $result = $query->row();
             if (isset($result->point)) {
@@ -55,11 +56,26 @@ class Model_Mahasiswa extends CI_Model
         }
     }
 
-    public function countPengajuan($nim_mhs) {
+    public function countPengajuan($nim_mhs)
+    {
         $this->db->where('nim_mhs', $nim_mhs);
         $this->db->from('tb_permo');
         return $this->db->count_all_results();
     }
 
-    
+    public function getDataMhs($email)
+    {
+        $this->db->select('tb_mhs.nim_mhs, tb_prodi.prodi, tb_mhs.pembiayaan, tb_mhs.cuti, tb_mhs.pa');
+        $this->db->from('tb_user');
+        $this->db->join('tb_mhs', 'tb_user.id = tb_mhs.user_id');
+        $this->db->join('tb_prodi', 'tb_mhs.prodi_id = tb_prodi.id');
+        $this->db->where('tb_user.email', $email);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->row_array();
+        } else {
+            return null;
+        }
+    }
 }
