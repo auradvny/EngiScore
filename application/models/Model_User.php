@@ -15,6 +15,7 @@ class Model_User extends CI_Model
         $this->db->select('COUNT(*) AS jumlah_mhs');
         $this->db->from('tb_user');
         $this->db->where('role_id', 1);
+        $this->db->where('is_active', 1);
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {

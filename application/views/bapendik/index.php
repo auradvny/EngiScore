@@ -114,7 +114,7 @@
                                 <td><?php
                                     if ($user['is_active'] == 1) {
                                         echo 'Aktif';
-                                    } elseif ($user['is_active'] == 2) {
+                                    } elseif ($user['is_active'] == 0) {
                                         echo 'Tidak Aktif';
                                     } else {
                                         echo 'Status Tidak Diketahui';

@@ -16,6 +16,7 @@
                     <th>Jenis Kelamin</th>
                     <th>Prodi</th>
                     <th>No Telp</th>
+                    <th>Status</th>
                     <th>Point</th>
                     <th>Aksi</th>
                 </tr>
@@ -31,6 +32,13 @@
                         <td><?= $mhs['gender']; ?></td>
                         <td><?= $mhs['prodi']; ?></td>
                         <td><?= $mhs['telp']; ?></td>
+                        <td><?php
+                            if ($mhs['is_active'] == 1) {
+                                echo "Aktif";
+                            } elseif ($mhs['is_active'] == 0) {
+                                echo "Tidak Aktif";
+                            }
+                            ?></td>
                         <td><?= $mhs['point']; ?></td>
                         <td>
                             <a href="" class="btn btn-warning btn-sn"><i class="fas fa-edit"></i>Edit</a>

@@ -11,7 +11,7 @@ class Model_Mahasiswa extends CI_Model
 
     public function getMhs()
     {
-        $query = "SELECT tb_mhs.*, tb_user.nama, tb_user.email, tb_user.gender, tb_user.telp, tb_prodi.prodi         FROM tb_mhs 
+        $query = "SELECT tb_mhs.*, tb_user.nama, tb_user.email, tb_user.gender, tb_user.telp, tb_user.is_active, tb_prodi.prodi         FROM tb_mhs 
         JOIN tb_user ON tb_mhs.user_id = tb_user.id 
         JOIN tb_prodi ON tb_mhs.prodi_id = tb_prodi.id
         WHERE tb_user.role_id = 1";

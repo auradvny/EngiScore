@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 10, 2024 at 02:25 PM
+-- Generation Time: Jun 16, 2024 at 07:29 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,21 +29,23 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `tb_mhs` (
   `nim_mhs` char(9) NOT NULL,
-  `role_id` int(11) NOT NULL,
   `point` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `prodi_id` int(11) NOT NULL
+  `prodi_id` int(11) NOT NULL,
+  `pembiayaan` varchar(500) NOT NULL,
+  `cuti` int(11) NOT NULL,
+  `pa` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_mhs`
 --
 
-INSERT INTO `tb_mhs` (`nim_mhs`, `role_id`, `point`, `user_id`, `prodi_id`) VALUES
-('H1D022000', 1, 70, 2, 1),
-('H1D022002', 0, 0, 0, 0),
-('H1D022015', 0, 0, 5, 4),
-('H1D022049', 0, 0, 0, 0);
+INSERT INTO `tb_mhs` (`nim_mhs`, `point`, `user_id`, `prodi_id`, `pembiayaan`, `cuti`, `pa`) VALUES
+('H1D022000', 70, 2, 1, 'Biaya Sendiri', 0, 'ABC'),
+('H1D022002', 0, 1, 5, '', 0, ''),
+('H1D022015', 0, 5, 4, '', 0, ''),
+('H1D022049', 0, 0, 0, '', 0, '');
 
 -- --------------------------------------------------------
 
@@ -69,7 +71,8 @@ INSERT INTO `tb_permo` (`id_perm`, `nim_mhs`, `kategori_id`, `bidang_id`, `capai
 (1, 'H1D022000', 1, 1, 2, 'contoh.jpg', 2),
 (2, 'H1D022000', 1, 1, 2, 'contoh.jpg', 0),
 (3, 'H1D022000', 3, 2, 1, 'contoh.jpg', 1),
-(4, 'H1D022000', 4, 3, 3, 'contoh.jpg', 0);
+(4, 'H1D022000', 4, 3, 3, 'contoh.jpg', 0),
+(5, 'H1D022015', 2, 1, 1, 'default.jpg', 0);
 
 -- --------------------------------------------------------
 
@@ -210,19 +213,20 @@ CREATE TABLE `tb_user` (
   `tgl_dibuat` int(11) NOT NULL,
   `gender` enum('L','P') NOT NULL,
   `telp` varchar(15) NOT NULL,
-  `alamat` text NOT NULL
+  `alamat` text NOT NULL,
+  `nip` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_user`
 --
 
-INSERT INTO `tb_user` (`id`, `nama`, `email`, `image`, `pass`, `role_id`, `is_active`, `tgl_dibuat`, `gender`, `telp`, `alamat`) VALUES
-(1, 'Aura', 'aura@gmail.com', 'default.jpg', '1234', 3, 1, 1716451375, 'P', '0987654321', 'Cilacap'),
-(2, 'Mahasiswa Aura', 'mhs@gmail.com', 'default.jpg', '$2y$10$8Yhl04CQGtHVZ1.0aO.JX.ojq2fg/tp/r9I5dqweWo9gxscrbZ.OS', 1, 1, 1716451375, 'P', '0987654321', 'Cilacap'),
-(3, 'Admin Aura', 'admin@gmail.com', 'default.jpg', '$2y$10$Nx9FnYwhnE8oFCyHuNOsXO2lQwi.TkGLi2t/sgeJEPbBYRCsr6Q4S', 2, 1, 1716455594, 'L', '0987654321', 'Purwokerto'),
-(4, 'Pimpinan Aura', 'pimpinan@gmail.com', 'default.jpg', '$2y$10$seKytyUYdL149iIPzJ3DMuasCTLGLAMbkhQHH5kkhGfKjT486mrVq', 3, 1, 1716518241, 'P', '0987654321', 'Purbalingga'),
-(5, 'Aura Devany Salsabila Bachtiar', 'aura.bachtiar@mhs.unsoed.ac.id', 'default.jpg', '$2y$10$P4Ip82ngGQbIS1ouh4HCG.t6sjt9m/EXQuc8p76z4fod3NT1U7i9m', 1, 1, 1717217366, 'P', '09876543212', 'Cilacap');
+INSERT INTO `tb_user` (`id`, `nama`, `email`, `image`, `pass`, `role_id`, `is_active`, `tgl_dibuat`, `gender`, `telp`, `alamat`, `nip`) VALUES
+(1, 'Aura', 'aura@gmail.com', 'default.jpg', '1234', 1, 0, 1716451375, 'P', '0987654321', 'Cilacap', ''),
+(2, 'Mahasiswa Aura', 'mhs@gmail.com', 'mahasiswa.jpg', '$2y$10$8Yhl04CQGtHVZ1.0aO.JX.ojq2fg/tp/r9I5dqweWo9gxscrbZ.OS', 1, 1, 1716451375, 'L', '0987654321', 'Cilacap', ''),
+(3, 'Admin Aura', 'admin@gmail.com', 'bapendik.jpg', '$2y$10$Nx9FnYwhnE8oFCyHuNOsXO2lQwi.TkGLi2t/sgeJEPbBYRCsr6Q4S', 2, 1, 1716455594, 'P', '0987654321', 'Purwokerto', '198011112009121'),
+(4, 'Pimpinan Aura', 'pimpinan@gmail.com', 'pimpinan.jpg', '$2y$10$seKytyUYdL149iIPzJ3DMuasCTLGLAMbkhQHH5kkhGfKjT486mrVq', 3, 1, 1716518241, 'L', '0987654321', 'Purbalingga', '199074837186438'),
+(5, 'Aura Devany Salsabila Bachtiar', 'aura.bachtiar@mhs.unsoed.ac.id', 'default.jpg', '$2y$10$P4Ip82ngGQbIS1ouh4HCG.t6sjt9m/EXQuc8p76z4fod3NT1U7i9m', 1, 1, 1717217366, 'P', '09876543212', 'Cilacap', '');
 
 -- --------------------------------------------------------
 
@@ -401,7 +405,7 @@ ALTER TABLE `tb_user_sub_menu`
 -- AUTO_INCREMENT for table `tb_permo`
 --
 ALTER TABLE `tb_permo`
-  MODIFY `id_perm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_perm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tb_prodi`
