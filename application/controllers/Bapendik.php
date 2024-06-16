@@ -43,6 +43,8 @@ class Bapendik extends CI_Controller
     {
         $data['title'] = 'Laporan';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Model_Laporan');
+        $data['laporan'] = $this->Model_Laporan->get_laporan();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
