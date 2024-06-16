@@ -20,7 +20,6 @@ class Mahasiswa extends CI_Controller
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
         $data['mahasiswa'] = $this->Model_Mahasiswa->getMhs();
         $data['nim_mhs'] = $this->session->userdata('nim_mhs');
-        $data['point'] = $this->session->userdata('point');
 
         $data['points'] = $this->Model_Mahasiswa->getPoin($data['user']['email']);
         if ($data['points'] === null) {
