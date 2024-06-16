@@ -7,6 +7,8 @@ class Auth extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('Model_NIM');
+		$this->load->library('session');
 		$this->load->library('form_validation');
 	}
 
@@ -40,9 +42,11 @@ class Auth extends CI_Controller
 			if ($user['is_active'] == 1) {
 				//cek password
 				if (password_verify($pass, $user['pass'])) {
+					$nim_mhs = $this->Model_NIM->getNim($email);
 					$data = [
 						'email' => $user['email'],
-						'role_id' => $user['role_id']
+						'role_id' => $user['role_id'],
+						'nim_mhs' => $nim_mhs
 					];
 					$this->session->set_userdata($data);
 					if ($user['role_id'] == 1) {

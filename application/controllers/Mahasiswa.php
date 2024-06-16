@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class Mahasiswa extends CI_Controller
 {
     public function __construct()
@@ -17,6 +19,8 @@ class Mahasiswa extends CI_Controller
         $data['title'] = 'Dashboard';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
         $data['mahasiswa'] = $this->Model_Mahasiswa->getMhs();
+        $data['nim_mhs'] = $this->session->userdata('nim_mhs');
+        $data['point'] = $this->session->userdata('point');
 
        $data['points'] = $this->Model_Mahasiswa->getPoin($data['user']['email']);
        if ($data['points'] === null) {
@@ -91,18 +95,18 @@ class Mahasiswa extends CI_Controller
 }
 
 
+public function laporan() {
+    $data['title'] = 'Laporan';
+    $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+    $data['nim_mhs'] = $this->Model_NIM->getNim($data['user']['email']);
+    $data['points'] = $this->Model_Mahasiswa->getPoin($data['user']['email']);
 
-
-    public function laporan()
-    {
-        $data['title'] = 'Laporan';
-        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('mahasiswa/laporan', $data);
-        $this->load->view('templates/footer');
-    }
+    $this->load->view('templates/header', $data);
+    $this->load->view('templates/sidebar', $data);
+    $this->load->view('mahasiswa/laporan', $data);
+    $this->load->view('templates/footer');
+    
+}
 
     public function tambah()
     {
