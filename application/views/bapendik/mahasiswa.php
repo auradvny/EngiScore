@@ -50,7 +50,6 @@
         </table>
     </div>
 
-
     <!-- Modal Edit
     <?php foreach ($mahasiswa as $mhs) : ?>
         <div class="modal fade" id="edit<?= $mhs->id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

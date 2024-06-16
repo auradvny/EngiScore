@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 16, 2024 at 07:29 PM
+-- Generation Time: Jun 16, 2024 at 08:01 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,7 +45,8 @@ INSERT INTO `tb_mhs` (`nim_mhs`, `point`, `user_id`, `prodi_id`, `pembiayaan`, `
 ('H1D022000', 70, 2, 1, 'Biaya Sendiri', 0, 'ABC'),
 ('H1D022002', 0, 1, 5, '', 0, ''),
 ('H1D022015', 0, 5, 4, '', 0, ''),
-('H1D022049', 0, 0, 0, '', 0, '');
+('H1D022048', 0, 0, 0, '', 0, ''),
+('H1D022049', 0, 6, 4, 'biaya_sendiri', 0, 'BCD');
 
 -- --------------------------------------------------------
 
@@ -226,7 +227,8 @@ INSERT INTO `tb_user` (`id`, `nama`, `email`, `image`, `pass`, `role_id`, `is_ac
 (2, 'Mahasiswa Aura', 'mhs@gmail.com', 'mahasiswa.jpg', '$2y$10$8Yhl04CQGtHVZ1.0aO.JX.ojq2fg/tp/r9I5dqweWo9gxscrbZ.OS', 1, 1, 1716451375, 'L', '0987654321', 'Cilacap', ''),
 (3, 'Admin Aura', 'admin@gmail.com', 'bapendik.jpg', '$2y$10$Nx9FnYwhnE8oFCyHuNOsXO2lQwi.TkGLi2t/sgeJEPbBYRCsr6Q4S', 2, 1, 1716455594, 'P', '0987654321', 'Purwokerto', '198011112009121'),
 (4, 'Pimpinan Aura', 'pimpinan@gmail.com', 'pimpinan.jpg', '$2y$10$seKytyUYdL149iIPzJ3DMuasCTLGLAMbkhQHH5kkhGfKjT486mrVq', 3, 1, 1716518241, 'L', '0987654321', 'Purbalingga', '199074837186438'),
-(5, 'Aura Devany Salsabila Bachtiar', 'aura.bachtiar@mhs.unsoed.ac.id', 'default.jpg', '$2y$10$P4Ip82ngGQbIS1ouh4HCG.t6sjt9m/EXQuc8p76z4fod3NT1U7i9m', 1, 1, 1717217366, 'P', '09876543212', 'Cilacap', '');
+(5, 'Aura Devany Salsabila Bachtiar', 'aura.bachtiar@mhs.unsoed.ac.id', 'default.jpg', '$2y$10$P4Ip82ngGQbIS1ouh4HCG.t6sjt9m/EXQuc8p76z4fod3NT1U7i9m', 1, 1, 1717217366, 'P', '09876543212', 'Cilacap', ''),
+(6, 'Calista Anindita', 'calista.anindita@mhs.unsoed.ac.id', 'kucing.png', '$2y$10$8OuDEl0iXxLAwcvybn8NxeW.9I/kRbpPiJ.gcap8Qla6i6OcrpvQm', 1, 1, 1718560464, 'P', '098765678947', '', '');
 
 -- --------------------------------------------------------
 
@@ -441,7 +443,7 @@ ALTER TABLE `tb_sertif_kategori`
 -- AUTO_INCREMENT for table `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tb_user_akses_menu`
