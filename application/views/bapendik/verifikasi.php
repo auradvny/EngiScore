@@ -1,8 +1,14 @@
 <div class="card-header">
-    <a href="<?= base_url('bapendik/verif_setuju') ?>" class="btn btn-primary btn-sm"><i class="fas da-plus"></i>Permohonan Disetujui</a>
-    <a href="<?= base_url('bapendik/verif_tolak') ?>" class="btn btn-primary btn-sm"><i class="fas da-plus"></i>Permohonan Ditolak</a>
+    <a href="<?= base_url('bapendik/verif_setuju') ?>" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Permohonan Disetujui</a>
+    <a href="<?= base_url('bapendik/verif_tolak') ?>" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Permohonan Ditolak</a>
 </div>
 <div class="card-body">
+    <?php if ($this->session->flashdata('success')) : ?>
+        <div class="alert alert-success" role="alert">
+            <?= $this->session->flashdata('success'); ?>
+        </div>
+    <?php endif; ?>
+
     <form action="<?= base_url('bapendik/tambah_verif'); ?>" method="POST">
         <table class="table table-bordered table-striped">
             <thead>
@@ -28,18 +34,16 @@
                         <td><?= $verif['capaian_id']; ?></td>
                         <td><?= $verif['file']; ?></td>
                         <td>
-                            <select name="persetujuan" id="persetujuan" class="form-control">
-                                <option value="" selected>Pilih Persetujuan</option>
-                                <option value="1" <?= $verif['persetujuan'] == 1 ? 'selected' : ''; ?>>Setuju</option>
-                                <option value="2" <?= $verif['persetujuan'] == 2 ? 'selected' : ''; ?>>Tolak</option>
-                            </select>
+                            <input type="radio" name="persetujuan" value="1" <?= $verif['persetujuan'] == 1 ? 'checked' : ''; ?>> Setuju
+                            <input type="radio" name="persetujuan" value="2" <?= $verif['persetujuan'] == 2 ? 'checked' : ''; ?>> Tolak
                         </td>
                         <td>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <input type="hidden" name="nim_mhs" value="<?= $verif['nim_mhs']; ?>">
+                            <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
                         </td>
                     </tr>
+                <?php endforeach; ?>
             </tbody>
-        <?php endforeach ?>
         </table>
     </form>
 </div>

@@ -10,7 +10,7 @@ class Model_Verifikasi extends CI_Model
         FROM tb_permo 
         JOIN tb_sertif_kategori ON tb_permo.kategori_id = tb_sertif_kategori.id 
         JOIN tb_sertif_bidang ON tb_permo.bidang_id = tb_sertif_bidang.id 
-        JOIN tb_sertif_capaian ON tb_permo.capaianid= tb_sertif_capaian.id 
+        JOIN tb_sertif_capaian ON tb_permo.capaian_id= tb_sertif_capaian.id 
         JOIN tb_mhs ON tb_permo.nim_mhs = tb_mhs.nim_mhs
         ";
 

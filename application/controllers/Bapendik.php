@@ -88,16 +88,21 @@ class Bapendik extends CI_Controller
     {
         $persetujuan = $this->input->post('persetujuan');
         $nim_mhs = $this->input->post('nim_mhs');
-
+    
         $data = [
             'persetujuan' => $persetujuan
         ];
-
+    
         $this->db->where('nim_mhs', $nim_mhs);
         $this->db->update('tb_permo', $data);
-
+    
+        // Set flashdata untuk pemberitahuan
+        $this->session->set_flashdata('success', 'Persetujuan berhasil disimpan.');
+    
         redirect('bapendik/verifikasi');
     }
+    
+
 
     public function verif_setuju()
     {
