@@ -82,7 +82,7 @@
                         <table class="table table-sm ">
                             <td width="15%">NIM</td>
                             <td width="2%">:</td>
-                            <td><?= isset($nim_mhs) ? $nim_mhs : ''; ?></td>
+                            <td><?= $mhs_data['nim_mhs']; ?></td>
                             </tr>
                             <tr>
                                 <td>Nama</td>
@@ -145,4 +145,3 @@
     </section>
     <!-- /.content -->
     <!-- /.content-wrapper -->
-</div>
