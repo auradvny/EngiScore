@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Mahasiswa extends CI_Controller
 {
     public function __construct()
@@ -32,6 +33,8 @@ class Mahasiswa extends CI_Controller
 
         // Ambil jumlah pengajuan berdasarkan nim mahasiswa
         $data['jumlah_pengajuan'] = $this->Model_Mahasiswa->countPengajuan($nim_mhs);
+        $data['jumlah_permosetuju'] = $this->Model_Mahasiswa->get_jumlah_permohonansetuju($nim_mhs);
+        $data['jumlah_permotolak'] = $this->Model_Mahasiswa->get_jumlah_permohonantolak($nim_mhs);
 
 
         // Ambil data mahasiswa berdasarkan email pengguna yang sedang login
@@ -48,11 +51,102 @@ class Mahasiswa extends CI_Controller
     {
         $data['title'] = 'My Profil';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['nim_mhs'] = $this->session->userdata('nim_mhs');
 
+        // Memuat model yang diperlukan
+        $this->load->model('Model_NIM');
+        $this->load->model('Model_Mahasiswa');
+
+        // Mendapatkan NIM mahasiswa berdasarkan email
+        $nim_mhs = $this->Model_NIM->getNim($data['user']['email']);
+        $data['nim_mhs'] = $nim_mhs;
+
+        // Mendapatkan data mahasiswa berdasarkan email
+        $mhs_data = $this->Model_Mahasiswa->getDataMhs($data['user']['email']);
+        $data['mhs_data'] = $mhs_data;
+
+        // Mendapatkan data agama dan golongan darah dari tabel terkait
+        $data['agama'] = $this->db->get('tb_agama')->result_array();
+        $data['goldar'] = $this->db->get('tb_goldar')->result_array();
+
+        // Memuat view dengan data yang diperlukan
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('mahasiswa/profil', $data);
         $this->load->view('templates/footer');
+    }
+
+    public function updatebiodata()
+    {
+        $this->load->model('Model_Mahasiswa');
+
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Model_Mahasiswa');
+        // Mendapatkan data mahasiswa berdasarkan email
+        $mhs_data = $this->Model_Mahasiswa->getDataMhs($data['user']['email']);
+        $data['mhs_data'] = $mhs_data;
+
+        // Mendapatkan data agama dan golongan darah dari tabel terkait
+        $data['agama'] = $this->db->get('tb_agama')->result_array();
+        $data['goldar'] = $this->db->get('tb_goldar')->result_array();
+
+        // Periksa apakah form disubmit
+        if ($this->input->server('REQUEST_METHOD') == 'POST') {
+            // Atur aturan validasi form
+            $this->form_validation->set_rules('Calonmahasiswa[tempatlahir]', 'Tempat Lahir', 'required');
+            $this->form_validation->set_rules('Calonmahasiswa[tgllhrmhs]', 'Tanggal Lahir', 'required');
+            $this->form_validation->set_rules('Calonmahasiswa[nohp]', 'No HP', 'required');
+            $this->form_validation->set_rules('Calonmahasiswa[email]', 'Email', 'required|valid_email');
+            $this->form_validation->set_rules('Calonmahasiswa[alamatasalmhs]', 'Alamat', 'required');
+
+            if ($this->form_validation->run() == TRUE) {
+                // Ambil data dari form
+                $data = [
+                    'tempat_lahir' => $this->input->post('Calonmahasiswa[tempatlahir]'),
+                    'tgl_lahir' => $this->input->post('Calonmahasiswa[tgllhrmhs]'),
+                    'telp' => $this->input->post('Calonmahasiswa[nohp]'),
+                    'email' => $this->input->post('Calonmahasiswa[email]'),
+                    'alamat' => $this->input->post('Calonmahasiswa[alamatasalmhs]'),
+                    'agama' => $this->input->post('agama'),
+                    'goldar' => $this->input->post('Calonmahasiswa[goldar]'),
+                    'gender' => $this->input->post('Calonmahasiswa[jeniskelamin]')
+                ];
+
+                // Periksa apakah ada file gambar yang diupload
+                if (!empty($_FILES['image']['name'])) {
+                    $config['upload_path'] = './assets/img/profile/';
+                    $config['allowed_types'] = 'jpg|png';
+                    $config['max_size'] = 2048;
+                    $config['file_name'] = $this->session->userdata('user_id') . '_' . time(); // Beri nama file unik
+
+                    $this->load->library('upload', $config);
+
+                    if ($this->upload->do_upload('image')) {
+                        $uploadData = $this->upload->data();
+                        $data['image'] = $uploadData['file_name'];
+                    } else {
+                        // Jika upload gagal, tampilkan error
+                        $data['upload_error'] = $this->upload->display_errors();
+                    }
+                }
+
+                // Update data mahasiswa di database
+                $this->Model_Mahasiswa->update_mahasiswa($this->session->userdata('user_id'), $data);
+
+                // Redirect atau tampilkan pesan sukses
+                $this->session->set_flashdata('message', 'Biodata berhasil diperbarui.');
+                redirect('dashboardmhs/updatebiodata');
+            }
+        }
+
+        // Jika validasi gagal atau form belum disubmit, load view dengan data yang ada
+        $data['user'] = $this->Model_Mahasiswa->get_mahasiswa($this->session->userdata('user_id'));
+        $data['agama'] = $this->Model_Mahasiswa->get_agama(); // Ambil data agama
+        $data['goldar'] = $this->Model_Mahasiswa->get_goldar(); // Ambil data golongan darah
+
+        $this->load->view('header');
+        $this->load->view('update_biodata', $data);
+        $this->load->view('footer');
     }
 
     public function pengajuan()
@@ -99,18 +193,18 @@ class Mahasiswa extends CI_Controller
     }
 
 
-public function laporan() {
-    $data['title'] = 'Laporan';
-    $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-    $data['nim_mhs'] = $this->Model_NIM->getNim($data['user']['email']);
-    $data['points'] = $this->Model_Mahasiswa->getPoin($data['user']['email']);
+    public function laporan()
+    {
+        $data['title'] = 'Laporan';
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['nim_mhs'] = $this->Model_NIM->getNim($data['user']['email']);
+        $data['points'] = $this->Model_Mahasiswa->getPoin($data['user']['email']);
 
-    $this->load->view('templates/header', $data);
-    $this->load->view('templates/sidebar', $data);
-    $this->load->view('mahasiswa/laporan', $data);
-    $this->load->view('templates/footer');
-    
-}
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('mahasiswa/laporan', $data);
+        $this->load->view('templates/footer');
+    }
 
     public function tambah()
     {

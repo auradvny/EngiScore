@@ -33,7 +33,7 @@
           <a href="<?= base_url('bapendik'); ?>" class="brand-link">
           <?php elseif ($this->session->userdata('role_id') == 3) : ?>
             <a href="<?= base_url('pimpinan'); ?>" class="brand-link">
-            <?php endif; ?> <img src="<?= base_url('assets/template/') ?>dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+            <?php endif; ?> <img src="<?= base_url('assets/template/') ?>Logo-UNSOED.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
             <span class="brand-text font-weight-light">EngiScore</span>
             </a>
 

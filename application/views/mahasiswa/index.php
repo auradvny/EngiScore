@@ -29,7 +29,7 @@
                         <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-file-export" style="color: #ffffff;"></i></span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">Jumlah Permohonan</span>
+                            <span class="info-box-text">Pengajuan Permohonan</span>
                             <span class="info-box-number"><?= $jumlah_pengajuan ?> buah</span>
                         </div>
                         <!-- /.info-box-content -->
@@ -47,7 +47,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Permohonan Disetujui</span>
-                            <span class="info-box-number">760</span>
+                            <span class="info-box-number"><?= $jumlah_permosetuju ?> buah</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -60,7 +60,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Permohonan Ditolak</span>
-                            <span class="info-box-number">2,000</span>
+                            <span class="info-box-number"><?= $jumlah_permotolak ?> buah</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -102,7 +102,7 @@
                             <tr>
                                 <td>Fakultas</td>
                                 <td>:</td>
-                                <td>Teknik</td>
+                                <td><?= $mhs_data['fakultas']; ?></td>
                             </tr>
                             <tr>
                                 <td>Program Studi</td>

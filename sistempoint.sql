@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 16, 2024 at 08:01 PM
+-- Generation Time: Jun 17, 2024 at 06:51 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,53 @@ SET time_zone = "+00:00";
 --
 -- Database: `sistempoint`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_agama`
+--
+
+CREATE TABLE `tb_agama` (
+  `id` int(11) NOT NULL,
+  `agama` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_agama`
+--
+
+INSERT INTO `tb_agama` (`id`, `agama`) VALUES
+(1, 'ISLAM'),
+(2, 'KATOLIK'),
+(3, 'KRISTEN'),
+(4, 'HINDU'),
+(5, 'BUDHA'),
+(6, 'KHONGHUCU'),
+(7, 'ALIRAN KEPERCAYAAN'),
+(8, 'BELUM DIISI');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_goldar`
+--
+
+CREATE TABLE `tb_goldar` (
+  `id` int(11) NOT NULL,
+  `goldar` varchar(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_goldar`
+--
+
+INSERT INTO `tb_goldar` (`id`, `goldar`) VALUES
+(1, 'AB'),
+(2, 'A'),
+(3, 'B'),
+(4, 'O'),
+(5, '-');
 
 -- --------------------------------------------------------
 
@@ -83,19 +130,20 @@ INSERT INTO `tb_permo` (`id_perm`, `nim_mhs`, `kategori_id`, `bidang_id`, `capai
 
 CREATE TABLE `tb_prodi` (
   `id` int(11) NOT NULL,
-  `prodi` varchar(100) NOT NULL
+  `prodi` varchar(100) NOT NULL,
+  `fakultas` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_prodi`
 --
 
-INSERT INTO `tb_prodi` (`id`, `prodi`) VALUES
-(1, 'Elektro'),
-(2, 'Sipil'),
-(3, 'Geologi'),
-(4, 'Informatika'),
-(5, 'Industri');
+INSERT INTO `tb_prodi` (`id`, `prodi`, `fakultas`) VALUES
+(1, 'Elektro', 'Teknik'),
+(2, 'Sipil', 'Teknik'),
+(3, 'Geologi', 'Teknik'),
+(4, 'Informatika', 'Teknik'),
+(5, 'Industri', 'Teknik');
 
 -- --------------------------------------------------------
 
@@ -213,6 +261,10 @@ CREATE TABLE `tb_user` (
   `is_active` int(1) NOT NULL,
   `tgl_dibuat` int(11) NOT NULL,
   `gender` enum('L','P') NOT NULL,
+  `agama_id` int(11) NOT NULL,
+  `tempat_lahir` varchar(100) NOT NULL,
+  `tgl_lahir` date NOT NULL,
+  `goldar_id` int(11) NOT NULL,
   `telp` varchar(15) NOT NULL,
   `alamat` text NOT NULL,
   `nip` varchar(15) NOT NULL
@@ -222,13 +274,13 @@ CREATE TABLE `tb_user` (
 -- Dumping data for table `tb_user`
 --
 
-INSERT INTO `tb_user` (`id`, `nama`, `email`, `image`, `pass`, `role_id`, `is_active`, `tgl_dibuat`, `gender`, `telp`, `alamat`, `nip`) VALUES
-(1, 'Aura', 'aura@gmail.com', 'default.jpg', '1234', 1, 0, 1716451375, 'P', '0987654321', 'Cilacap', ''),
-(2, 'Mahasiswa Aura', 'mhs@gmail.com', 'mahasiswa.jpg', '$2y$10$8Yhl04CQGtHVZ1.0aO.JX.ojq2fg/tp/r9I5dqweWo9gxscrbZ.OS', 1, 1, 1716451375, 'L', '0987654321', 'Cilacap', ''),
-(3, 'Admin Aura', 'admin@gmail.com', 'bapendik.jpg', '$2y$10$Nx9FnYwhnE8oFCyHuNOsXO2lQwi.TkGLi2t/sgeJEPbBYRCsr6Q4S', 2, 1, 1716455594, 'P', '0987654321', 'Purwokerto', '198011112009121'),
-(4, 'Pimpinan Aura', 'pimpinan@gmail.com', 'pimpinan.jpg', '$2y$10$seKytyUYdL149iIPzJ3DMuasCTLGLAMbkhQHH5kkhGfKjT486mrVq', 3, 1, 1716518241, 'L', '0987654321', 'Purbalingga', '199074837186438'),
-(5, 'Aura Devany Salsabila Bachtiar', 'aura.bachtiar@mhs.unsoed.ac.id', 'default.jpg', '$2y$10$P4Ip82ngGQbIS1ouh4HCG.t6sjt9m/EXQuc8p76z4fod3NT1U7i9m', 1, 1, 1717217366, 'P', '09876543212', 'Cilacap', ''),
-(6, 'Calista Anindita', 'calista.anindita@mhs.unsoed.ac.id', 'kucing.png', '$2y$10$8OuDEl0iXxLAwcvybn8NxeW.9I/kRbpPiJ.gcap8Qla6i6OcrpvQm', 1, 1, 1718560464, 'P', '098765678947', '', '');
+INSERT INTO `tb_user` (`id`, `nama`, `email`, `image`, `pass`, `role_id`, `is_active`, `tgl_dibuat`, `gender`, `agama_id`, `tempat_lahir`, `tgl_lahir`, `goldar_id`, `telp`, `alamat`, `nip`) VALUES
+(1, 'Aura', 'aura@gmail.com', 'default.jpg', '1234', 1, 0, 1716451375, 'P', 0, '', '0000-00-00', 0, '0987654321', 'Cilacap', ''),
+(2, 'Mahasiswa Aura', 'mhs@gmail.com', 'mahasiswa.jpg', '$2y$10$8Yhl04CQGtHVZ1.0aO.JX.ojq2fg/tp/r9I5dqweWo9gxscrbZ.OS', 1, 1, 1716451375, 'L', 1, 'Purbalingga', '0000-00-00', 3, '0987654321', 'Cilacap', ''),
+(3, 'Admin Aura', 'admin@gmail.com', 'bapendik.jpg', '$2y$10$Nx9FnYwhnE8oFCyHuNOsXO2lQwi.TkGLi2t/sgeJEPbBYRCsr6Q4S', 2, 1, 1716455594, 'P', 0, '', '0000-00-00', 0, '0987654321', 'Purwokerto', '198011112009121'),
+(4, 'Pimpinan Aura', 'pimpinan@gmail.com', 'pimpinan.jpg', '$2y$10$seKytyUYdL149iIPzJ3DMuasCTLGLAMbkhQHH5kkhGfKjT486mrVq', 3, 1, 1716518241, 'L', 0, '', '0000-00-00', 0, '0987654321', 'Purbalingga', '199074837186438'),
+(5, 'Aura Devany Salsabila Bachtiar', 'aura.bachtiar@mhs.unsoed.ac.id', 'default.jpg', '$2y$10$P4Ip82ngGQbIS1ouh4HCG.t6sjt9m/EXQuc8p76z4fod3NT1U7i9m', 1, 1, 1717217366, 'P', 0, '', '0000-00-00', 0, '09876543212', 'Cilacap', ''),
+(6, 'Calista Anindita', 'calista.anindita@mhs.unsoed.ac.id', 'kucing.png', '$2y$10$8OuDEl0iXxLAwcvybn8NxeW.9I/kRbpPiJ.gcap8Qla6i6OcrpvQm', 1, 1, 1718560464, 'P', 0, '', '0000-00-00', 0, '098765678947', '', '');
 
 -- --------------------------------------------------------
 
@@ -328,6 +380,18 @@ INSERT INTO `tb_user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_act
 --
 
 --
+-- Indexes for table `tb_agama`
+--
+ALTER TABLE `tb_agama`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tb_goldar`
+--
+ALTER TABLE `tb_goldar`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tb_mhs`
 --
 ALTER TABLE `tb_mhs`
@@ -402,6 +466,18 @@ ALTER TABLE `tb_user_sub_menu`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `tb_agama`
+--
+ALTER TABLE `tb_agama`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `tb_goldar`
+--
+ALTER TABLE `tb_goldar`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tb_permo`
