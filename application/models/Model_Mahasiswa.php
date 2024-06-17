@@ -108,9 +108,9 @@ class Model_Mahasiswa extends CI_Model
         return $this->db->get()->row_array();
     }
 
-    public function update_biodata($id, $data)
+    public function update_biodata($user_id, $data)
     {
-        $this->db->where('id', $id);
+        $this->db->where('id', $user_id);
         $this->db->update('tb_user', $data);
     }
 }

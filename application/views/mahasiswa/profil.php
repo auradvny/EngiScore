@@ -7,7 +7,7 @@
                     <h3 class="card-title">Update Biodata: <span style="text-transform: uppercase;font-weight: bold;"><?= $user['nama']; ?></span></h3>
                 </div>
                 <div class="card-body">
-                    <form id="w0" action="bependik/updatebiodata" method="post" enctype="multipart/form-data">
+                    <form action="<?php echo base_url('Mahasiswa/updatebiodata'); ?>" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="_csrf" value="5mUVHTS4esRonNyWpQJ9VwJPwkSeDAu1-cWfWuHV-YCkD3htYsg3lj3fj8XPSiskbHnwJa18f-qt99AijJONxA==">
                         <div class="row">
                             <div class="col-md-12">
@@ -89,7 +89,6 @@
                                     <button type="submit" class="btn btn-success">Simpan</button>
                                     <!-- <a class="btn btn-secondary" href="bapendik/profil">Kembali</a> -->
                                 </div>
-
                             </div>
                     </form>
                 </div>

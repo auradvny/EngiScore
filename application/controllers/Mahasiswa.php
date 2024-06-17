@@ -83,43 +83,71 @@ class Mahasiswa extends CI_Controller
 
     public function updatebiodata()
     {
-        $user_id = $this->session->userdata('user_id');
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
 
-        // Handle file upload
-        if (!empty($_FILES['image']['name'])) {
-            $config['upload_path'] = './assets/img/profile/';
-            $config['allowed_types'] = 'gif|jpg|jpeg|png';
-            $config['max_size'] = '2048';
-            $config['file_name'] = 'profile_' . $user_id;
+        // $user_id = $this->session->userdata('id');
+        $user_id = $data['user']['id'];
+        $data['user'] = $this->Model_Mahasiswa->get_mahasiswa($user_id);
 
-            $this->upload->initialize($config);
+        // Form validation rules
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
+        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email', [
+            'valid_email' => 'Format email tidak benar'
+        ]);
+        $this->form_validation->set_rules('gender', 'Jenis Kelamin', 'required|trim');
+        $this->form_validation->set_rules('telp', 'No Telp', 'required|trim');
+        $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim');
+        $this->form_validation->set_rules('tgl_lahir', 'Tanggal Lahir', 'required|trim');
+        $this->form_validation->set_rules('agama', 'Agama', 'required|trim');
+        $this->form_validation->set_rules('goldar', 'Golongan Darah', 'required|trim');
 
-            if ($this->upload->do_upload('image')) {
-                $uploadData = $this->upload->data();
-                $image = $uploadData['file_name'];
-            } else {
-                $image = $this->input->post('old_image'); // if there is an error, keep the old image
-            }
+        if ($this->form_validation->run() == false) {
+            $data['title'] = 'Update Biodata';
+            $data['user'] = $this->db->get_where('tb_user', ['id' => $user_id])->row_array();
+            $data['agama_list'] = $this->db->get('tb_agama')->result_array();
+            $data['goldar_list'] = $this->db->get('tb_goldar')->result_array();
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('user/updatebiodata', $data);
+            $this->load->view('templates/footer');
         } else {
-            $image = $this->input->post('old_image'); // if no new image uploaded, keep the old image
+            // Handle file upload
+            if (!empty($_FILES['image']['name'])) {
+                $config['upload_path'] = './assets/img/profile/';
+                $config['allowed_types'] = 'gif|jpg|jpeg|png';
+                $config['max_size'] = '2048';
+                $config['file_name'] = 'profile_' . $user_id;
+
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('image')) {
+                    $uploadData = $this->upload->data();
+                    $image = $uploadData['file_name'];
+                } else {
+                    $image = $this->input->post('old_image'); // if there is an error, keep the old image
+                }
+            } else {
+                $image = $this->input->post('old_image'); // if no new image uploaded, keep the old image
+            }
+
+            $updateData = [
+                'nama' => htmlspecialchars($this->input->post('nama', TRUE)),
+                'agama_id' => $this->input->post('agama'),
+                'goldar_id' => $this->input->post('goldar'),
+                'tgl_lahir' => htmlspecialchars($this->input->post('tgl_lahir', TRUE)),
+                'gender' => $this->input->post('gender'),
+                'telp' => htmlspecialchars($this->input->post('telp', TRUE)),
+                'email' => htmlspecialchars($this->input->post('email', TRUE)),
+                'alamat' => htmlspecialchars($this->input->post('alamat', TRUE)),
+                'image' => $image
+            ];
+
+            $this->Model_Mahasiswa->update_biodata($user_id, $updateData);
+
+            $this->session->set_flashdata('message', 'Biodata updated successfully!');
+            redirect('mahasiswa/profil');
         }
-
-        $updateData = [
-            'nama' => $this->input->post('nama'),
-            'agama_id' => $this->input->post('agama'),
-            'goldar_id' => $this->input->post('goldar'),
-            'tgl_lahir' => $this->input->post('tgl_lahir'),
-            'gender' => $this->input->post('gender'),
-            'telp' => $this->input->post('telp'),
-            'email' => $this->input->post('email'),
-            'alamat' => $this->input->post('alamat'),
-            'image' => $image
-        ];
-
-        $this->Model_Mahasiswa->update_biodata($user_id, $updateData);
-
-        $this->session->set_flashdata('message', 'Biodata updated successfully!');
-        redirect('user/profil');
     }
 
     public function pengajuan()
