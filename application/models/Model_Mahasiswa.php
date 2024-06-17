@@ -84,12 +84,10 @@ class Model_Mahasiswa extends CI_Model
 
     public function getDataMhs($email)
     {
-        $this->db->select('tb_mhs.nim_mhs, tb_prodi.prodi, tb_prodi.fakultas, tb_mhs.pembiayaan, tb_mhs.cuti, tb_mhs.pa, tb_agama.agama, tb_goldar.goldar');
+        $this->db->select('tb_mhs.nim_mhs, tb_prodi.prodi, tb_prodi.fakultas, tb_mhs.pembiayaan, tb_mhs.cuti, tb_mhs.pa');
         $this->db->from('tb_user');
         $this->db->join('tb_mhs', 'tb_user.id = tb_mhs.user_id');
         $this->db->join('tb_prodi', 'tb_mhs.prodi_id = tb_prodi.id');
-        $this->db->join('tb_agama', 'tb_user.id = tb_agama.id');
-        $this->db->join('tb_goldar', 'tb_user.id = tb_goldar.id');
         $this->db->where('tb_user.email', $email);
         $query = $this->db->get();
 
@@ -102,22 +100,17 @@ class Model_Mahasiswa extends CI_Model
 
     public function get_mahasiswa($id)
     {
-        return $this->db->get_where('mahasiswa', ['id' => $id])->row_array();
+        $this->db->select('tb_user.*, tb_agama.agama, tb_goldar.goldar');
+        $this->db->from('tb_user');
+        $this->db->join('tb_agama', 'tb_user.agama_id = tb_agama.id');
+        $this->db->join('tb_goldar', 'tb_user.goldar_id = tb_goldar.id');
+        $this->db->where('tb_user.id', $id);
+        return $this->db->get()->row_array();
     }
 
-    public function update_mahasiswa($id, $data)
+    public function update_biodata($id, $data)
     {
         $this->db->where('id', $id);
-        return $this->db->update('mahasiswa', $data);
-    }
-
-    public function get_agama()
-    {
-        return $this->db->get('agama')->result_array();
-    }
-
-    public function get_goldar()
-    {
-        return $this->db->get('goldar')->result_array();
+        $this->db->update('tb_user', $data);
     }
 }

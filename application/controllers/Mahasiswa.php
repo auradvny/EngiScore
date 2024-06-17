@@ -65,6 +65,11 @@ class Mahasiswa extends CI_Controller
         $mhs_data = $this->Model_Mahasiswa->getDataMhs($data['user']['email']);
         $data['mhs_data'] = $mhs_data;
 
+        // Get the user's detailed profile including agama and goldar
+        $user_id = $data['user']['id'];
+        $data['user'] = $this->Model_Mahasiswa->get_mahasiswa($user_id);
+
+
         // Mendapatkan data agama dan golongan darah dari tabel terkait
         $data['agama'] = $this->db->get('tb_agama')->result_array();
         $data['goldar'] = $this->db->get('tb_goldar')->result_array();
@@ -78,75 +83,43 @@ class Mahasiswa extends CI_Controller
 
     public function updatebiodata()
     {
-        $this->load->model('Model_Mahasiswa');
+        $user_id = $this->session->userdata('user_id');
 
-        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-        $this->load->model('Model_Mahasiswa');
-        // Mendapatkan data mahasiswa berdasarkan email
-        $mhs_data = $this->Model_Mahasiswa->getDataMhs($data['user']['email']);
-        $data['mhs_data'] = $mhs_data;
+        // Handle file upload
+        if (!empty($_FILES['image']['name'])) {
+            $config['upload_path'] = './assets/img/profile/';
+            $config['allowed_types'] = 'gif|jpg|jpeg|png';
+            $config['max_size'] = '2048';
+            $config['file_name'] = 'profile_' . $user_id;
 
-        // Mendapatkan data agama dan golongan darah dari tabel terkait
-        $data['agama'] = $this->db->get('tb_agama')->result_array();
-        $data['goldar'] = $this->db->get('tb_goldar')->result_array();
+            $this->upload->initialize($config);
 
-        // Periksa apakah form disubmit
-        if ($this->input->server('REQUEST_METHOD') == 'POST') {
-            // Atur aturan validasi form
-            $this->form_validation->set_rules('Calonmahasiswa[tempatlahir]', 'Tempat Lahir', 'required');
-            $this->form_validation->set_rules('Calonmahasiswa[tgllhrmhs]', 'Tanggal Lahir', 'required');
-            $this->form_validation->set_rules('Calonmahasiswa[nohp]', 'No HP', 'required');
-            $this->form_validation->set_rules('Calonmahasiswa[email]', 'Email', 'required|valid_email');
-            $this->form_validation->set_rules('Calonmahasiswa[alamatasalmhs]', 'Alamat', 'required');
-
-            if ($this->form_validation->run() == TRUE) {
-                // Ambil data dari form
-                $data = [
-                    'tempat_lahir' => $this->input->post('Calonmahasiswa[tempatlahir]'),
-                    'tgl_lahir' => $this->input->post('Calonmahasiswa[tgllhrmhs]'),
-                    'telp' => $this->input->post('Calonmahasiswa[nohp]'),
-                    'email' => $this->input->post('Calonmahasiswa[email]'),
-                    'alamat' => $this->input->post('Calonmahasiswa[alamatasalmhs]'),
-                    'agama' => $this->input->post('agama'),
-                    'goldar' => $this->input->post('Calonmahasiswa[goldar]'),
-                    'gender' => $this->input->post('Calonmahasiswa[jeniskelamin]')
-                ];
-
-                // Periksa apakah ada file gambar yang diupload
-                if (!empty($_FILES['image']['name'])) {
-                    $config['upload_path'] = './assets/img/profile/';
-                    $config['allowed_types'] = 'jpg|png';
-                    $config['max_size'] = 2048;
-                    $config['file_name'] = $this->session->userdata('user_id') . '_' . time(); // Beri nama file unik
-
-                    $this->load->library('upload', $config);
-
-                    if ($this->upload->do_upload('image')) {
-                        $uploadData = $this->upload->data();
-                        $data['image'] = $uploadData['file_name'];
-                    } else {
-                        // Jika upload gagal, tampilkan error
-                        $data['upload_error'] = $this->upload->display_errors();
-                    }
-                }
-
-                // Update data mahasiswa di database
-                $this->Model_Mahasiswa->update_mahasiswa($this->session->userdata('user_id'), $data);
-
-                // Redirect atau tampilkan pesan sukses
-                $this->session->set_flashdata('message', 'Biodata berhasil diperbarui.');
-                redirect('dashboardmhs/updatebiodata');
+            if ($this->upload->do_upload('image')) {
+                $uploadData = $this->upload->data();
+                $image = $uploadData['file_name'];
+            } else {
+                $image = $this->input->post('old_image'); // if there is an error, keep the old image
             }
+        } else {
+            $image = $this->input->post('old_image'); // if no new image uploaded, keep the old image
         }
 
-        // Jika validasi gagal atau form belum disubmit, load view dengan data yang ada
-        $data['user'] = $this->Model_Mahasiswa->get_mahasiswa($this->session->userdata('user_id'));
-        $data['agama'] = $this->Model_Mahasiswa->get_agama(); // Ambil data agama
-        $data['goldar'] = $this->Model_Mahasiswa->get_goldar(); // Ambil data golongan darah
+        $updateData = [
+            'nama' => $this->input->post('nama'),
+            'agama_id' => $this->input->post('agama'),
+            'goldar_id' => $this->input->post('goldar'),
+            'tgl_lahir' => $this->input->post('tgl_lahir'),
+            'gender' => $this->input->post('gender'),
+            'telp' => $this->input->post('telp'),
+            'email' => $this->input->post('email'),
+            'alamat' => $this->input->post('alamat'),
+            'image' => $image
+        ];
 
-        $this->load->view('header');
-        $this->load->view('update_biodata', $data);
-        $this->load->view('footer');
+        $this->Model_Mahasiswa->update_biodata($user_id, $updateData);
+
+        $this->session->set_flashdata('message', 'Biodata updated successfully!');
+        redirect('user/profil');
     }
 
     public function pengajuan()
