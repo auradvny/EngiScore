@@ -96,7 +96,7 @@
                                     <tbody>
                                         <tr>
                                             <td rowspan="4">
-                                                <img src="<?= base_url('assets/img/profile/') . $user['image']; ?>" alt="User-Profile-Image">
+                                                <img src="<?= base_url('assets/img/profile/') . $user['image']; ?>" alt="User-Profile-Image" width="200px">
                                             </td>
                                             <td align='center' colspan='2'>
                                                 <h6 style="background-color: blue; padding: 5px; text-align:left; color:#fff;">Biodata</h6>
