@@ -88,20 +88,20 @@ class Bapendik extends CI_Controller
     {
         $persetujuan = $this->input->post('persetujuan');
         $nim_mhs = $this->input->post('nim_mhs');
-    
+
         $data = [
             'persetujuan' => $persetujuan
         ];
-    
+
         $this->db->where('nim_mhs', $nim_mhs);
         $this->db->update('tb_permo', $data);
-    
+
         // Set flashdata untuk pemberitahuan
         $this->session->set_flashdata('success', 'Persetujuan berhasil disimpan.');
-    
+
         redirect('bapendik/verifikasi');
     }
-    
+
 
 
     public function verif_setuju()
@@ -147,9 +147,10 @@ class Bapendik extends CI_Controller
         $data['sertifikat'] = $this->Model_Sertifikat->getSertif();
         $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
         $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
+        $data['capaian'] = $this->db->get('tb_sertif_capaian')->result_array();
 
         $this->form_validation->set_rules('bidang_id', 'Bidang', 'required', array('required' => 'Bidang harus diisi.'));
-        $this->form_validation->set_rules('capaian', 'Capaian', 'required', array('required' => 'Capaian harus diisi.'));
+        $this->form_validation->set_rules('capaian_id', 'Capaian', 'required', array('required' => 'Capaian harus diisi.'));
         $this->form_validation->set_rules('kategori_id', 'Kategori', 'required', array('required' => 'Kategori harus diisi.'));
         $this->form_validation->set_rules('skor', 'Skor', 'required', array('required' => 'Skor harus diisi.'));
 
@@ -161,7 +162,7 @@ class Bapendik extends CI_Controller
         } else {
             $sertif_data = [
                 'bidang_id' => $this->input->post('bidang_id'),
-                'capaian' => $this->input->post('capaian'),
+                'capaian' => $this->input->post('capaian_id'),
                 'kategori_id' => $this->input->post('kategori_id'),
                 'skor' => $this->input->post('skor')
             ];
@@ -188,6 +189,45 @@ class Bapendik extends CI_Controller
         $this->db->where('id', $id);
         $this->db->delete('tb_sertif_bidang');
         $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Bidang berhasil dihapus!</div>');
+        redirect('bapendik/sertifikat');
+    }
+
+    public function tambah_capaian()
+    {
+        $nama_capaian = $this->input->post('nama_capaian');
+        if ($nama_capaian) {
+            $this->db->insert('tb_sertif_capaian', ['capaian' => $nama_capaian]);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Capaian berhasil ditambahkan!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama capaian harus diisi!</div>');
+        }
+        redirect('bapendik/sertifikat');
+    }
+
+    public function edit_capaian($id)
+    {
+        $capaian_lama = $this->db->get_where('tb_sertif_capaian', ['id' => $id])->row_array();
+        $data['capaian_lama'] = $capaian_lama;
+
+        $this->form_validation->set_rules('nama_capaian', 'Nama Capaian', 'required');
+
+        if ($this->form_validation->run() === TRUE) {
+            $data_update = ['capaian' => $this->input->post('nama_capaian')];
+            $this->db->where('id', $id);
+            $this->db->update('tb_sertif_capaian', $data_update);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Capaian berhasil diperbarui!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama capaian harus diisi!</div>');
+        }
+        $this->load->view('bapendik/edit_capaian', $data);
+        redirect('bapendik/sertifikat');
+    }
+
+    public function delete_capaian($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('tb_sertif_capaian');
+        $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori berhasil dihapus!</div>');
         redirect('bapendik/sertifikat');
     }
 

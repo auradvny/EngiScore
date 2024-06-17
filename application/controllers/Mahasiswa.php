@@ -83,56 +83,66 @@ class Mahasiswa extends CI_Controller
 
     public function updatebiodata()
     {
+        // UPDATE GAMBAR BELUM SELESAI
+
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
 
-        // $user_id = $this->session->userdata('id');
+        // Get user ID from session data
         $user_id = $data['user']['id'];
         $data['user'] = $this->Model_Mahasiswa->get_mahasiswa($user_id);
 
         // Form validation rules
-        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email', [
             'valid_email' => 'Format email tidak benar'
         ]);
-        $this->form_validation->set_rules('gender', 'Jenis Kelamin', 'required|trim');
-        $this->form_validation->set_rules('telp', 'No Telp', 'required|trim');
-        $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim');
-        $this->form_validation->set_rules('tgl_lahir', 'Tanggal Lahir', 'required|trim');
-        $this->form_validation->set_rules('agama', 'Agama', 'required|trim');
-        $this->form_validation->set_rules('goldar', 'Golongan Darah', 'required|trim');
+        $this->form_validation->set_rules('gender', 'Jenis Kelamin');
+        $this->form_validation->set_rules('telp', 'No Telp');
+        $this->form_validation->set_rules('alamat', 'Alamat');
+        $this->form_validation->set_rules('tgl_lahir', 'Tanggal Lahir');
+        $this->form_validation->set_rules('agama', 'Agama');
+        $this->form_validation->set_rules('goldar', 'Golongan Darah');
 
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Update Biodata';
-            $data['user'] = $this->db->get_where('tb_user', ['id' => $user_id])->row_array();
             $data['agama_list'] = $this->db->get('tb_agama')->result_array();
             $data['goldar_list'] = $this->db->get('tb_goldar')->result_array();
 
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
-            $this->load->view('user/updatebiodata', $data);
+            $this->load->view('mahasiswa/updatebiodata', $data);
             $this->load->view('templates/footer');
         } else {
-            // Handle file upload
+            // Menangani unggahan file gambar baru jika ada
             if (!empty($_FILES['image']['name'])) {
+                // Konfigurasi upload
                 $config['upload_path'] = './assets/img/profile/';
                 $config['allowed_types'] = 'gif|jpg|jpeg|png';
-                $config['max_size'] = '2048';
-                $config['file_name'] = 'profile_' . $user_id;
+                $config['max_size'] = '2048'; // Maksimal 2MB
+                $config['file_name'] = 'profile_' . $user_id; // Penamaan file
 
                 $this->load->library('upload', $config);
 
                 if ($this->upload->do_upload('image')) {
+                    // Berhasil mengupload gambar baru
                     $uploadData = $this->upload->data();
                     $image = $uploadData['file_name'];
+
+                    // Menghapus gambar lama jika bukan gambar default
+                    $old_image = $this->input->post('old_image');
+                    if ($old_image != 'default.jpg') {
+                        unlink(FCPATH . 'assets/img/profile/' . $old_image);
+                    }
                 } else {
-                    $image = $this->input->post('old_image'); // if there is an error, keep the old image
+                    // Menangani error upload
+                    $this->session->set_flashdata('error', $this->upload->display_errors());
+                    redirect('mahasiswa/profil');
                 }
             } else {
-                $image = $this->input->post('old_image'); // if no new image uploaded, keep the old image
+                // Jika tidak ada gambar baru diunggah, gunakan gambar lama
+                $image = $this->input->post('old_image');
             }
 
             $updateData = [
-                'nama' => htmlspecialchars($this->input->post('nama', TRUE)),
                 'agama_id' => $this->input->post('agama'),
                 'goldar_id' => $this->input->post('goldar'),
                 'tgl_lahir' => htmlspecialchars($this->input->post('tgl_lahir', TRUE)),
@@ -167,11 +177,12 @@ class Mahasiswa extends CI_Controller
         $data['sertifikat'] = $this->Model_Sertifikat->getSertif();
         $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
         $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
-        $data['capaian'] = $this->db->get('tb_sertif')->result_array();
+        $data['capaian'] = $this->db->get('tb_sertif_capaian')->result_array();
 
         $this->form_validation->set_rules('bidang_id', 'Bidang', 'required', array('required' => 'Bidang harus diisi.'));
         $this->form_validation->set_rules('capaian_id', 'Capaian', 'required', array('required' => 'Capaian harus diisi.'));
         $this->form_validation->set_rules('kategori_id', 'Kategori', 'required', array('required' => 'Kategori harus diisi.'));
+        $this->form_validation->set_rules('file', 'File', 'required', array('required' => 'File harus diisi.'));
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);

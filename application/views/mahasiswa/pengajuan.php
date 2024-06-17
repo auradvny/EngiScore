@@ -2,22 +2,10 @@
 <form action="<?= base_url('mahasiswa/pengajuan'); ?>" method="POST" enctype="multipart/form-data">
     <div class="modal-body">
         <div class="form-group">
-            <label for="capaian_id">Capaian</label>
-            <div class="form-group">
-                <select name="capaian_id" id="capaian_id" class="form-control">
-                    <option value="">Pilih Capaian</option>
-                    <?php foreach ($capaian as $c) : ?>
-                        <option value="<?= $c['id']; ?>"><?= $c['capaian']; ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <?= form_error('capaian_id', "<div class='alert alert-danger' role='alert'>", '</div>'); ?>
-        </div>
-        <div class="form-group">
             <label for="bidang_id">Bidang</label>
             <div class="form-group">
                 <select name="bidang_id" id="bidang_id" class="form-control">
-                    <option value="">Pilih Bidang</option>
+                    <option value="" readonly>Pilih Bidang</option>
                     <?php foreach ($bidang as $b) : ?>
                         <option value="<?= $b['id']; ?>"><?= $b['bidang']; ?></option>
                     <?php endforeach; ?>
@@ -26,10 +14,22 @@
             <?= form_error('bidang_id', "<div class='alert alert-danger' role='alert'>", '</div>'); ?>
         </div>
         <div class="form-group">
+            <label for="capaian_id">Capaian</label>
+            <div class="form-group">
+                <select name="capaian_id" id="capaian_id" class="form-control">
+                    <option value="" readonly>Pilih Capaian</option>
+                    <?php foreach ($capaian as $c) : ?>
+                        <option value="<?= $c['id']; ?>"><?= $c['capaian']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <?= form_error('capaian_id', "<div class='alert alert-danger' role='alert'>", '</div>'); ?>
+        </div>
+        <div class="form-group">
             <label for="kategori_id">Kategori</label>
             <div class="form-group">
                 <select name="kategori_id" id="kategori_id" class="form-control">
-                    <option value="">Pilih Kategori</option>
+                    <option value="" readonly>Pilih Kategori</option>
                     <?php foreach ($kategori as $k) : ?>
                         <option value="<?= $k['id']; ?>"><?= $k['kategori']; ?></option>
                     <?php endforeach; ?>

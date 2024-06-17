@@ -7,12 +7,12 @@
                     <h3 class="card-title">Update Biodata: <span style="text-transform: uppercase;font-weight: bold;"><?= $user['nama']; ?></span></h3>
                 </div>
                 <div class="card-body">
-                    <form action="<?php echo base_url('Mahasiswa/updatebiodata'); ?>" method="post" enctype="multipart/form-data">
+                    <form name="update" action="<?php echo base_url('Mahasiswa/updatebiodata'); ?>" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="_csrf" value="5mUVHTS4esRonNyWpQJ9VwJPwkSeDAu1-cWfWuHV-YCkD3htYsg3lj3fj8XPSiskbHnwJa18f-qt99AijJONxA==">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="text-center">
-                                    <img src="<?= base_url('assets/img/profile/') . $user['image']; ?>" alt="Profile Image" width="200" id="profileImage" style="cursor: pointer;">
+                                    <img src="<?= base_url('assets/img/profile/') . $user['image']; ?>" alt="Profile Image" width="200px" id="profileImage" style="cursor: pointer;">
                                 </div>
                                 <div class="form-group required">
                                     <label class="control-label" for="nim_mhs">NIM Mahasiswa</label>

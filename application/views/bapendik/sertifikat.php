@@ -28,6 +28,33 @@
     </div>
 
     <div class="col-lg-6">
+        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newCapaianModal">Tambah Capaian</a>
+        <div class="card">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Capaian</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $i = 1;
+                    foreach ($capaian as $cap) : ?>
+                        <tr>
+                            <th scope="row"><?= $i++ ?></th>
+                            <td><?= $cap['capaian']; ?></td>
+                            <td>
+                                <a href="<?= base_url('bapendik/edit_capaian/' . $cap['id']); ?>" class="badge badge-warning">Edit</a>
+                                <a href="<?= base_url('bapendik/delete_capaian/' . $cap['id']); ?>" class="badge badge-danger">Delete</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newKategoriModal">Tambah Kategori</a>
         <div class="card">
             <table class="table table-hover">
@@ -53,6 +80,7 @@
             </table>
         </div>
     </div>
+
     <div class="col-lg-12">
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSertifikatModal">Tambah Sertifikat</a>
         <table class="table table-hover">
@@ -137,6 +165,32 @@
         </div>
     </div>
 
+    <!-- Modal untuk menambahkan Capaian baru -->
+    <div class="modal fade" id="newCapaianModal" tabindex="-1" aria-labelledby="newCapaianModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newCapaianModalLabel">Tambah Capaian</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="<?= base_url('bapendik/tambah_capaian'); ?>" method="POST">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nama_capaian">Nama Capaian</label>
+                            <input type="text" class="form-control" id="nama_capaian" name="nama_capaian" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Tambah</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal untuk edit kategori -->
     <div class="modal fade" id="editKategoriModal" tabindex="-1" aria-labelledby="editKategoriModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -189,7 +243,12 @@
                         </div>
                         <div class="form-group">
                             <label for="capaian">Capaian</label>
-                            <input type="text" class="form-control" id="capaian" name="capaian" placeholder="Nama Capaian">
+                            <select name="capaian_id" id="capaian_id" class="form-control">
+                                <option value="">Pilih Capaian</option>
+                                <?php foreach ($capaian as $c) : ?>
+                                    <option value="<?= $c['id']; ?>"><?= $c['capaian']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
                             <?= form_error('capaian', "<div class='alert alert-danger' role='alert'>", '</div>'); ?>
                         </div>
                         <div class="form-group">
