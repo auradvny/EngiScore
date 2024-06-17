@@ -64,4 +64,20 @@ class Model_User extends CI_Model
             return 0;
         }
     }
+
+    public function get_bapendik($id)
+    {
+        $this->db->select('tb_user.*, tb_agama.agama, tb_goldar.goldar');
+        $this->db->from('tb_user');
+        $this->db->join('tb_agama', 'tb_user.agama_id = tb_agama.id');
+        $this->db->join('tb_goldar', 'tb_user.goldar_id = tb_goldar.id');
+        $this->db->where('tb_user.id', $id);
+        return $this->db->get()->row_array();
+    }
+
+    public function update_biodata($user_id, $data)
+    {
+        $this->db->where('id', $user_id);
+        $this->db->update('tb_user', $data);
+    }
 }

@@ -6,7 +6,7 @@
     </div>
     <div class="form-group">
         <label for="email">Email Mahasiswa</label>
-        <input type="text" class="form-control form-control-user" id="email" name="email" placeholder="Email Address" value="<?= set_value('email'); ?>">
+        <input type="text" class="form-control form-control-user" id="email" name="email" placeholder="Email Mahasiswa" value="<?= set_value('email'); ?>">
         <?= form_error('email', '<div class="text-small text-danger">', '</div>'); ?>
     </div>
     <div class="form-group">
@@ -25,7 +25,7 @@
     <div class="form-group">
         <label for="prodi_id">Prodi Mahasiswa</label>
         <select name="prodi_id" id="prodi_id" class="form-control">
-            <option value="">Pilih Prodi</option>
+            <option value="" readonly>Pilih Prodi</option>
             <?php foreach ($prodi as $p) : ?>
                 <option value="<?= $p['id']; ?>" <?= set_value('prodi_id') == $p['id'] ? 'selected' : ''; ?>><?= $p['prodi']; ?></option>
             <?php endforeach; ?>
@@ -40,7 +40,7 @@
     <div class="form-group">
         <label for="image">Gambar</label>
         <input type="file" class="form-control" id="image" name="image">
-        <?= form_error('image', "<div class='alert alert-danger' role='alert'>", '</div>'); ?>
+        <?= form_error('image', '<div class="text-small text-danger">', '</div>'); ?>
     </div>
     <div class="form-group">
         <label for="pembiayaan">Pembiayaan</label>
@@ -53,9 +53,10 @@
     </div>
     <div class="form-group">
         <label for="pa">Pembimbing Akademik</label>
-        <input type="text" name="pa" class="form-control" value="<?= set_value('pa'); ?>">
+        <input type="text" name="pa" class="form-control">
         <?= form_error('pa', '<div class="text-small text-danger">', '</div>'); ?>
     </div>
+    <a class="btn btn-secondary" href="<?= base_url('bapendik/mahasiswa') ?>">Kembali</a>
     <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-save"></i> Simpan</button>
     <button type="reset" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Reset</button>
 </form>

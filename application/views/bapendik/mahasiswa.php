@@ -41,7 +41,7 @@
                             ?></td>
                         <td><?= $mhs['point']; ?></td>
                         <td>
-                            <a href="" class="btn btn-warning btn-sn"><i class="fas fa-edit"></i>Edit</a>
+                            <a href="<?= base_url('bapendik/edit_mhs') ?>" class="btn btn-warning btn-sn"><i class="fas fa-edit"></i>Edit</a>
                             <a href="" class="btn btn-danger btn-sn" onclick="return confirm('Apakah Anda yakin menghapus data ini?')"><i class="fas fa-trash"></i>Hapus</a>
                         </td>
                     </tr>

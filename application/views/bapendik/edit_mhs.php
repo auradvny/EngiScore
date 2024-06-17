@@ -54,4 +54,10 @@
     </div>
     <div class="form-group">
         <label for="pa">Pembimbing Akademik</label>
-        <input type="text" class="form-control" id="pa" name="pa" value
+        <input type="text" name="pa" class="form-control" value="<?= set_value('pa'); ?>">
+        <?= form_error('pa', '<div class="text-small text-danger">', '</div>'); ?>
+    </div>
+    <a class="btn btn-secondary" href="<?= base_url('bapendik/mahasiswa') ?>">Kembali</a>
+    <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-save"></i> Simpan</button>
+    <button type="reset" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Reset</button>
+</form>

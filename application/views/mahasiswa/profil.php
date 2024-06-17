@@ -81,7 +81,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label" for="alamat">Alamat Mahasiswa</label>
-                                    <textarea id="alamat" class="form-control" name="alamat" rows="3"><?= $user['alamat']; ?></textarea>
+                                    <textarea id="alamat" class="form-control" name="alamat" rows="2"><?= $user['alamat']; ?></textarea>
 
                                     <div class="help-block"></div>
                                 </div>
