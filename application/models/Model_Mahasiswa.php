@@ -56,7 +56,7 @@ class Model_Mahasiswa extends CI_Model
         }
     }
 
-    public function countPengajuan($nim_mhs)
+        public function countPengajuan($nim_mhs)
     {
         $this->db->where('nim_mhs', $nim_mhs);
         $this->db->from('tb_permo');
