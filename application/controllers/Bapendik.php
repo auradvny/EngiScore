@@ -9,6 +9,7 @@ class Bapendik extends CI_Controller
         $this->load->model('Model_Mahasiswa');
         $this->load->model('Model_User');
         $this->load->model('Model_Sertifikat');
+        $this->load->model('Model_Verifikasi');
 
         // is_logged_in();
         //check_admin();
@@ -160,10 +161,15 @@ class Bapendik extends CI_Controller
     public function verifikasi()
     {
         $data['title'] = 'Verifikasi';
+        // $this->db->order_by('id', 'DESC');
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
 
-        $data['verifikasi'] = $this->db->get_where('tb_permo', ['persetujuan' => 0])->result_array();
+        //  $data['verifikasi'] = $this->db->get_where('tb_permo', ['persetujuan' => 0])->result_array();
 
+        $data['verifikasi'] = $this->Model_Verifikasi->getVerif();
+        // $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
+        // $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
+        // $data['capaian'] = $this->db->get('tb_sertif_capaian')->result_array();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('bapendik/verifikasi', $data);
@@ -232,14 +238,23 @@ class Bapendik extends CI_Controller
                             ]);
                         }
                     }
+                    redirect('bapendik/verif_setuju');
                 }
+                redirect('bapendik/verif_tolak');
             }
         }
 
         // Set flashdata for notification
         $this->session->set_flashdata('success', 'Persetujuan berhasil disimpan.');
 
-        redirect('bapendik/verifikasi');
+        // Redirect based on the value of persetujuan
+        if ($persetujuan == 1) {
+            redirect('bapendik/verif_setuju');
+        } elseif ($persetujuan == 2) {
+            redirect('bapendik/verif_tolak');
+        } else {
+            redirect('bapendik/verifikasi');
+        }
     }
 
 
@@ -252,7 +267,11 @@ class Bapendik extends CI_Controller
         // $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
         // $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
         // $data['capaian'] = $this->db->get('tb_sertif_capaian')->result_array();
-        $data['verifikasi'] = $this->db->get_where('tb_permo', ['persetujuan' => 1])->result_array();
+        // $this->db->order_by('id', 'DESC');
+        // $data['verifikasi'] = $this->db->get_where('tb_permo', ['persetujuan' => 1])->result_array();
+
+        $data['verifikasi'] = $this->Model_Verifikasi->getVerifSetuju();
+
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -269,7 +288,11 @@ class Bapendik extends CI_Controller
         // $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
         // $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
         // $data['capaian'] = $this->db->get('tb_sertif_capaian')->result_array();
-        $data['verifikasi'] = $this->db->get_where('tb_permo', ['persetujuan' => 2])->result_array();
+        // $this->db->order_by('id', 'DESC');
+        // $data['verifikasi'] = $this->db->get_where('tb_permo', ['persetujuan' => 2])->result_array();
+
+        $data['verifikasi'] = $this->Model_Verifikasi->getVerifTolak();
+
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);

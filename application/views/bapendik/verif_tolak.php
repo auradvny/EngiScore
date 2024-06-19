@@ -20,9 +20,9 @@
                     <tr class="text-center">
                         <td><?= $no++ ?></td>
                         <td><?= $verif['nim_mhs']; ?></td>
-                        <td><?= $verif['bidang_id']; ?></td>
-                        <td><?= $verif['kategori_id']; ?></td>
-                        <td><?= $verif['capaian_id']; ?></td>
+                        <td><?= $verif['bidang']; ?></td>
+                        <td><?= $verif['kategori']; ?></td>
+                        <td><?= $verif['capaian']; ?></td>
                         <td><?= $verif['file']; ?></td>
                     </tr>
             </tbody>

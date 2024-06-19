@@ -1,6 +1,6 @@
 <div class="card-header">
     <a href="<?= base_url('bapendik/verif_setuju') ?>" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Permohonan Disetujui</a>
-    <a href="<?= base_url('bapendik/verif_tolak') ?>" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Permohonan Ditolak</a>
+    <a href="<?= base_url('bapendik/verif_tolak') ?>" class="btn btn-primary btn-sm"><i class="fas fa-minus"></i> Permohonan Ditolak</a>
 </div>
 <div class="card-body">
     <?php if ($this->session->flashdata('success')) : ?>
@@ -29,9 +29,9 @@
                     <tr class="text-center">
                         <td><?= $no++ ?></td>
                         <td><?= $verif['nim_mhs']; ?></td>
-                        <td><?= $verif['bidang_id']; ?></td>
-                        <td><?= $verif['kategori_id']; ?></td>
-                        <td><?= $verif['capaian_id']; ?></td>
+                        <td><?= $verif['bidang']; ?></td>
+                        <td><?= $verif['kategori']; ?></td>
+                        <td><?= $verif['capaian']; ?></td>
                         <td>
                             <img src="<?= base_url('assets/img/sertifikat/' . $verif['file']); ?>" alt="Sertifikat" style="width:100px; height:auto;">
                         </td>
