@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 17, 2024 at 11:43 AM
+-- Generation Time: Jun 19, 2024 at 10:12 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -89,7 +89,7 @@ CREATE TABLE `tb_mhs` (
 --
 
 INSERT INTO `tb_mhs` (`nim_mhs`, `point`, `user_id`, `prodi_id`, `pembiayaan`, `cuti`, `pa`) VALUES
-('H1D022000', 70, 2, 1, 'Biaya Sendiri', 0, 'ABC'),
+('H1D022000', 100, 2, 1, 'Biaya Sendiri', 0, 'ABC'),
 ('H1D022002', 0, 1, 5, '', 0, ''),
 ('H1D022015', 0, 5, 4, '', 0, ''),
 ('H1D022048', 0, 0, 0, '', 0, ''),
@@ -103,7 +103,7 @@ INSERT INTO `tb_mhs` (`nim_mhs`, `point`, `user_id`, `prodi_id`, `pembiayaan`, `
 --
 
 CREATE TABLE `tb_permo` (
-  `id_perm` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `nim_mhs` char(9) NOT NULL,
   `kategori_id` int(11) NOT NULL,
   `bidang_id` int(11) NOT NULL,
@@ -116,14 +116,15 @@ CREATE TABLE `tb_permo` (
 -- Dumping data for table `tb_permo`
 --
 
-INSERT INTO `tb_permo` (`id_perm`, `nim_mhs`, `kategori_id`, `bidang_id`, `capaian_id`, `file`, `persetujuan`) VALUES
-(1, 'H1D022000', 1, 1, 2, 'contoh.jpg', 2),
-(2, 'H1D022000', 1, 1, 2, 'contoh.jpg', 0),
-(3, 'H1D022000', 3, 2, 1, 'contoh.jpg', 1),
-(4, 'H1D022000', 4, 3, 3, 'contoh.jpg', 0),
-(5, 'H1D022015', 2, 1, 1, 'default.jpg', 0),
-(6, 'H1D022000', 5, 1, 4, 'good.png', 0),
-(7, 'H1D022000', 2, 1, 2, '', 0);
+INSERT INTO `tb_permo` (`id`, `nim_mhs`, `kategori_id`, `bidang_id`, `capaian_id`, `file`, `persetujuan`) VALUES
+(1, 'H1D022000', 1, 1, 1, 'contoh.png', 1),
+(2, 'H1D022000', 1, 1, 2, 'contoh.png', 0),
+(3, 'H1D022000', 3, 2, 1, 'contoh.jpg', 2),
+(4, 'H1D022000', 4, 3, 3, 'contoh.jpg', 2),
+(5, 'H1D022015', 2, 1, 1, 'default.jpg', 2),
+(6, 'H1D022000', 5, 1, 4, 'good.png', 1),
+(7, 'H1D022000', 2, 1, 2, '', 1),
+(8, 'H1D022000', 1, 1, 1, '1718776046_lion-removebg-preview.png', 0);
 
 -- --------------------------------------------------------
 
@@ -175,7 +176,7 @@ INSERT INTO `tb_sertif` (`id`, `bidang_id`, `capaian_id`, `kategori_id`, `skor`,
 (5, '1', 1, '5', 30, 1),
 (6, '1', 2, '1', 75, 1),
 (7, '1', 2, '2', 60, 1),
-(8, '1', 2, '3', 45, 1),
+(8, '1', 2, '1', 45, 1),
 (9, '1', 2, '4', 35, 1),
 (10, '1', 2, '5', 20, 1),
 (11, '1', 3, '1', 50, 1),
@@ -187,7 +188,6 @@ INSERT INTO `tb_sertif` (`id`, `bidang_id`, `capaian_id`, `kategori_id`, `skor`,
 (17, '1', 4, '2', 30, 1),
 (18, '1', 4, '3', 25, 1),
 (19, '1', 4, '4', 20, 1),
-(20, '1', 4, '5', 15, 1),
 (21, '1', 5, '1', 50, 1),
 (22, '2', 9, '1', 50, 1),
 (23, '2', 9, '1', 30, 0),
@@ -211,8 +211,7 @@ CREATE TABLE `tb_sertif_bidang` (
 INSERT INTO `tb_sertif_bidang` (`id`, `bidang`) VALUES
 (1, 'Kompetisi'),
 (2, 'Pengakuan (termasuk kepanitiaan)'),
-(3, 'Penghargaan'),
-(4, 'Karir Organisasi (per periode kepengurusan)');
+(3, 'Penghargaan');
 
 -- --------------------------------------------------------
 
@@ -234,7 +233,7 @@ INSERT INTO `tb_sertif_capaian` (`id`, `capaian`) VALUES
 (2, 'Juara 2 Perorangan'),
 (3, 'Juara 3 Perorangan'),
 (4, 'Juara Kategori Perorangan lainnya'),
-(5, 'Juara 1 Beregu');
+(6, 'lainnya');
 
 -- --------------------------------------------------------
 
@@ -257,8 +256,7 @@ INSERT INTO `tb_sertif_kategori` (`id`, `kategori`, `is_active`) VALUES
 (2, 'Kategori B (Regional)', 0),
 (3, 'Kategori C (Nasional)', 0),
 (4, 'Kategori D (Provinsi)', 0),
-(5, 'Kategori E (Kab/Kota/PT/Fakultas)', 0),
-(8, 'Juara 3 Perorangan', 0);
+(5, 'Kategori E (Kab/Kota/PT/Fakultas)', 0);
 
 -- --------------------------------------------------------
 
@@ -387,7 +385,7 @@ INSERT INTO `tb_user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_act
 (2, 1, 'Pengajuan', 'pengajuan', 'fas fa-fw fa-file-import', 1),
 (3, 2, 'Mahasiswa', 'mahasiswa', 'fas fa-fw fa-users', 1),
 (4, 2, 'Sertifikat', 'sertifikat', 'fas fa-fw fa-file', 1),
-(5, 2, 'Verifikasi', 'verifikasi', 'fas fa-fw fa-file', 1),
+(5, 2, 'Verifikasi', 'verifikasi', 'fas fa-fw fa-edit', 1),
 (6, 3, 'Mahasiswa', 'mahasiswa', 'fas fa-fw fa-users', 1),
 (7, 3, 'Bapendik', 'bapendik', 'fas fa-fw fa-user', 1);
 
@@ -417,7 +415,7 @@ ALTER TABLE `tb_mhs`
 -- Indexes for table `tb_permo`
 --
 ALTER TABLE `tb_permo`
-  ADD PRIMARY KEY (`id_perm`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `tb_prodi`
@@ -499,7 +497,7 @@ ALTER TABLE `tb_goldar`
 -- AUTO_INCREMENT for table `tb_permo`
 --
 ALTER TABLE `tb_permo`
-  MODIFY `id_perm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tb_prodi`
@@ -511,7 +509,7 @@ ALTER TABLE `tb_prodi`
 -- AUTO_INCREMENT for table `tb_sertif`
 --
 ALTER TABLE `tb_sertif`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `tb_sertif_bidang`
@@ -523,13 +521,13 @@ ALTER TABLE `tb_sertif_bidang`
 -- AUTO_INCREMENT for table `tb_sertif_capaian`
 --
 ALTER TABLE `tb_sertif_capaian`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tb_sertif_kategori`
 --
 ALTER TABLE `tb_sertif_kategori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tb_user`
