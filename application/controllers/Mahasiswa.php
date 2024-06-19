@@ -182,7 +182,10 @@ class Mahasiswa extends CI_Controller
         $this->form_validation->set_rules('bidang_id', 'Bidang', 'required', array('required' => 'Bidang harus diisi.'));
         $this->form_validation->set_rules('capaian_id', 'Capaian', 'required', array('required' => 'Capaian harus diisi.'));
         $this->form_validation->set_rules('kategori_id', 'Kategori', 'required', array('required' => 'Kategori harus diisi.'));
-        $this->form_validation->set_rules('file', 'File', 'required', array('required' => 'File harus diisi.'));
+        // $this->form_validation->set_rules('file', 'File', 'required', array('required' => 'File harus diisi.'));
+        if (empty($_FILES['file']['name'])) {
+            $this->form_validation->set_rules('file', 'File', 'required', array('required' => 'File harus diisi.'));
+        }
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
@@ -190,17 +193,34 @@ class Mahasiswa extends CI_Controller
             $this->load->view('mahasiswa/pengajuan', $data);
             $this->load->view('templates/footer');
         } else {
-            // Pastikan id_permo adalah auto-increment di database
-            $sertif_data = [
-                'nim_mhs' => $nim_mhs, // Gunakan nim_mhs yang telah diambil dari model
-                'bidang_id' => $this->input->post('bidang_id'),
-                'capaian_id' => $this->input->post('capaian_id'),
-                'kategori_id' => $this->input->post('kategori_id'),
-                'file' => $_FILES['file']['name'],
-            ];
-            $this->db->insert('tb_permo', $sertif_data);
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Data sertifikat berhasil ditambahkan!</div>');
-            redirect('mahasiswa/pengajuan');
+            // Konfigurasi pengunggahan file
+            $config['upload_path'] = './assets/img/sertifikat/';
+            $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+            $config['max_size'] = 2048; // 2MB
+            $config['file_name'] = time() . '_' . $_FILES['file']['name'];
+
+            $this->load->library('upload', $config);
+
+            if ($this->upload->do_upload('file')) {
+                $file_data = $this->upload->data();
+                $sertif_data = [
+                    'nim_mhs' => $nim_mhs, // Gunakan nim_mhs yang telah diambil dari model
+                    'bidang_id' => $this->input->post('bidang_id'),
+                    'capaian_id' => $this->input->post('capaian_id'),
+                    'kategori_id' => $this->input->post('kategori_id'),
+                    'file' => $file_data['file_name'],
+                ];
+
+                $this->db->insert('tb_permo', $sertif_data);
+                $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Data sertifikat berhasil ditambahkan!</div>');
+                redirect('mahasiswa/pengajuan');
+            } else {
+                $data['error'] = $this->upload->display_errors();
+                $this->load->view('templates/header', $data);
+                $this->load->view('templates/sidebar', $data);
+                $this->load->view('mahasiswa/pengajuan', $data);
+                $this->load->view('templates/footer');
+            }
         }
     }
 
