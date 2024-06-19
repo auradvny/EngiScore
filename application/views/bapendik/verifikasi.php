@@ -32,13 +32,19 @@
                         <td><?= $verif['bidang_id']; ?></td>
                         <td><?= $verif['kategori_id']; ?></td>
                         <td><?= $verif['capaian_id']; ?></td>
-                        <td><?= $verif['file']; ?></td>
                         <td>
-                            <input type="radio" name="persetujuan" value="1" <?= $verif['persetujuan'] == 1 ? 'checked' : ''; ?>> Setuju
-                            <input type="radio" name="persetujuan" value="2" <?= $verif['persetujuan'] == 2 ? 'checked' : ''; ?>> Tolak
+                            <img src="<?= base_url('assets/img/sertifikat/' . $verif['file']); ?>" alt="Sertifikat" style="width:100px; height:auto;">
                         </td>
                         <td>
-                            <input type="hidden" name="nim_mhs" value="<?= $verif['nim_mhs']; ?>">
+                            <input type="radio" name="persetujuan[<?= $verif['id']; ?>]" value="1" <?= $verif['persetujuan'] == 1 ? 'checked' : ''; ?>> Setuju
+                            <input type="radio" name="persetujuan[<?= $verif['id']; ?>]" value="2" <?= $verif['persetujuan'] == 2 ? 'checked' : ''; ?>> Tolak
+                        </td>
+                        <td>
+                            <input type="hidden" name="id[]" value="<?= $verif['id']; ?>">
+                            <input type="hidden" name="nim_mhs[<?= $verif['id']; ?>]" value="<?= $verif['nim_mhs']; ?>">
+                            <input type="hidden" name="bidang_id[<?= $verif['id']; ?>]" value="<?= $verif['bidang_id']; ?>">
+                            <input type="hidden" name="kategori_id[<?= $verif['id']; ?>]" value="<?= $verif['kategori_id']; ?>">
+                            <input type="hidden" name="capaian_id[<?= $verif['id']; ?>]" value="<?= $verif['capaian_id']; ?>">
                             <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
                         </td>
                     </tr>

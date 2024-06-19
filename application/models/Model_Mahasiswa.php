@@ -56,7 +56,7 @@ class Model_Mahasiswa extends CI_Model
         }
     }
 
-        public function countPengajuan($nim_mhs)
+    public function countPengajuan($nim_mhs)
     {
         $this->db->where('nim_mhs', $nim_mhs);
         $this->db->from('tb_permo');
@@ -112,5 +112,25 @@ class Model_Mahasiswa extends CI_Model
     {
         $this->db->where('id', $user_id);
         $this->db->update('tb_user', $data);
+    }
+
+    public function deleteMhs($id)
+    {
+        // Start transaction
+        $this->db->trans_start();
+
+        // Delete from tb_mhs where user_id is the given id
+        $this->db->where('user_id', $id);
+        $this->db->delete('tb_mhs');
+
+        // Delete from tb_user where id is the given id
+        $this->db->where('id', $id);
+        $this->db->delete('tb_user');
+
+        // Complete transaction
+        $this->db->trans_complete();
+
+        // Check if transaction status is true or false
+        return $this->db->trans_status();
     }
 }

@@ -12,4 +12,16 @@ class Model_Sertifikat extends CI_Model
         JOIN tb_sertif_kategori ON tb_sertif.kategori_id = tb_sertif_kategori.id";
         return $this->db->query($query)->result_array();
     }
+
+
+    public function getBidangById($id)
+    {
+        return $this->db->get_where('tb_sertif_bidang', ['id' => $id])->row_array();
+    }
+
+    public function updateBidang($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('tb_sertif_bidang', $data);
+    }
 }

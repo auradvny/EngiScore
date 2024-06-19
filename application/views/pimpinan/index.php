@@ -1,5 +1,4 @@
 <div class="wrapper">
-
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
         <img class="animation__wobble" src="<?php echo base_url() ?>assets/template/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
@@ -14,10 +13,9 @@
                     <div class="info-box">
                         <span class="info-box-icon bg-info elevation-1"><i class="fas fa-plus"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text">Jumlah Bapendik</span>
+                            <span class="info-box-text">Jumlah Mahasiswa</span>
                             <span class="info-box-number">
-                                10
-                                <small>%</small>
+                                <?= $jumlah_mhs ?> <small>orang</small>
                             </span>
                         </div>
                         <!-- /.info-box-content -->
@@ -30,8 +28,10 @@
                         <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-file-export" style="color: #ffffff;"></i></span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">Jumlah Mahasiswa</span>
-                            <span class="info-box-number">41,410</span>
+                            <span class="info-box-text">Jumlah Permohonan</span>
+                            <span class="info-box-number">
+                                <?= $jumlah_permo ?> <small>buah</small>
+                            </span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -47,8 +47,10 @@
                         <span class="info-box-icon bg-success elevation-1"><i class="fas fa-check"></i></span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">Jumlah Permohonan</span>
-                            <span class="info-box-number">760</span>
+                            <span class="info-box-text">Permohonan Disetujui</span>
+                            <span class="info-box-number">
+                                <?= $jumlah_permosetuju ?> <small>buah</small>
+                            </span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -58,10 +60,11 @@
                 <div class="col-12 col-sm-6 col-md-3">
                     <div class="info-box mb-3">
                         <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-times" style="color: #ffffff;"></i></span>
-
                         <div class="info-box-content">
-                            <span class="info-box-text">Jumlah Score</span>
-                            <span class="info-box-number">2,000</span>
+                            <span class="info-box-text">Permohonan Ditolak</span>
+                            <span class="info-box-number">
+                                <?= $jumlah_permotolak ?> <small>buah</small>
+                            </span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -69,7 +72,6 @@
                 </div>
                 <!-- /.col -->
             </div>
-
 
             <div class="card card-primary">
                 <div class="card-header">
@@ -112,7 +114,7 @@
                                 <td><?php
                                     if ($user['is_active'] == 1) {
                                         echo 'Aktif';
-                                    } elseif ($user['is_active'] == 2) {
+                                    } elseif ($user['is_active'] == 0) {
                                         echo 'Tidak Aktif';
                                     } else {
                                         echo 'Status Tidak Diketahui';

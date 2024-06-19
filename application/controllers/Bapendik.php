@@ -162,10 +162,6 @@ class Bapendik extends CI_Controller
         $data['title'] = 'Verifikasi';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
 
-        // $data['verifikasi'] = $this->Model_Verifikasi->getVerifikasi();
-        // $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
-        // $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
-        // $data['capaian'] = $this->db->get('tb_sertif_capaian')->result_array();
         $data['verifikasi'] = $this->db->get_where('tb_permo', ['persetujuan' => 0])->result_array();
 
         $this->load->view('templates/header', $data);
@@ -176,22 +172,75 @@ class Bapendik extends CI_Controller
 
     public function tambah_verif()
     {
-        $persetujuan = $this->input->post('persetujuan');
-        $nim_mhs = $this->input->post('nim_mhs');
+        $persetujuan_list = $this->input->post('persetujuan');
+        $ids = $this->input->post('id');
+        $nim_mhs_list = $this->input->post('nim_mhs');
+        $bidang_id_list = $this->input->post('bidang_id');
+        $kategori_id_list = $this->input->post('kategori_id');
+        $capaian_id_list = $this->input->post('capaian_id');
 
-        $data = [
-            'persetujuan' => $persetujuan
-        ];
+        foreach ($ids as $id) {
+            $persetujuan = isset($persetujuan_list[$id]) ? $persetujuan_list[$id] : null;
+            $nim_mhs = isset($nim_mhs_list[$id]) ? $nim_mhs_list[$id] : null;
+            $bidang_id = isset($bidang_id_list[$id]) ? $bidang_id_list[$id] : null;
+            $kategori_id = isset($kategori_id_list[$id]) ? $kategori_id_list[$id] : null;
+            $capaian_id = isset($capaian_id_list[$id]) ? $capaian_id_list[$id] : null;
 
-        $this->db->where('nim_mhs', $nim_mhs);
-        $this->db->update('tb_permo', $data);
+            if ($persetujuan !== null && $nim_mhs !== null) {
+                $data = [
+                    'persetujuan' => $persetujuan
+                ];
 
-        // Set flashdata untuk pemberitahuan
+                // Update the persetujuan field in tb_permo
+                $this->db->where('id', $id);
+                $this->db->update('tb_permo', $data);
+
+                if ($persetujuan == 1 && $bidang_id !== null && $kategori_id !== null && $capaian_id !== null) {
+                    // Fetch the points from tb_sertif
+                    $this->db->select('skor');
+                    $this->db->from('tb_sertif');
+                    $this->db->where('bidang_id', $bidang_id);
+                    $this->db->where('kategori_id', $kategori_id);
+                    $this->db->where('capaian_id', $capaian_id);
+                    $sertif = $this->db->get()->row_array();
+
+                    if ($sertif) {
+                        $points = $sertif['skor'];
+
+                        // Fetch the current point from tb_mhs
+                        $this->db->select('point');
+                        $this->db->from('tb_mhs');
+                        $this->db->where('nim_mhs', $nim_mhs);
+                        $mhs = $this->db->get()->row_array();
+
+                        if ($mhs) {
+                            $current_points = $mhs['point'];
+                            $new_points = $current_points + $points;
+
+                            // Update the points in tb_mhs
+                            $this->db->set('point', $new_points);
+                            $this->db->where('nim_mhs', $nim_mhs);
+                            $this->db->update('tb_mhs');
+                        } else {
+                            // Handle case where the student is not found in tb_mhs
+                            // Optional: Insert the student with the new points if not found
+                            $new_points = $points;
+
+                            $this->db->insert('tb_mhs', [
+                                'nim_mhs' => $nim_mhs,
+                                'point' => $new_points
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Set flashdata for notification
         $this->session->set_flashdata('success', 'Persetujuan berhasil disimpan.');
 
         redirect('bapendik/verifikasi');
     }
-
 
 
     public function verif_setuju()
@@ -252,7 +301,7 @@ class Bapendik extends CI_Controller
         } else {
             $sertif_data = [
                 'bidang_id' => $this->input->post('bidang_id'),
-                'capaian' => $this->input->post('capaian_id'),
+                'capaian_id' => $this->input->post('capaian_id'),
                 'kategori_id' => $this->input->post('kategori_id'),
                 'skor' => $this->input->post('skor')
             ];
@@ -260,6 +309,22 @@ class Bapendik extends CI_Controller
             $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Data sertifikat berhasil ditambahkan!</div>');
             redirect('bapendik/sertifikat');
         }
+    }
+
+    public function delete_sertifikat($id)
+    {
+        // Check if the ID exists in the database
+        $bidang = $this->db->get_where('tb_sertif', ['id' => $id])->row_array();
+
+        if ($bidang) {
+            $this->db->where('id', $id);
+            $this->db->delete('tb_sertif');
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Sertifikat berhasil dihapus!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Sertifikat tidak ditemukan atau sudah dihapus.</div>');
+        }
+
+        redirect('bapendik/sertifikat');
     }
 
     public function tambah_bidang()
@@ -274,13 +339,66 @@ class Bapendik extends CI_Controller
         redirect('bapendik/sertifikat');
     }
 
-    public function delete_bidang($id)
+    public function edit_bidang($id)
     {
-        $this->db->where('id', $id);
-        $this->db->delete('tb_sertif_bidang');
-        $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Bidang berhasil dihapus!</div>');
+        $data['title'] = 'Edit Bidang';
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['bidang'] = $this->Model_Sertifikat->getBidangById($id);
+
+
+        // Load the view with the data
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('bapendik/edit_bidang', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function update_bidang()
+    {
+        // Load the model if it's not autoloaded
+        $this->load->model('Model_Sertifikat');
+
+        // Get the data from the form
+        $id = $this->input->post('id');
+        $bidang = $this->input->post('bidang');
+
+        // Prepare the data to be updated
+        $data = [
+            'bidang' => $bidang
+        ];
+
+        // Call the model function to update the data
+        $result = $this->Model_Sertifikat->updateBidang($id, $data);
+
+        // Check if the update was successful
+        if ($result) {
+            // Set a success message
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Bidang berhasil diupdate!</div>');
+        } else {
+            // Set an error message
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Bidang gagal diupdate!</div>');
+        }
+
+        // Redirect to the bidang page
         redirect('bapendik/sertifikat');
     }
+
+    public function delete_bidang($id)
+    {
+        // Check if the ID exists in the database
+        $bidang = $this->db->get_where('tb_sertif_bidang', ['id' => $id])->row_array();
+
+        if ($bidang) {
+            $this->db->where('id', $id);
+            $this->db->delete('tb_sertif_bidang');
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Bidang berhasil dihapus!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Bidang tidak ditemukan atau sudah dihapus.</div>');
+        }
+
+        redirect('bapendik/sertifikat');
+    }
+
 
     public function tambah_capaian()
     {
@@ -315,9 +433,17 @@ class Bapendik extends CI_Controller
 
     public function delete_capaian($id)
     {
-        $this->db->where('id', $id);
-        $this->db->delete('tb_sertif_capaian');
-        $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori berhasil dihapus!</div>');
+        // Check if the ID exists in the database
+        $bidang = $this->db->get_where('tb_sertif_capaian', ['id' => $id])->row_array();
+
+        if ($bidang) {
+            $this->db->where('id', $id);
+            $this->db->delete('tb_sertif_capaian');
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Capaian berhasil dihapus!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">capaian tidak ditemukan atau sudah dihapus.</div>');
+        }
+
         redirect('bapendik/sertifikat');
     }
 
@@ -354,9 +480,17 @@ class Bapendik extends CI_Controller
 
     public function delete_kategori($id)
     {
-        $this->db->where('id', $id);
-        $this->db->delete('tb_sertif_kategori');
-        $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori berhasil dihapus!</div>');
+        // Check if the ID exists in the database
+        $bidang = $this->db->get_where('tb_sertif_kategori', ['id' => $id])->row_array();
+
+        if ($bidang) {
+            $this->db->where('id', $id);
+            $this->db->delete('tb_sertif_kategori');
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori berhasil dihapus!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Kategori tidak ditemukan atau sudah dihapus.</div>');
+        }
+
         redirect('bapendik/sertifikat');
     }
 
@@ -544,6 +678,27 @@ class Bapendik extends CI_Controller
         <span aria-hidden="true">&times;</span></button></div>');
             redirect('bapendik/mahasiswa');
         }
+    }
+
+    public function hapusMahasiswa($id)
+    {
+        // Load the model if it's not autoloaded
+        $this->load->model('Model_Mahasiswa');
+
+        // Call the delete function in the model
+        $result = $this->Model_Mahasiswa->deleteMhs($id);
+
+        // Check if the deletion was successful
+        if ($result) {
+            // Set a success message
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data mahasiswa berhasil dihapus!</div>');
+        } else {
+            // Set an error message
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Data mahasiswa gagal dihapus!</div>');
+        }
+
+        // Redirect to the mahasiswa page
+        redirect('bapendik/mahasiswa');
     }
 
 

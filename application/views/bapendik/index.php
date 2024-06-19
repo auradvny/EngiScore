@@ -28,7 +28,7 @@
                         <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-file-export" style="color: #ffffff;"></i></span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">Jumlah Permohonan</span>
+                            <span class="info-box-text">Permohonan Diajukan</span>
                             <span class="info-box-number">
                                 <?= $jumlah_permo ?>
                             </span>

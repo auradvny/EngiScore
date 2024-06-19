@@ -1,24 +1,52 @@
 <?= $this->session->flashdata('pesan'); ?>
 <div class="row">
     <div class="col-lg-6">
-        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newBidangModal">Tambah Bidang</a>
+        <!-- Tabel untuk Bidang -->
+        <div class="mb-4">
+            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newBidangModal">Tambah Bidang</a>
+            <div class="card">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Bidang</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $i = 1;
+                        foreach ($bidang as $b) : ?>
+                            <tr>
+                                <th scope="row"><?= $i++ ?></th>
+                                <td><?= $b['bidang']; ?></td>
+                                <td>
+                                    <a href="" class="badge badge-warning editBidangBtn" data-toggle="modal" data-target="#editBidangModal" data-id="<?= $b['id']; ?>" data-nama="<?= $b['bidang']; ?>">Edit</a>
+                                    <a href="<?= base_url('bapendik/delete_bidang/' . $b['id']); ?>" class="badge badge-danger">Delete</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr class="my-4">
+        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newKategoriModal">Tambah Kategori</a>
         <div class="card">
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">No</th>
-                        <th scope="col">Bidang</th>
+                        <th scope="col">Kategori</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php $i = 1;
-                    foreach ($bidang as $b) : ?>
+                    foreach ($kategori as $kat) : ?>
                         <tr>
                             <th scope="row"><?= $i++ ?></th>
-                            <td><?= $b['bidang']; ?></td>
+                            <td><?= $kat['kategori']; ?></td>
                             <td>
-                                <a href="<?= base_url('bapendik/edit_bidang/' . $b['id']); ?>" class="badge badge-warning">Edit</a>
-                                <a href="<?= base_url('bapendik/delete_bidang/' . $b['id']); ?>" class="badge badge-danger">Delete</a>
+                                <a href="<?= base_url('bapendik/edit_kategori/' . $kat['id']); ?>" class="badge badge-warning">Edit</a>
+                                <a href="<?= base_url('bapendik/delete_kategori/' . $kat['id']); ?>" class="badge badge-danger">Delete</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -53,34 +81,6 @@
             </table>
         </div>
     </div>
-
-    <div class="col-lg-6">
-        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newKategoriModal">Tambah Kategori</a>
-        <div class="card">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Kategori</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $i = 1;
-                    foreach ($kategori as $kat) : ?>
-                        <tr>
-                            <th scope="row"><?= $i++ ?></th>
-                            <td><?= $kat['kategori']; ?></td>
-                            <td>
-                                <a href="<?= base_url('bapendik/edit_kategori/' . $kat['id']); ?>" class="badge badge-warning">Edit</a>
-                                <a href="<?= base_url('bapendik/delete_kategori/' . $kat['id']); ?>" class="badge badge-danger">Delete</a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
     <div class="col-lg-12">
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSertifikatModal">Tambah Sertifikat</a>
         <table class="table table-hover">
@@ -138,6 +138,35 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal for editing bidang -->
+    <div class="modal fade" id="editBidangModal" tabindex="-1" aria-labelledby="editBidangModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editBidangModalLabel">Edit Bidang</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="<?= base_url('bapendik/update_bidang'); ?>" method="POST">
+                    <div class="modal-body">
+                        <input type="hidden" id="edit_bidang_id" name="id" value="<?= $bidang['id']; ?>">
+                        <div class="form-group">
+                            <label for="bidang">Nama Bidang</label>
+                            <input type="text" class="form-control" id="bidang" name="bidang" value="<?= $bidang['bidang']; ?>" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 
     <!-- Modal untuk menambahkan kategori baru -->
     <div class="modal fade" id="newKategoriModal" tabindex="-1" aria-labelledby="newKategoriModalLabel" aria-hidden="true">
@@ -286,3 +315,20 @@
         </div>
     </div>
 </div>
+
+
+<!-- Include jQuery if not already included -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.editBidangButton').on('click', function() {
+            var id = $(this).data('id');
+            var bidang = $(this).data('bidang');
+
+            $('#edit_bidang_id').val(id);
+            $('#bidang').val(bidang);
+
+            $('#editBidangModal').modal('show');
+        });
+    });
+</script>
