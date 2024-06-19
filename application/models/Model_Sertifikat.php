@@ -13,7 +13,6 @@ class Model_Sertifikat extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
-
     public function getBidangById($id)
     {
         return $this->db->get_where('tb_sertif_bidang', ['id' => $id])->row_array();

@@ -364,23 +364,19 @@ class Bapendik extends CI_Controller
 
     public function edit_bidang($id)
     {
-        $data['title'] = 'Edit Bidang';
-        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-        $data['bidang'] = $this->Model_Sertifikat->getBidangById($id);
-
-
-        // Load the view with the data
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('bapendik/edit_bidang', $data);
-        $this->load->view('templates/footer');
+        $bidang = $this->input->post('bidang');
+        if ($bidang) {
+            $this->db->where('id', $id);
+            $this->db->update('tb_sertif_bidang', ['bidang' => $bidang]);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Bidang berhasil diupdate!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama bidang harus diisi!</div>');
+        }
+        redirect('bapendik/sertifikat');
     }
 
     public function update_bidang()
     {
-        // Load the model if it's not autoloaded
-        $this->load->model('Model_Sertifikat');
-
         // Get the data from the form
         $id = $this->input->post('id');
         $bidang = $this->input->post('bidang');
@@ -621,12 +617,11 @@ class Bapendik extends CI_Controller
     <span aria-hidden="true">&times;</span></button></div>');
         redirect('bapendik/mahasiswa');
     }
-
-    public function edit_mhs($id)
+    public function edit_mhs($user_id)
     {
         $data['title'] = 'Edit Mahasiswa';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-        $data['mahasiswa'] = $this->Model_Mahasiswa->getMhsById($id);
+        $data['mahasiswa'] = $this->Model_Mahasiswa->getMhsById($user_id);
         $data['prodi'] = $this->db->get('tb_prodi')->result_array();
 
         $this->load->view('templates/header', $data);
@@ -635,73 +630,55 @@ class Bapendik extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function update_mhs()
+    public function update_mhs($user_id)
     {
-        $id = $this->input->post('id');
-        $data['mahasiswa'] = $this->Model_Mahasiswa->getMhsById($id);
+        $nim = $this->input->post('nim_mhs');
+        $data_user = array(
+            'nama' => htmlspecialchars($this->input->post('nama', TRUE)),
+            'email' => htmlspecialchars($this->input->post('email', TRUE)),
+            'image' => $this->input->post('image'),
+            'gender' => $this->input->post('gender'),
+            'telp' => $this->input->post('telp'),
+            'is_active' => $this->input->post('is_active'),
+        );
 
-        // Aturan validasi
-        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
-        $this->form_validation->set_rules('gender', 'Jenis Kelamin', 'required|trim');
-        $this->form_validation->set_rules('prodi_id', 'Prodi', 'required|trim');
-        $this->form_validation->set_rules('telp', 'No Telp', 'required|trim');
-        $this->form_validation->set_rules('pembiayaan', 'Pembiayaan', 'required|trim');
-        $this->form_validation->set_rules('pa', 'Pembimbing Akademik', 'required|trim');
+        // Upload gambar
+        $upload_image = $_FILES['image']['name'];
+        if ($upload_image) {
+            $config['upload_path'] = './assets/img/profile/';
+            $config['allowed_types'] = 'gif|jpg|png';
+            $config['max_size'] = '2048';
 
-        if ($this->form_validation->run() == false) {
-            $this->edit_mhs($id);
-        } else {
-            $email = $this->input->post('email');
-            $data_user = array(
-                'nama' => htmlspecialchars($this->input->post('nama', TRUE)),
-                'email' => htmlspecialchars($email, TRUE),
-                'gender' => $this->input->post('gender'),
-                'telp' => $this->input->post('telp'),
-                'tgl_diubah' => time(),
-            );
+            $this->load->library('upload', $config);
 
-            // Upload gambar baru
-            $upload_image = $_FILES['image']['name'];
-            if ($upload_image) {
-                $config['upload_path'] = './assets/img/profile/';
-                $config['allowed_types'] = 'gif|jpg|png';
-                $config['max_size'] = '2048';
-
-                $this->load->library('upload', $config);
-
-                if ($this->upload->do_upload('image')) {
-                    $old_image = $data['mahasiswa']['image'];
-                    if ($old_image != 'default.jpg') {
-                        unlink(FCPATH . 'assets/img/profile/' . $old_image);
-                    }
-                    $new_image = $this->upload->data('file_name');
-                    $data_user['image'] = $new_image;
-                } else {
-                    echo $this->upload->display_errors();
-                }
+            if ($this->upload->do_upload('image')) {
+                $new_image = $this->upload->data('file_name');
+                $data_user['image'] = $new_image;
+            } else {
+                echo $this->upload->display_errors();
             }
-
-            // Update data mahasiswa di tb_user
-            $this->db->where('id', $data['mahasiswa']['user_id']);
-            $this->db->update('tb_user', $data_user);
-
-            // Update data mahasiswa di tb_mhs
-            $data_mhs = array(
-                'prodi_id' => $this->input->post('prodi_id'),
-                'pembiayaan' => $this->input->post('pembiayaan'),
-                'pa' => $this->input->post('pa')
-            );
-
-            $this->db->where('id', $id);
-            $this->db->update('tb_mhs', $data_mhs);
-
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-        Data Berhasil di Ubah!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span></button></div>');
-            redirect('bapendik/mahasiswa');
         }
+
+        $this->db->where('user_id', $user_id);
+        $this->db->update('tb_user', $data_user);
+
+        $prodi_id = $this->input->post('prodi_id');
+        $data_mhs = array(
+            'nim_mhs' => $nim,
+            'prodi_id' => $prodi_id,
+            'pembiayaan' => $this->input->post('pembiayaan'),
+            'pa' => $this->input->post('pa')
+        );
+
+        $this->db->where('user_id', $user_id);
+        $this->db->update('tb_mhs', $data_mhs);
+
+        $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        Data Berhasil di Perbarui!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span></button></div>');
+        redirect('bapendik/mahasiswa');
     }
+
 
     public function hapusMahasiswa($id)
     {

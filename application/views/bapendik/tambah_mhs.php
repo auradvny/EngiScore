@@ -34,7 +34,7 @@
     </div>
     <div class="form-group">
         <label for="telp">No Telp Mahasiswa</label>
-        <input type="text" name="telp" class="form-control" value="<?= set_value('telp'); ?>">
+        <input type="text" name="telp" class="form-control" value="<?= set_value('telp'); ?>" placeholder="No Telp Mahasiswa">
         <?= form_error('telp', '<div class="text-small text-danger">', '</div>'); ?>
     </div>
     <div class="form-group">
@@ -53,7 +53,7 @@
     </div>
     <div class="form-group">
         <label for="pa">Pembimbing Akademik</label>
-        <input type="text" name="pa" class="form-control">
+        <input type="text" name="pa" class="form-control" placeholder="Nama Dosen PA">
         <?= form_error('pa', '<div class="text-small text-danger">', '</div>'); ?>
     </div>
     <a class="btn btn-secondary" href="<?= base_url('bapendik/mahasiswa') ?>">Kembali</a>

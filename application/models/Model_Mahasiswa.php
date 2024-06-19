@@ -133,4 +133,10 @@ class Model_Mahasiswa extends CI_Model
         // Check if transaction status is true or false
         return $this->db->trans_status();
     }
+
+    public function getMhsById($user_id)
+    {
+        $this->db->where('user_id', $user_id);
+        return $result = $this->db->get('tb_mhs')->row_array();
+    }
 }

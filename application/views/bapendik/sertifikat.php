@@ -19,7 +19,10 @@
                                 <th scope="row"><?= $i++ ?></th>
                                 <td><?= $b['bidang']; ?></td>
                                 <td>
-                                    <a href="" class="badge badge-warning editBidangBtn" data-toggle="modal" data-target="#editBidangModal" data-id="<?= $b['id']; ?>" data-nama="<?= $b['bidang']; ?>">Edit</a>
+                                <td>
+                                    <a href="#" class="badge badge-warning editBidangLink" data-toggle="modal" data-target="#editBidangModal" data-id="<?= $b['id']; ?>" data-nama="<?= $b['bidang']; ?>">Edit</a>
+                                    <!-- <a href="#" class="badge badge-warning editBidangLink" data-id="<?= $b['id']; ?>" data-nama="<?= $b['bidang']; ?>">Edit</a> <a href="<?= base_url('bapendik/delete_bidang/' . $b['id']); ?>" class="badge badge-danger" onclick="return confirm('Yakin ingin menghapus bidang ini?');">Delete</a> -->
+                                    <!-- <a href="" class="badge badge-warning editBidangBtn" data-toggle="modal" data-target="#editBidangModal" data-id="<?= $b['id']; ?>" data-nama="<?= $b['bidang']; ?>">Edit</a> -->
                                     <a href="<?= base_url('bapendik/delete_bidang/' . $b['id']); ?>" class="badge badge-danger">Delete</a>
                                 </td>
                             </tr>
@@ -139,33 +142,32 @@
         </div>
     </div>
 
-    <!-- Modal for editing bidang -->
-    <div class="modal fade" id="editBidangModal" tabindex="-1" aria-labelledby="editBidangModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <!-- Modal Edit Bidang -->
+    <div class="modal fade" id="editBidangModal" tabindex="-1" role="dialog" aria-labelledby="editBidangModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editBidangModalLabel">Edit Bidang</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="<?= base_url('bapendik/update_bidang'); ?>" method="POST">
+                <form action="<?= base_url('bapendik/edit_bidang'); ?>" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editBidangModalLabel">Edit Bidang</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                     <div class="modal-body">
-                        <input type="hidden" id="edit_bidang_id" name="id" value="<?= $bidang['id']; ?>">
+                        <input type="hidden" id="editId" name="id">
                         <div class="form-group">
-                            <label for="bidang">Nama Bidang</label>
-                            <input type="text" class="form-control" id="bidang" name="bidang" value="<?= $bidang['bidang']; ?>" required>
+                            <label for="editBidang">Bidang</label>
+                            <input type="text" class="form-control" id="editBidang" name="bidang" required>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
 
 
     <!-- Modal untuk menambahkan kategori baru -->
@@ -316,19 +318,12 @@
     </div>
 </div>
 
-
-<!-- Include jQuery if not already included -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('.editBidangButton').on('click', function() {
-            var id = $(this).data('id');
-            var bidang = $(this).data('bidang');
-
-            $('#edit_bidang_id').val(id);
-            $('#bidang').val(bidang);
-
-            $('#editBidangModal').modal('show');
-        });
+    // JavaScript untuk mengisi modal edit dengan data yang sesuai
+    $(document).on('click', '.editBidangLink', function() {
+        var id = $(this).data('id');
+        var nama = $(this).data('bidang');
+        $('#editId').val(id); // Mengisi nilai id bidang di dalam input hidden
+        $('#editBidang').val(nama); // Mengisi nilai nama bidang di dalam input teks
     });
 </script>
