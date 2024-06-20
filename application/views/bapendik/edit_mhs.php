@@ -1,3 +1,5 @@
+
+
 <form action="<?= base_url('bapendik/update_mhs/' . $mahasiswa['user_id']) ?>" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="user_id" value="<?= isset($mahasiswa['user_id']) ? $mahasiswa['user_id'] : ''; ?>">
     <div class="form-group">
@@ -58,6 +60,11 @@
         <label for="pa">Pembimbing Akademik</label>
         <input type="text" name="pa" class="form-control" value="<?= set_value('pa', isset($mahasiswa['pa']) ? $mahasiswa['pa'] : ''); ?>">
         <?= form_error('pa', '<div class="text-small text-danger">', '</div>'); ?>
+    </div>
+    <div class="form-group">
+        <label for="point">Point</label>
+        <input type="text" name="point" class="form-control" value="<?= set_value('point', isset($mahasiswa['point']) ? $mahasiswa['point'] : ''); ?>">
+        <?= form_error('point', '<div class="text-small text-danger">', '</div>'); ?>
     </div>
     <a class="btn btn-secondary" href="<?= base_url('bapendik/mahasiswa') ?>">Kembali</a>
     <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-save"></i> Simpan</button>

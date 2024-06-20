@@ -611,9 +611,8 @@ class Bapendik extends CI_Controller
         );
 
         $this->db->insert('tb_mhs', $data_mhs);
-        $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-    Data Berhasil di Tambahkan!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span></button></div>');
+        $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert"> Data Berhasil di Tambahkan!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span></button></div>');
         redirect('bapendik/mahasiswa');
     }
     public function edit_mhs($user_id)
@@ -631,52 +630,74 @@ class Bapendik extends CI_Controller
 
     public function update_mhs($user_id)
     {
+        // Ambil data dari form
         $nim = $this->input->post('nim_mhs');
+        $nama = htmlspecialchars($this->input->post('nama', TRUE));
+        $email = htmlspecialchars($this->input->post('email', TRUE));
+        $gender = $this->input->post('gender');
+        $telp = $this->input->post('telp');
+        $is_active = $this->input->post('is_active');
+        $prodi_id = $this->input->post('prodi_id');
+        $pembiayaan = $this->input->post('pembiayaan');
+        $pa = $this->input->post('pa');
+        $point = $this->input->post('point');
+    
+        // Data untuk tabel tb_user
         $data_user = array(
-            'nama' => htmlspecialchars($this->input->post('nama', TRUE)),
-            'email' => htmlspecialchars($this->input->post('email', TRUE)),
-            'image' => $this->input->post('image'),
-            'gender' => $this->input->post('gender'),
-            'telp' => $this->input->post('telp'),
-            'is_active' => $this->input->post('is_active'),
+            'nama' => $nama,
+            'email' => $email,
+            'gender' => $gender,
+            'telp' => $telp,
+            'is_active' => $is_active
         );
-
-        // Upload gambar
-        $upload_image = $_FILES['image']['name'];
-        if ($upload_image) {
+    
+        // Upload gambar profil jika ada
+        if (!empty($_FILES['image']['name'])) {
             $config['upload_path'] = './assets/img/profile/';
             $config['allowed_types'] = 'gif|jpg|png';
             $config['max_size'] = '2048';
-
+            $config['file_name'] = 'profile_' . $user_id; // Nama file diubah sesuai user_id
+    
             $this->load->library('upload', $config);
-
+    
             if ($this->upload->do_upload('image')) {
                 $new_image = $this->upload->data('file_name');
                 $data_user['image'] = $new_image;
             } else {
-                echo $this->upload->display_errors();
+                // Jika upload gagal, tampilkan pesan error
+                $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">'
+                    . $this->upload->display_errors() .
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button></div>');
+                redirect('bapendik/edit_mhs/' . $user_id);
+                return;
             }
         }
-
-        $this->db->where('user_id', $user_id);
+    
+        // Update data di tabel tb_user
+        $this->db->where('id', $user_id);
         $this->db->update('tb_user', $data_user);
-
-        $prodi_id = $this->input->post('prodi_id');
+    
+        // Data untuk tabel tb_mhs
         $data_mhs = array(
             'nim_mhs' => $nim,
             'prodi_id' => $prodi_id,
-            'pembiayaan' => $this->input->post('pembiayaan'),
-            'pa' => $this->input->post('pa')
+            'pembiayaan' => $pembiayaan,
+            'pa' => $pa,
+            'point' => $point
         );
-
+    
+        // Update data di tabel tb_mhs
         $this->db->where('user_id', $user_id);
         $this->db->update('tb_mhs', $data_mhs);
-
+    
+        // Set flashdata untuk pesan sukses dan redirect ke halaman daftar mahasiswa
         $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-        Data Berhasil di Perbarui!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span></button></div>');
+            Data Berhasil di Perbarui!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button></div>');
         redirect('bapendik/mahasiswa');
     }
+    
 
 
     public function hapusMahasiswa($id)
