@@ -81,17 +81,16 @@ class Mahasiswa extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    
     public function updatebiodata()
     {
-        // UPDATE GAMBAR BELUM SELESAI
-
+        // Dapatkan data user
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-
-        // Get user ID from session data
+    
         $user_id = $data['user']['id'];
         $data['user'] = $this->Model_Mahasiswa->get_mahasiswa($user_id);
-
-        // Form validation rules
+    
+        // Validasi form
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email', [
             'valid_email' => 'Format email tidak benar'
         ]);
@@ -101,47 +100,47 @@ class Mahasiswa extends CI_Controller
         $this->form_validation->set_rules('tgl_lahir', 'Tanggal Lahir');
         $this->form_validation->set_rules('agama', 'Agama');
         $this->form_validation->set_rules('goldar', 'Golongan Darah');
-
+    
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Update Biodata';
             $data['agama_list'] = $this->db->get('tb_agama')->result_array();
             $data['goldar_list'] = $this->db->get('tb_goldar')->result_array();
-
+    
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('mahasiswa/updatebiodata', $data);
             $this->load->view('templates/footer');
         } else {
-            // Menangani unggahan file gambar baru jika ada
+            // Upload gambar
             if (!empty($_FILES['image']['name'])) {
-                // Konfigurasi upload
                 $config['upload_path'] = './assets/img/profile/';
                 $config['allowed_types'] = 'gif|jpg|jpeg|png';
-                $config['max_size'] = '2048'; // Maksimal 2MB
-                $config['file_name'] = 'profile_' . $user_id; // Penamaan file
-
+                $config['max_size'] = '2048';
+                $config['file_name'] = 'profile_' . $user_id;
+    
                 $this->load->library('upload', $config);
-
+    
                 if ($this->upload->do_upload('image')) {
-                    // Berhasil mengupload gambar baru
                     $uploadData = $this->upload->data();
                     $image = $uploadData['file_name'];
-
-                    // Menghapus gambar lama jika bukan gambar default
-                    $old_image = $this->input->post('old_image');
+    
+                    // Hapus gambar lama jika bukan default
+                    $old_image = $data['user']['image'];
                     if ($old_image != 'default.jpg') {
-                        unlink(FCPATH . 'assets/img/profile/' . $old_image);
+                        if (file_exists(FCPATH . 'assets/img/profile/' . $old_image)) {
+                            unlink(FCPATH . 'assets/img/profile/' . $old_image);
+                        }
                     }
                 } else {
-                    // Menangani error upload
                     $this->session->set_flashdata('error', $this->upload->display_errors());
                     redirect('mahasiswa/profil');
+                    return;
                 }
             } else {
-                // Jika tidak ada gambar baru diunggah, gunakan gambar lama
-                $image = $this->input->post('old_image');
+                $image = $data['user']['image'];
             }
-
+    
+            // Data yang akan diupdate
             $updateData = [
                 'agama_id' => $this->input->post('agama'),
                 'goldar_id' => $this->input->post('goldar'),
@@ -152,9 +151,10 @@ class Mahasiswa extends CI_Controller
                 'alamat' => htmlspecialchars($this->input->post('alamat', TRUE)),
                 'image' => $image
             ];
-
+    
+            // Update biodata
             $this->Model_Mahasiswa->update_biodata($user_id, $updateData);
-
+    
             $this->session->set_flashdata('message', 'Biodata updated successfully!');
             redirect('mahasiswa/profil');
         }
