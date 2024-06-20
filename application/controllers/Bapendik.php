@@ -333,6 +333,29 @@ class Bapendik extends CI_Controller
         }
     }
 
+    public function edit_sertif($id)
+    {
+        $bidang_id = $this->input->post('bidang_id');
+        $capaian_id = $this->input->post('capaian_id');
+        $kategori_id = $this->input->post('kategori_id');
+        $skor = $this->input->post('skor');
+    
+        if ($bidang_id && $capaian_id && $kategori_id && $skor) {
+            $data = [
+                'bidang_id' => $bidang_id,
+                'capaian_id' => $capaian_id,
+                'kategori_id' => $kategori_id,
+                'skor' => $skor
+            ];
+            $this->db->where('id', $id);
+            $this->db->update('tb_sertif', $data);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Sertifikat berhasil diupdate!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Semua field harus diisi!</div>');
+        }
+        redirect('bapendik/sertifikat');
+    }
+    
     public function delete_sertifikat($id)
     {
         // Check if the ID exists in the database
@@ -432,20 +455,14 @@ class Bapendik extends CI_Controller
 
     public function edit_capaian($id)
     {
-        $capaian_lama = $this->db->get_where('tb_sertif_capaian', ['id' => $id])->row_array();
-        $data['capaian_lama'] = $capaian_lama;
-
-        $this->form_validation->set_rules('nama_capaian', 'Nama Capaian', 'required');
-
-        if ($this->form_validation->run() === TRUE) {
-            $data_update = ['capaian' => $this->input->post('nama_capaian')];
+        $capaian = $this->input->post('nama_capaian');
+        if ($capaian) {
             $this->db->where('id', $id);
-            $this->db->update('tb_sertif_capaian', $data_update);
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Capaian berhasil diperbarui!</div>');
+            $this->db->update('tb_sertif_capaian', ['capaian' => $capaian]);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Capaian berhasil diupdate!</div>');
         } else {
             $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama capaian harus diisi!</div>');
         }
-        $this->load->view('bapendik/edit_capaian', $data);
         redirect('bapendik/sertifikat');
     }
 
@@ -479,20 +496,41 @@ class Bapendik extends CI_Controller
 
     public function edit_kategori($id)
     {
-        $kategori_lama = $this->db->get_where('tb_sertif_kategori', ['id' => $id])->row_array();
-        $data['kategori_lama'] = $kategori_lama;
-
-        $this->form_validation->set_rules('nama_kategori', 'Nama Kategori', 'required');
-
-        if ($this->form_validation->run() === TRUE) {
-            $data_update = ['kategori' => $this->input->post('nama_kategori')];
+        $kategori = $this->input->post('kategori');
+        if ($kategori) {
             $this->db->where('id', $id);
-            $this->db->update('tb_sertif_kategori', $data_update);
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori berhasil diperbarui!</div>');
+            $this->db->update('tb_sertif_kategori', ['kategori' => $kategori]);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori berhasil diupdate!</div>');
         } else {
             $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama kategori harus diisi!</div>');
         }
-        $this->load->view('bapendik/edit_kategori', $data);
+        redirect('bapendik/sertifikat');
+    }
+
+    public function update_kategori()
+    {
+        // Get the data from the form
+        $id = $this->input->post('id');
+        $kategori = $this->input->post('kategori');
+
+        // Prepare the data to be updated
+        $data = [
+            'kategori' => $kategori
+        ];
+
+        // Call the model function to update the data
+        $result = $this->Model_Sertifikat->updateKategori($id, $data);
+
+        // Check if the update was successful
+        if ($result) {
+            // Set a success message
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Kategori berhasil diupdate!</div>');
+        } else {
+            // Set an error message
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Kategori gagal diupdate!</div>');
+        }
+
+        // Redirect to the bidang page
         redirect('bapendik/sertifikat');
     }
 

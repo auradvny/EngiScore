@@ -136,13 +136,9 @@ class Model_Mahasiswa extends CI_Model
 
     public function getMhsById($user_id)
     {
-        // Select kolom yang diinginkan dari kedua tabel
         $this->db->select('tb_mhs.*, tb_user.nama, tb_user.email, tb_user.gender, tb_user.telp, tb_user.image');
-        // Join tb_user dengan tb_mhs berdasarkan user_id dan id
         $this->db->join('tb_user', 'tb_user.id = tb_mhs.user_id');
-        // Ambil data dari tb_mhs berdasarkan user_id
         $this->db->where('tb_mhs.user_id', $user_id);
-        // Ambil hanya satu baris hasil join
         return $this->db->get('tb_mhs')->row_array();
     }
 

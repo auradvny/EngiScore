@@ -23,4 +23,22 @@ class Model_Sertifikat extends CI_Model
         $this->db->where('id', $id);
         return $this->db->update('tb_sertif_bidang', $data);
     }
+
+    public function updateKategori($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('tb_sertif_kategori', $data);
+    }
+
+    public function updateCapaian($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('tb_sertif_capaian', $data);
+    }
+
+    public function updateSertifikat($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('tb_sertif', $data);
+    }
 }
