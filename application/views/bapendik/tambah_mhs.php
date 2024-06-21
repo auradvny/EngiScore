@@ -25,7 +25,7 @@
     <div class="form-group">
         <label for="prodi_id">Prodi Mahasiswa</label>
         <select name="prodi_id" id="prodi_id" class="form-control">
-            <option value="" readonly>Pilih Prodi</option>
+            <option value="" disabled <?= empty($user['prodi_id']) ? 'selected' : ''; ?>>Pilih Prodi</option>
             <?php foreach ($prodi as $p) : ?>
                 <option value="<?= $p['id']; ?>" <?= set_value('prodi_id') == $p['id'] ? 'selected' : ''; ?>><?= $p['prodi']; ?></option>
             <?php endforeach; ?>
@@ -45,7 +45,7 @@
     <div class="form-group">
         <label for="pembiayaan">Pembiayaan</label>
         <select name="pembiayaan" id="pembiayaan" class="form-control">
-            <option value="">Pilih Pembiayaan</option>
+            <option value="" disabled <?= empty($user['pembiayaan']) ? 'selected' : ''; ?>>Pilih Pembiayaan</option>
             <option value="biaya_sendiri" <?= set_value('pembiayaan') == 'biaya_sendiri' ? 'selected' : ''; ?>>Biaya Sendiri</option>
             <option value="pemerintah" <?= set_value('pembiayaan') == 'pemerintah' ? 'selected' : ''; ?>>Pemerintah</option>
         </select>
@@ -53,7 +53,7 @@
     </div>
     <div class="form-group">
         <label for="pa">Pembimbing Akademik</label>
-        <input type="text" name="pa" class="form-control" placeholder="Nama Dosen PA">
+        <input type="text" name="pa" class="form-control" placeholder="Nama Dosen PA" value="<?= set_value('pa'); ?>">
         <?= form_error('pa', '<div class="text-small text-danger">', '</div>'); ?>
     </div>
     <a class="btn btn-secondary" href="<?= base_url('bapendik/mahasiswa') ?>">Kembali</a>

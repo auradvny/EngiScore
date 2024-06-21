@@ -37,7 +37,7 @@ class Model_Verifikasi extends CI_Model
         $this->db->join('tb_sertif_bidang', 'tb_permo.bidang_id = tb_sertif_bidang.id', 'left');
         $this->db->join('tb_sertif_kategori', 'tb_permo.kategori_id = tb_sertif_kategori.id', 'left');
         $this->db->join('tb_sertif_capaian', 'tb_permo.capaian_id = tb_sertif_capaian.id', 'left');
-        $this->db->where('tb_permo.persetujuan', 0);
+        $this->db->where('tb_permo.persetujuan', 1);
         $this->db->order_by('tb_permo.id', 'DESC');
         return $this->db->get()->result_array();
     }
@@ -49,7 +49,7 @@ class Model_Verifikasi extends CI_Model
         $this->db->join('tb_sertif_bidang', 'tb_permo.bidang_id = tb_sertif_bidang.id', 'left');
         $this->db->join('tb_sertif_kategori', 'tb_permo.kategori_id = tb_sertif_kategori.id', 'left');
         $this->db->join('tb_sertif_capaian', 'tb_permo.capaian_id = tb_sertif_capaian.id', 'left');
-        $this->db->where('tb_permo.persetujuan', 0);
+        $this->db->where('tb_permo.persetujuan', 2);
         $this->db->order_by('tb_permo.id', 'DESC');
         return $this->db->get()->result_array();
     }

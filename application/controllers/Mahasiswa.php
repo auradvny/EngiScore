@@ -36,7 +36,6 @@ class Mahasiswa extends CI_Controller
         $data['jumlah_permosetuju'] = $this->Model_Mahasiswa->get_jumlah_permohonansetuju($nim_mhs);
         $data['jumlah_permotolak'] = $this->Model_Mahasiswa->get_jumlah_permohonantolak($nim_mhs);
 
-
         // Ambil data mahasiswa berdasarkan email pengguna yang sedang login
         $mhs_data = $this->Model_Mahasiswa->getDataMhs($data['user']['email']);
         $data['mhs_data'] = $mhs_data;
@@ -186,7 +185,7 @@ class Mahasiswa extends CI_Controller
             redirect('mahasiswa/profil');
         }
     }
-    
+
     public function pengajuan()
     {
         $data['title'] = 'Pengajuan';
@@ -205,6 +204,12 @@ class Mahasiswa extends CI_Controller
         $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
         $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
         $data['capaian'] = $this->db->get('tb_sertif_capaian')->result_array();
+
+        // Ambil nim mahasiswa
+        $this->load->model('Model_NIM');
+        $nim_mhs = $this->Model_NIM->getNim($data['user']['email']);
+
+        $data['permohonan'] = $this->Model_Mahasiswa->getPermohonan($nim_mhs);
 
         $this->form_validation->set_rules('bidang_id', 'Bidang', 'required', array('required' => 'Bidang harus diisi.'));
         $this->form_validation->set_rules('capaian_id', 'Capaian', 'required', array('required' => 'Capaian harus diisi.'));

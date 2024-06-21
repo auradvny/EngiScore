@@ -24,6 +24,11 @@
                                     <input type="text" id="nama" class="form-control" name="nama" value="<?= $user['nama']; ?>" maxlength="25" aria-required="true" readonly="true" style="text-transform: uppercase">
                                     <div class="help-block"></div>
                                 </div>
+                                <div class="form-group required">
+                                    <label class="control-label" for="email">Email Pegawai</label>
+                                    <input type="text" id="email" class="form-control" name="email" value="<?= $user['email']; ?>" maxlength="50" aria-required="true" readonly="true" style="text-transform: uppercase">
+                                    <div class="help-block"></div>
+                                </div>
                                 <!-- Form for image upload -->
                                 <div class="form-group">
                                     <label class="control-label" for="image">Profile Pegawai</label>
@@ -50,11 +55,6 @@
                                     </select>
                                     <div class="help-block"></div>
                                 </div>
-                                <!-- <div class="form-group required">
-                                    <label class="control-label" for="tempat_lahir">Tempat Lahir Mahasiswa</label>
-                                    <input type=" text" id="tempat_lahir" class=" form-control" name="calonbapendik[tempatlahir]" value="<?= $user['tempat_lahir']; ?>" maxlength="200" aria-required="true">
-                                    <div class="help-block"></div>
-                                </div> -->
                                 <div class="form-group required">
                                     <label class="control-label" for="tgl_lahir">Tanggal Lahir Pegawai (Tahun-Bulan-Tanggal)</label>
                                     <input type="date" id="tgl_lahir" class="form-control" name="tgl_lahir" value="<?= $user['tgl_lahir']; ?>" placeholder="Pilih Tanggal Lahir Mahasiswa" style="cursor: pointer;">
@@ -74,14 +74,9 @@
                                     <input type="text" id="telp" class="form-control" name="telp" value="<?= $user['telp']; ?>" maxlength="25" aria-required="true">
                                     <div class="help-block"></div>
                                 </div>
-                                <div class="form-group required">
-                                    <label class="control-label" for="email">Email Pegawai</label>
-                                    <input type="text" id="email" class="form-control" name="email" value="<?= $user['email']; ?>" maxlength="50" aria-required="true">
-                                    <div class="help-block"></div>
-                                </div>
                                 <div class="form-group">
                                     <label class="control-label" for="alamat">Alamat Pegawai</label>
-                                    <textarea id="alamat" class="form-control" name="alamat" rows="2"><?= $user['alamat']; ?></textarea>
+                                    <textarea id="alamat" class="form-control" name="alamat" rows="2" style="text-transform: uppercase"><?= $user['alamat']; ?></textarea>
 
                                     <div class="help-block"></div>
                                 </div>

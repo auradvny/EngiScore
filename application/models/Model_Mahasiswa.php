@@ -14,7 +14,8 @@ class Model_Mahasiswa extends CI_Model
         $query = "SELECT tb_mhs.*, tb_user.nama, tb_user.email, tb_user.gender, tb_user.telp, tb_user.is_active, tb_prodi.prodi         FROM tb_mhs 
         JOIN tb_user ON tb_mhs.user_id = tb_user.id 
         JOIN tb_prodi ON tb_mhs.prodi_id = tb_prodi.id
-        WHERE tb_user.role_id = 1";
+        WHERE tb_user.role_id = 1
+        ORDER BY tb_user.id DESC";
         return $this->db->query($query)->result_array();
     }
 
@@ -72,13 +73,37 @@ class Model_Mahasiswa extends CI_Model
         return $this->db->count_all_results();
     }
 
-
     public function get_jumlah_permohonantolak($nim_mhs)
     {
         $this->db->where('nim_mhs', $nim_mhs);
         $this->db->where('persetujuan', 2); // Menambahkan kondisi untuk persetujuan = 2
         $this->db->from('tb_permo');
         return $this->db->count_all_results();
+    }
+
+    public function getPermohonan($nim_mhs)
+    {
+        // Select fields from tb_permo and joined tables
+        $this->db->select('tb_permo.kategori_id, tb_sertif_kategori.kategori, tb_permo.bidang_id, tb_sertif_bidang.bidang, tb_permo.capaian_id, tb_sertif_capaian.capaian, tb_permo.file, tb_permo.persetujuan');
+        $this->db->from('tb_permo');
+
+        // Join with tb_sertif_kategori
+        $this->db->join('tb_sertif_kategori', 'tb_permo.kategori_id = tb_sertif_kategori.id', 'left');
+
+        // Join with tb_sertif_bidang
+        $this->db->join('tb_sertif_bidang', 'tb_permo.bidang_id = tb_sertif_bidang.id', 'left');
+
+        // Join with tb_sertif_capaian
+        $this->db->join('tb_sertif_capaian', 'tb_permo.capaian_id = tb_sertif_capaian.id', 'left');
+
+        // Where conditions
+        $this->db->where('tb_permo.nim_mhs', $nim_mhs);
+
+        // Get the results
+        $query = $this->db->get();
+
+        // Return the results as an array
+        return $query->result_array();
     }
 
 
@@ -105,6 +130,7 @@ class Model_Mahasiswa extends CI_Model
         $this->db->join('tb_agama', 'tb_user.agama_id = tb_agama.id');
         $this->db->join('tb_goldar', 'tb_user.goldar_id = tb_goldar.id');
         $this->db->where('tb_user.id', $id);
+
         return $this->db->get()->row_array();
     }
 
@@ -148,4 +174,4 @@ class Model_Mahasiswa extends CI_Model
         $this->db->update('tb_mhs', $data);
         return $this->db->affected_rows();
     }
-}    
+}

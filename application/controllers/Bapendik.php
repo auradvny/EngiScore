@@ -55,10 +55,10 @@ class Bapendik extends CI_Controller
     {
         // Dapatkan data user
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-    
+
         $user_id = $data['user']['id'];
         $data['user'] = $this->Model_User->get_bapendik($user_id);
-    
+
         // Validasi form
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email', [
             'valid_email' => 'Format email tidak benar'
@@ -69,12 +69,12 @@ class Bapendik extends CI_Controller
         $this->form_validation->set_rules('tgl_lahir', 'Tanggal Lahir');
         $this->form_validation->set_rules('agama', 'Agama');
         $this->form_validation->set_rules('goldar', 'Golongan Darah');
-    
+
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Update Biodata';
             $data['agama_list'] = $this->db->get('tb_agama')->result_array();
             $data['goldar_list'] = $this->db->get('tb_goldar')->result_array();
-    
+
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('bapendik/updatebiodata', $data);
@@ -86,13 +86,13 @@ class Bapendik extends CI_Controller
                 $config['allowed_types'] = 'gif|jpg|jpeg|png';
                 $config['max_size'] = '2048';
                 $config['file_name'] = 'profile_' . $user_id;
-    
+
                 $this->load->library('upload', $config);
-    
+
                 if ($this->upload->do_upload('image')) {
                     $uploadData = $this->upload->data();
                     $image = $uploadData['file_name'];
-    
+
                     // Hapus gambar lama jika bukan default
                     $old_image = $data['user']['image'];
                     if ($old_image != 'default.jpg') {
@@ -108,7 +108,7 @@ class Bapendik extends CI_Controller
             } else {
                 $image = $data['user']['image'];
             }
-    
+
             // Data yang akan diupdate
             $updateData = [
                 'agama_id' => $this->input->post('agama'),
@@ -120,10 +120,10 @@ class Bapendik extends CI_Controller
                 'alamat' => htmlspecialchars($this->input->post('alamat', TRUE)),
                 'image' => $image
             ];
-    
+
             // Update biodata
             $this->Model_User->update_biodata($user_id, $updateData);
-    
+
             $this->session->set_flashdata('message', 'Biodata updated successfully!');
             redirect('bapendik/profil');
         }
@@ -271,7 +271,6 @@ class Bapendik extends CI_Controller
 
         $data['verifikasi'] = $this->Model_Verifikasi->getVerifSetuju();
 
-
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('bapendik/verif_setuju', $data);
@@ -339,7 +338,7 @@ class Bapendik extends CI_Controller
         $capaian_id = $this->input->post('capaian_id');
         $kategori_id = $this->input->post('kategori_id');
         $skor = $this->input->post('skor');
-    
+
         if ($bidang_id && $capaian_id && $kategori_id && $skor) {
             $data = [
                 'bidang_id' => $bidang_id,
@@ -355,7 +354,7 @@ class Bapendik extends CI_Controller
         }
         redirect('bapendik/sertifikat');
     }
-    
+
     public function delete_sertifikat($id)
     {
         // Check if the ID exists in the database
@@ -575,21 +574,38 @@ class Bapendik extends CI_Controller
     {
         $data['title'] = 'Tambah Mahasiswa';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-    
+
+
+
         // Validasi Form
-        $this->form_validation->set_rules('nim_mhs', 'NIM', 'required|trim');
-        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[tb_user.email]', [
-            'is_unique' => 'Email ini sudah terdaftar'
+        $this->form_validation->set_rules('nim_mhs', 'NIM', 'required|trim', [
+            'required' => 'NIM harus diisi!'
         ]);
-        $this->form_validation->set_rules('gender', 'Jenis Kelamin', 'required|trim');
-        $this->form_validation->set_rules('prodi_id', 'Prodi', 'required|trim');
-        $this->form_validation->set_rules('telp', 'No Telp', 'required|trim');
-        $this->form_validation->set_rules('pembiayaan', 'Pembiayaan', 'required|trim');
-        $this->form_validation->set_rules('pa', 'Pembimbing Akademik', 'required|trim');
-    
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim', [
+            'required' => 'Nama harus diisi!'
+        ]);
+        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[tb_user.email]', [
+            'required' => 'Email harus diisi!',
+            'valid_email' => 'Email tidak valid!',
+            'is_unique' => 'Email ini sudah terdaftar!'
+        ]);
+        $this->form_validation->set_rules('gender', 'Jenis Kelamin', 'required|trim', [
+            'required' => 'Jenis Kelamin harus diisi!'
+        ]);
+        $this->form_validation->set_rules('prodi_id', 'Prodi', 'required|trim', [
+            'required' => 'Prodi harus diisi!'
+        ]);
+        $this->form_validation->set_rules('telp', 'No Telp', 'required|trim', [
+            'required' => 'No Telp harus diisi!'
+        ]);
+        $this->form_validation->set_rules('pembiayaan', 'Pembiayaan', 'required|trim', [
+            'required' => 'Pembiayaan harus diisi!'
+        ]);
+        $this->form_validation->set_rules('pa', 'Pembimbing Akademik', 'required|trim', [
+            'required' => 'Pembimbing Akademik harus diisi!'
+        ]);
         $data['prodi'] = $this->db->get('tb_prodi')->result_array();
-    
+
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
@@ -601,52 +617,52 @@ class Bapendik extends CI_Controller
     }
 
     public function tambah_aksi()
-{
-    $nim = $this->input->post('nim_mhs');
-    $data_user = array(
-        'nama' => htmlspecialchars($this->input->post('nama', TRUE)),
-        'email' => htmlspecialchars($this->input->post('email', TRUE)),
-        'image' => 'default.jpg', // Default image if no upload
-        'pass' => password_hash($nim, PASSWORD_DEFAULT),
-        'gender' => $this->input->post('gender'),
-        'telp' => $this->input->post('telp'),
-        'role_id' => 1,
-        'is_active' => 1,
-        'tgl_dibuat' => time(),
-    );
+    {
+        $nim = $this->input->post('nim_mhs');
+        $data_user = array(
+            'nama' => htmlspecialchars($this->input->post('nama', TRUE)),
+            'email' => htmlspecialchars($this->input->post('email', TRUE)),
+            'image' => 'default.jpg', // Default image if no upload
+            'pass' => password_hash($nim, PASSWORD_DEFAULT),
+            'gender' => $this->input->post('gender'),
+            'telp' => $this->input->post('telp'),
+            'role_id' => 1,
+            'is_active' => 1,
+            'tgl_dibuat' => time(),
+        );
 
-    // Upload gambar
-    if (!empty($_FILES['image']['name'])) {
-        $config['upload_path'] = './assets/img/profile/';
-        $config['allowed_types'] = 'gif|jpg|png';
-        $config['max_size'] = '2048';
+        // Upload gambar
+        if (!empty($_FILES['image']['name'])) {
+            $config['upload_path'] = './assets/img/profile/';
+            $config['allowed_types'] = 'gif|jpg|png';
+            $config['max_size'] = '2048';
 
-        $this->load->library('upload', $config);
+            $this->load->library('upload', $config);
 
-        if ($this->upload->do_upload('image')) {
-            $new_image = $this->upload->data('file_name');
-            $data_user['image'] = $new_image;
-        } else {
-            echo $this->upload->display_errors();
+            if ($this->upload->do_upload('image')) {
+                $new_image = $this->upload->data('file_name');
+                $data_user['image'] = $new_image;
+            } else {
+                echo $this->upload->display_errors();
+            }
         }
+
+        $this->db->insert('tb_user', $data_user);
+        $user_id = $this->db->insert_id();
+
+        $prodi_id = $this->input->post('prodi_id');
+        $data_mhs = array(
+            'nim_mhs' => $nim,
+            'prodi_id' => $prodi_id,
+            'user_id' => $user_id,
+            'pembiayaan' => $this->input->post('pembiayaan'),
+            'pa' => $this->input->post('pa')
+        );
+
+        $this->db->insert('tb_mhs', $data_mhs);
+        $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">Data Berhasil Ditambahkan!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+        redirect('bapendik/mahasiswa');
     }
-
-    $this->db->insert('tb_user', $data_user);
-    $user_id = $this->db->insert_id();
-
-    $prodi_id = $this->input->post('prodi_id');
-    $data_mhs = array(
-        'nim_mhs' => $nim,
-        'prodi_id' => $prodi_id,
-        'user_id' => $user_id,
-        'pembiayaan' => $this->input->post('pembiayaan'),
-        'pa' => $this->input->post('pa')
-    );
-
-    $this->db->insert('tb_mhs', $data_mhs);
-    $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">Data Berhasil Ditambahkan!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-    redirect('bapendik/mahasiswa');
-}
 
     public function edit_mhs($user_id)
     {
@@ -674,7 +690,7 @@ class Bapendik extends CI_Controller
         $pembiayaan = $this->input->post('pembiayaan');
         $pa = $this->input->post('pa');
         $point = $this->input->post('point');
-    
+
         // Data untuk tabel tb_user
         $data_user = array(
             'nama' => $nama,
@@ -683,16 +699,16 @@ class Bapendik extends CI_Controller
             'telp' => $telp,
             'is_active' => $is_active
         );
-    
+
         // Upload gambar profil jika ada
         if (!empty($_FILES['image']['name'])) {
             $config['upload_path'] = './assets/img/profile/';
             $config['allowed_types'] = 'gif|jpg|png';
             $config['max_size'] = '2048';
             $config['file_name'] = 'profile_' . $user_id; // Nama file diubah sesuai user_id
-    
+
             $this->load->library('upload', $config);
-    
+
             if ($this->upload->do_upload('image')) {
                 $new_image = $this->upload->data('file_name');
                 $data_user['image'] = $new_image;
@@ -706,11 +722,11 @@ class Bapendik extends CI_Controller
                 return;
             }
         }
-    
+
         // Update data di tabel tb_user
         $this->db->where('id', $user_id);
         $this->db->update('tb_user', $data_user);
-    
+
         // Data untuk tabel tb_mhs
         $data_mhs = array(
             'nim_mhs' => $nim,
@@ -719,18 +735,18 @@ class Bapendik extends CI_Controller
             'pa' => $pa,
             'point' => $point
         );
-    
+
         // Update data di tabel tb_mhs
         $this->db->where('user_id', $user_id);
         $this->db->update('tb_mhs', $data_mhs);
-    
+
         // Set flashdata untuk pesan sukses dan redirect ke halaman daftar mahasiswa
         $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
             Data Berhasil di Perbarui!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span></button></div>');
         redirect('bapendik/mahasiswa');
     }
-    
+
 
 
     public function hapusMahasiswa($id)
@@ -797,28 +813,29 @@ class Bapendik extends CI_Controller
 
     public function _rules()
     {
-        $this->form_validation->set_rules('nim_mhs', 'NIM Mahasiswa', 'required', array(
+        $this->form_validation->set_rules('nim_mhs', 'NIM Mahasiswa', 'required|trim', array(
             'required' => '%s harus diisi!'
         ));
-        $this->form_validation->set_rules('nama', 'Nama Mahasiswa', 'required', array(
+        $this->form_validation->set_rules('nama', 'Nama Lengkap', 'required|trim', array(
             'required' => '%s harus diisi!'
         ));
-        $this->form_validation->set_rules('email', 'Email Mahasiswa', 'required', array(
+        $this->form_validation->set_rules('email', 'Alamat Email', 'required|trim|valid_email', array(
+            'required' => '%s harus diisi!',
+            'valid_email' => '%s tidak valid!'
+        ));
+        $this->form_validation->set_rules('gender', 'Jenis Kelamin', 'required|trim', array(
             'required' => '%s harus diisi!'
         ));
-        // $this->form_validation->set_rules('pass_mhs', 'Password Mahasiswa', 'required', array(
-        //     'required' => '%s harus diisi!'
-        // ));
-        $this->form_validation->set_rules('gender', 'Jenis Kelamin', 'required', array(
+        $this->form_validation->set_rules('prodi', 'Prodi Mahasiswa', 'required|trim', array(
             'required' => '%s harus diisi!'
         ));
-        $this->form_validation->set_rules('prodi', 'Prodi Mahasiswa', 'required', array(
+        $this->form_validation->set_rules('telp', 'No Telp', 'required|trim', array(
             'required' => '%s harus diisi!'
         ));
-        $this->form_validation->set_rules('telp', 'No Telp Mahasiswa', 'required', array(
+        $this->form_validation->set_rules('pembiayaan', 'Jenis Pembiayaan', 'required|trim', array(
             'required' => '%s harus diisi!'
         ));
-        $this->form_validation->set_rules('alamat', 'Alamat Mahasiswa', 'required', array(
+        $this->form_validation->set_rules('pa', 'Pembimbing Akademik', 'required|trim', array(
             'required' => '%s harus diisi!'
         ));
     }

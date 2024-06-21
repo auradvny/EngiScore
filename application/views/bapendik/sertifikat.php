@@ -1,6 +1,6 @@
         <?= $this->session->flashdata('pesan'); ?>
         <div class="row">
-        <div class="col-lg-6">
+            <div class="col-lg-6">
                 <!-- Tabel untuk Bidang -->
                 <div class="mb-4">
                     <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newBidangModal">Tambah Bidang</a>
@@ -57,63 +57,63 @@
             </div>
             <!-- Modal Edit Bidang -->
             <?php foreach ($bidang as $b) : ?>
-            <div class="modal fade" id="editBidangModal<?= $b['id'] ?>" tabindex="-1" aria-labelledby="editBidangModalLabel<?= $b['id'] ?>" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <form action="<?= base_url('bapendik/edit_bidang/' . $b['id']); ?>" method="post">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editBidangModalLabel<?= $b['id'] ?>">Edit Bidang</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <input type="hidden" id="editId<?= $b['id'] ?>" name="id" value="<?= $b['id'] ?>">
-                                <div class="form-group">
-                                    <label for="editBidang<?= $b['id'] ?>">Bidang</label>
-                                    <input type="text" class="form-control" id="editBidang<?= $b['id'] ?>" name="bidang" value="<?= $b['bidang'] ?>" required>
+                <div class="modal fade" id="editBidangModal<?= $b['id'] ?>" tabindex="-1" aria-labelledby="editBidangModalLabel<?= $b['id'] ?>" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form action="<?= base_url('bapendik/edit_bidang/' . $b['id']); ?>" method="post">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editBidangModalLabel<?= $b['id'] ?>">Edit Bidang</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                            </div>
-                        </form>
+                                <div class="modal-body">
+                                    <input type="hidden" id="editId<?= $b['id'] ?>" name="id" value="<?= $b['id'] ?>">
+                                    <div class="form-group">
+                                        <label for="editBidang<?= $b['id'] ?>">Bidang</label>
+                                        <input type="text" class="form-control" id="editBidang<?= $b['id'] ?>" name="bidang" value="<?= $b['bidang'] ?>" required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
             <?php endforeach; ?>
-                         <!--Kategori-->
-                         <hr class="my-4">
+            <!--Kategori-->
+            <hr class="my-4">
             <div class="col-lg-6">
-            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newKategoriModal">Tambah Kategori</a>
-            <div class="card">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Kategori</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $i = 1;
-                        foreach ($kategori as $kat) : ?>
+                <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newKategoriModal">Tambah Kategori</a>
+                <div class="card">
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <th scope="row"><?= $i++ ?></th>
-                                <td><?= $kat['kategori']; ?></td>
-                                <td>
-                                    <a href="#" class="badge badge-warning editKategoriLink" data-toggle="modal" data-target="#editKategoriModal<?= $kat['id']; ?>" data-id="<?= $kat['id']; ?>" data-nama="<?= $kat['kategori']; ?>">Edit</a>
-                                    <a href="<?= base_url('bapendik/delete_kategori/' . $kat['id']); ?>" class="badge badge-danger">Delete</a>
-                                </td>
+                                <th scope="col">No</th>
+                                <th scope="col">Kategori</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            <?php $i = 1;
+                            foreach ($kategori as $kat) : ?>
+                                <tr>
+                                    <th scope="row"><?= $i++ ?></th>
+                                    <td><?= $kat['kategori']; ?></td>
+                                    <td>
+                                        <a href="#" class="badge badge-warning editKategoriLink" data-toggle="modal" data-target="#editKategoriModal<?= $kat['id']; ?>" data-id="<?= $kat['id']; ?>" data-nama="<?= $kat['kategori']; ?>">Edit</a>
+                                        <a href="<?= base_url('bapendik/delete_kategori/' . $kat['id']); ?>" class="badge badge-danger">Delete</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
         </div>
-         <!-- Modal untuk menambahkan kategori baru -->
+        <!-- Modal untuk menambahkan kategori baru -->
         <div class="modal fade" id="newKategoriModal" tabindex="-1" aria-labelledby="newKategoriModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -167,7 +167,7 @@
             </div>
         <?php endforeach; ?>
 
-            </div>
+        </div>
 
 
 
@@ -286,7 +286,7 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
-        </div>    
+        </div>
         <!-- Modal untuk menambahkan sertifikat baru -->
         <div class="modal fade" id="newSertifikatModal" tabindex="-1" aria-labelledby="newSertifikatModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -303,7 +303,7 @@
                                 <label for="bidang_id">Bidang</label>
                                 <div class="form-group">
                                     <select name="bidang_id" id="bidang_id" class="form-control">
-                                        <option value="">Pilih Bidang</option>
+                                        <option value="" disabled <?= empty($user['bidang_id']) ? 'selected' : ''; ?>>Pilih Bidang</option>
                                         <?php foreach ($bidang as $b) : ?>
                                             <option value="<?= $b['id']; ?>"><?= $b['bidang']; ?></option>
                                         <?php endforeach; ?>
@@ -314,7 +314,7 @@
                             <div class="form-group">
                                 <label for="capaian">Capaian</label>
                                 <select name="capaian_id" id="capaian_id" class="form-control">
-                                    <option value="">Pilih Capaian</option>
+                                    <option value="" disabled <?= empty($user['capaian_id']) ? 'selected' : ''; ?>>Pilih Capaian</option>
                                     <?php foreach ($capaian as $c) : ?>
                                         <option value="<?= $c['id']; ?>"><?= $c['capaian']; ?></option>
                                     <?php endforeach; ?>
@@ -325,7 +325,7 @@
                                 <label for="kategori_id">Kategori</label>
                                 <div class="form-group">
                                     <select name="kategori_id" id="kategori_id" class="form-control">
-                                        <option value="">Pilih Kategori</option>
+                                        <option value="" disabled <?= empty($user['kategori_id']) ? 'selected' : ''; ?>>Pilih Kategori</option>
                                         <?php foreach ($kategori as $k) : ?>
                                             <option value="<?= $k['id']; ?>"><?= $k['kategori']; ?></option>
                                         <?php endforeach; ?>
@@ -355,90 +355,90 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Modal untuk edit Sertifikat -->
-    <?php foreach ($sertifikat as $sertif) : ?>
-        <div class="modal fade" id="editSertifikatModal<?= $sertif['id'] ?>" tabindex="-1" aria-labelledby="editSertifikatModalLabel<?= $sertif['id'] ?>" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editSertifikatModalLabel">Edit Sertifikat</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+        </div>
+        <!-- Modal untuk edit Sertifikat -->
+        <?php foreach ($sertifikat as $sertif) : ?>
+            <div class="modal fade" id="editSertifikatModal<?= $sertif['id'] ?>" tabindex="-1" aria-labelledby="editSertifikatModalLabel<?= $sertif['id'] ?>" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editSertifikatModalLabel">Edit Sertifikat</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="<?= base_url('bapendik/edit_sertif/' . $sertif['id']); ?>" method="POST">
+                            <div class="modal-body">
+                                <input type="hidden" id="editId<?= $sertif['id'] ?>" name="id" value="<?= $sertif['id'] ?>">
+                                <div class="form-group">
+                                    <label for="edit_bidang_id<?= $sertif['id'] ?>">Bidang</label>
+                                    <select class="form-control" id="edit_bidang_id<?= $sertif['id'] ?>" name="bidang_id">
+                                        <?php foreach ($bidang as $b) : ?>
+                                            <option value="<?= $b['id']; ?>" <?= ($b['id'] == $sertif['bidang_id']) ? 'selected' : ''; ?>><?= $b['bidang']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit_capaian_id<?= $sertif['id'] ?>">Capaian</label>
+                                    <select class="form-control" id="edit_capaian_id<?= $sertif['id'] ?>" name="capaian_id">
+                                        <?php foreach ($capaian as $c) : ?>
+                                            <option value="<?= $c['id']; ?>" <?= ($c['id'] == $sertif['capaian_id']) ? 'selected' : ''; ?>><?= $c['capaian']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit_kategori_id<?= $sertif['id'] ?>">Kategori</label>
+                                    <select class="form-control" id="edit_kategori_id<?= $sertif['id'] ?>" name="kategori_id">
+                                        <?php foreach ($kategori as $k) : ?>
+                                            <option value="<?= $k['id']; ?>" <?= ($k['id'] == $sertif['kategori_id']) ? 'selected' : ''; ?>><?= $k['kategori']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit_skor<?= $sertif['id'] ?>">Skor</label>
+                                    <input type="number" class="form-control" id="edit_skor<?= $sertif['id'] ?>" name="skor" value="<?= $sertif['skor'] ?>" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                            </div>
+                        </form>
                     </div>
-                    <form action="<?= base_url('bapendik/edit_sertif/' . $sertif['id']); ?>" method="POST">
-                        <div class="modal-body">
-                            <input type="hidden" id="editId<?= $sertif['id'] ?>" name="id" value="<?= $sertif['id'] ?>">
-                            <div class="form-group">
-                                <label for="edit_bidang_id<?= $sertif['id'] ?>">Bidang</label>
-                                <select class="form-control" id="edit_bidang_id<?= $sertif['id'] ?>" name="bidang_id">
-                                    <?php foreach ($bidang as $b) : ?>
-                                        <option value="<?= $b['id']; ?>" <?= ($b['id'] == $sertif['bidang_id']) ? 'selected' : ''; ?>><?= $b['bidang']; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit_capaian_id<?= $sertif['id'] ?>">Capaian</label>
-                                <select class="form-control" id="edit_capaian_id<?= $sertif['id'] ?>" name="capaian_id">
-                                    <?php foreach ($capaian as $c) : ?>
-                                        <option value="<?= $c['id']; ?>" <?= ($c['id'] == $sertif['capaian_id']) ? 'selected' : ''; ?>><?= $c['capaian']; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit_kategori_id<?= $sertif['id'] ?>">Kategori</label>
-                                <select class="form-control" id="edit_kategori_id<?= $sertif['id'] ?>" name="kategori_id">
-                                    <?php foreach ($kategori as $k) : ?>
-                                        <option value="<?= $k['id']; ?>" <?= ($k['id'] == $sertif['kategori_id']) ? 'selected' : ''; ?>><?= $k['kategori']; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit_skor<?= $sertif['id'] ?>">Skor</label>
-                                <input type="number" class="form-control" id="edit_skor<?= $sertif['id'] ?>" name="skor" value="<?= $sertif['skor'] ?>" required>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                        </div>
-                    </form>
                 </div>
             </div>
-        </div>
         <?php endforeach; ?>
 
 
 
-<script>
-    // JavaScript untuk mengisi modal edit dengan data yang sesuai
-    $(document).on('click', '.editBidangLink', function() {
-        var id = $(this).data('id');
-        var nama = $(this).data('nama');
-        
-        // Set the value of bidang input field in the corresponding modal
-        $('#editBidangModal' + id + ' #editBidang' + id).val(nama);
-    });
-    $(document).on('click', '.editKategoriLink', function() {
-        var id = $(this).data('id');
-        var nama = $(this).data('nama');
-        
-        // Set the value of bidang input field in the corresponding modal
-        $('#editKategoriModal' + id + ' #editKategori' + id).val(nama);
-    });
-    $(document).on('click', '.editCapaianLink', function() {
-        var id = $(this).data('id');
-        var nama = $(this).data('nama');
-        
-        // Set the value of bidang input field in the corresponding modal
-        $('#editCapaianModal' + id + ' #editCapaian' + id).val(nama);
-    });
-    $(document).on('click', '.editSertifikatLink', function() {
-        var id = $(this).data('id');
-        var nama = $(this).data('nama');
-        
-        // Set the value of bidang input field in the corresponding modal
-        $('#editSertifikatModal' + id + ' #editSertifikat' + id).val(nama);
-    });
-</script>
+        <script>
+            // JavaScript untuk mengisi modal edit dengan data yang sesuai
+            $(document).on('click', '.editBidangLink', function() {
+                var id = $(this).data('id');
+                var nama = $(this).data('nama');
+
+                // Set the value of bidang input field in the corresponding modal
+                $('#editBidangModal' + id + ' #editBidang' + id).val(nama);
+            });
+            $(document).on('click', '.editKategoriLink', function() {
+                var id = $(this).data('id');
+                var nama = $(this).data('nama');
+
+                // Set the value of bidang input field in the corresponding modal
+                $('#editKategoriModal' + id + ' #editKategori' + id).val(nama);
+            });
+            $(document).on('click', '.editCapaianLink', function() {
+                var id = $(this).data('id');
+                var nama = $(this).data('nama');
+
+                // Set the value of bidang input field in the corresponding modal
+                $('#editCapaianModal' + id + ' #editCapaian' + id).val(nama);
+            });
+            $(document).on('click', '.editSertifikatLink', function() {
+                var id = $(this).data('id');
+                var nama = $(this).data('nama');
+
+                // Set the value of bidang input field in the corresponding modal
+                $('#editSertifikatModal' + id + ' #editSertifikat' + id).val(nama);
+            });
+        </script>

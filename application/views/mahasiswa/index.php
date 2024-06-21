@@ -112,7 +112,17 @@
                             <tr>
                                 <td>Pembiayaan</td>
                                 <td>:</td>
-                                <td><?= $mhs_data['pembiayaan']; ?></td>
+                                <td>
+                                    <?php
+                                    if ($mhs_data['pembiayaan'] == 'biaya_sendiri') {
+                                        echo 'Biaya Sendiri';
+                                    } elseif ($mhs_data['pembiayaan'] == 'pemerintah') {
+                                        echo 'Pemerintah';
+                                    } else {
+                                        echo 'Pembiayaan Tidak Diketahui';
+                                    }
+                                    ?>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Status Kini</td>
