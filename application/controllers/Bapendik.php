@@ -574,10 +574,9 @@ class Bapendik extends CI_Controller
     public function tambah_mhs()
     {
         $data['title'] = 'Tambah Mahasiswa';
-
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-
-        //$this->_rules();
+    
+        // Validasi Form
         $this->form_validation->set_rules('nim_mhs', 'NIM', 'required|trim');
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[tb_user.email]', [
@@ -586,14 +585,11 @@ class Bapendik extends CI_Controller
         $this->form_validation->set_rules('gender', 'Jenis Kelamin', 'required|trim');
         $this->form_validation->set_rules('prodi_id', 'Prodi', 'required|trim');
         $this->form_validation->set_rules('telp', 'No Telp', 'required|trim');
-        $this->form_validation->set_rules('image', 'Gambar', 'required|trim');
         $this->form_validation->set_rules('pembiayaan', 'Pembiayaan', 'required|trim');
         $this->form_validation->set_rules('pa', 'Pembimbing Akademik', 'required|trim');
-        // $this->form_validation->set_rules('pass1', 'Password', 'required|trim|min_length[3]|matches[pass2]', ['matches' => 'Password tidak sama', 'min_length' => 'Password terlalu pendek!']);
-        // $this->form_validation->set_rules('pass2', 'Password', 'required|trim|matches[pass1]');
-
+    
         $data['prodi'] = $this->db->get('tb_prodi')->result_array();
-
+    
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
@@ -605,54 +601,53 @@ class Bapendik extends CI_Controller
     }
 
     public function tambah_aksi()
-    {
-        $nim = $this->input->post('nim_mhs');
-        $data_user = array(
-            'nama' => htmlspecialchars($this->input->post('nama', TRUE)),
-            'email' => htmlspecialchars($this->input->post('email', TRUE)),
-            'image' => $this->input->post('image'),
-            'pass' => password_hash($nim, PASSWORD_DEFAULT),
-            'gender' => $this->input->post('gender'),
-            'telp' => $this->input->post('telp'),
-            'role_id' => 1,
-            'is_active' => 1,
-            'tgl_dibuat' => time(),
-        );
+{
+    $nim = $this->input->post('nim_mhs');
+    $data_user = array(
+        'nama' => htmlspecialchars($this->input->post('nama', TRUE)),
+        'email' => htmlspecialchars($this->input->post('email', TRUE)),
+        'image' => 'default.jpg', // Default image if no upload
+        'pass' => password_hash($nim, PASSWORD_DEFAULT),
+        'gender' => $this->input->post('gender'),
+        'telp' => $this->input->post('telp'),
+        'role_id' => 1,
+        'is_active' => 1,
+        'tgl_dibuat' => time(),
+    );
 
-        // Upload gambar
-        $upload_image = $_FILES['image']['name'];
-        if ($upload_image) {
-            $config['upload_path'] = './assets/img/profile/';
-            $config['allowed_types'] = 'gif|jpg|png';
-            $config['max_size'] = '2048';
+    // Upload gambar
+    if (!empty($_FILES['image']['name'])) {
+        $config['upload_path'] = './assets/img/profile/';
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = '2048';
 
-            $this->load->library('upload', $config);
+        $this->load->library('upload', $config);
 
-            if ($this->upload->do_upload('image')) {
-                $new_image = $this->upload->data('file_name');
-                $data_user['image'] = $new_image;
-            } else {
-                echo $this->upload->display_errors();
-            }
+        if ($this->upload->do_upload('image')) {
+            $new_image = $this->upload->data('file_name');
+            $data_user['image'] = $new_image;
+        } else {
+            echo $this->upload->display_errors();
         }
-
-        $this->db->insert('tb_user', $data_user);
-        $user_id = $this->db->insert_id();
-
-        $prodi_id = $this->input->post('prodi_id');
-        $data_mhs = array(
-            'nim_mhs' => $nim,
-            'prodi_id' => $prodi_id,
-            'user_id' => $user_id,
-            'pembiayaan' => $this->input->post('pembiayaan'),
-            'pa' => $this->input->post('pa')
-        );
-
-        $this->db->insert('tb_mhs', $data_mhs);
-        $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert"> Data Berhasil di Tambahkan!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span></button></div>');
-        redirect('bapendik/mahasiswa');
     }
+
+    $this->db->insert('tb_user', $data_user);
+    $user_id = $this->db->insert_id();
+
+    $prodi_id = $this->input->post('prodi_id');
+    $data_mhs = array(
+        'nim_mhs' => $nim,
+        'prodi_id' => $prodi_id,
+        'user_id' => $user_id,
+        'pembiayaan' => $this->input->post('pembiayaan'),
+        'pa' => $this->input->post('pa')
+    );
+
+    $this->db->insert('tb_mhs', $data_mhs);
+    $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">Data Berhasil Ditambahkan!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+    redirect('bapendik/mahasiswa');
+}
+
     public function edit_mhs($user_id)
     {
         $data['title'] = 'Edit Mahasiswa';
