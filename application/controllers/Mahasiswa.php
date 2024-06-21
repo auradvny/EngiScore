@@ -50,8 +50,24 @@ class Mahasiswa extends CI_Controller
     public function profil()
     {
         $data['title'] = 'My Profil';
+
+        // Mengambil data user dari database
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-        $data['nim_mhs'] = $this->session->userdata('nim_mhs');
+        if ($data['user'] === NULL) {
+            // Tangani jika user tidak ditemukan
+            $data['user'] = [
+                'id' => 0,
+                'nama' => 'Nama tidak tersedia',
+                'email' => '',
+                'image' => 'default.png',
+                'agama_id' => 0,
+                'goldar_id' => 0,
+                'tgl_lahir' => '',
+                'gender' => '',
+                'telp' => '',
+                'alamat' => ''
+            ];
+        }
 
         // Memuat model yang diperlukan
         $this->load->model('Model_NIM');
@@ -59,16 +75,27 @@ class Mahasiswa extends CI_Controller
 
         // Mendapatkan NIM mahasiswa berdasarkan email
         $nim_mhs = $this->Model_NIM->getNim($data['user']['email']);
+        if ($nim_mhs === NULL) {
+            $nim_mhs = 'NIM tidak tersedia';
+        }
         $data['nim_mhs'] = $nim_mhs;
 
         // Mendapatkan data mahasiswa berdasarkan email
         $mhs_data = $this->Model_Mahasiswa->getDataMhs($data['user']['email']);
+        if ($mhs_data === NULL) {
+            $mhs_data = [
+                'nim_mhs' => 'NIM tidak tersedia',
+            ];
+        }
         $data['mhs_data'] = $mhs_data;
 
         // Get the user's detailed profile including agama and goldar
         $user_id = $data['user']['id'];
-        $data['user'] = $this->Model_Mahasiswa->get_mahasiswa($user_id);
-
+        $user_data = $this->Model_Mahasiswa->get_mahasiswa($user_id);
+        if ($user_data === NULL) {
+            $user_data = $data['user'];
+        }
+        $data['user'] = $user_data;
 
         // Mendapatkan data agama dan golongan darah dari tabel terkait
         $data['agama'] = $this->db->get('tb_agama')->result_array();
@@ -81,15 +108,13 @@ class Mahasiswa extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    
     public function updatebiodata()
     {
         // Dapatkan data user
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-    
         $user_id = $data['user']['id'];
         $data['user'] = $this->Model_Mahasiswa->get_mahasiswa($user_id);
-    
+
         // Validasi form
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email', [
             'valid_email' => 'Format email tidak benar'
@@ -100,35 +125,36 @@ class Mahasiswa extends CI_Controller
         $this->form_validation->set_rules('tgl_lahir', 'Tanggal Lahir');
         $this->form_validation->set_rules('agama', 'Agama');
         $this->form_validation->set_rules('goldar', 'Golongan Darah');
-    
+
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Update Biodata';
             $data['agama_list'] = $this->db->get('tb_agama')->result_array();
             $data['goldar_list'] = $this->db->get('tb_goldar')->result_array();
-    
+
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('mahasiswa/updatebiodata', $data);
             $this->load->view('templates/footer');
         } else {
-            // Upload gambar
+            // Upload gambar jika ada yang diunggah
             if (!empty($_FILES['image']['name'])) {
                 $config['upload_path'] = './assets/img/profile/';
                 $config['allowed_types'] = 'gif|jpg|jpeg|png';
                 $config['max_size'] = '2048';
                 $config['file_name'] = 'profile_' . $user_id;
-    
+
                 $this->load->library('upload', $config);
-    
+
                 if ($this->upload->do_upload('image')) {
                     $uploadData = $this->upload->data();
                     $image = $uploadData['file_name'];
-    
+
                     // Hapus gambar lama jika bukan default
                     $old_image = $data['user']['image'];
-                    if ($old_image != 'default.jpg') {
-                        if (file_exists(FCPATH . 'assets/img/profile/' . $old_image)) {
-                            unlink(FCPATH . 'assets/img/profile/' . $old_image);
+                    if ($old_image != 'default.png') {
+                        $old_image_path = './assets/img/profile/' . $old_image;
+                        if (file_exists($old_image_path)) {
+                            unlink($old_image_path);
                         }
                     }
                 } else {
@@ -137,9 +163,10 @@ class Mahasiswa extends CI_Controller
                     return;
                 }
             } else {
+                // Jika tidak ada gambar yang diunggah, gunakan gambar lama
                 $image = $data['user']['image'];
             }
-    
+
             // Data yang akan diupdate
             $updateData = [
                 'agama_id' => $this->input->post('agama'),
@@ -151,15 +178,15 @@ class Mahasiswa extends CI_Controller
                 'alamat' => htmlspecialchars($this->input->post('alamat', TRUE)),
                 'image' => $image
             ];
-    
+
             // Update biodata
             $this->Model_Mahasiswa->update_biodata($user_id, $updateData);
-    
+
             $this->session->set_flashdata('message', 'Biodata updated successfully!');
             redirect('mahasiswa/profil');
         }
     }
-
+    
     public function pengajuan()
     {
         $data['title'] = 'Pengajuan';

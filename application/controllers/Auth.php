@@ -8,6 +8,7 @@ class Auth extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('Model_NIM');
+		$this->load->model('Model_Mahasiswa');
 		$this->load->library('session');
 		$this->load->library('form_validation');
 	}
