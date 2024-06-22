@@ -23,7 +23,9 @@
                         <td><?= $verif['bidang']; ?></td>
                         <td><?= $verif['kategori']; ?></td>
                         <td><?= $verif['capaian']; ?></td>
-                        <td><?= $verif['file']; ?></td>
+                        <td>
+                            <img src="<?= base_url('assets/img/sertifikat/' . $verif['file']); ?>" alt="Sertifikat" style="width:100px; height:auto;">
+                        </td>
                     </tr>
             </tbody>
         <?php endforeach ?>

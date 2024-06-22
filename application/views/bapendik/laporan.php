@@ -1,59 +1,59 @@
 <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped" style="text-align: center;">
-                  <thead>
-                  <tr>
-                    <th>Nama Mahasiswa</th>
-                    <th>NIM Mahasiswa</th>
-                    <th>Email Mahasiswa</th>
-                    <th>No Telepon</th>
-                    <th>Jumlah Point</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                        <?php foreach ($laporan as $lap) : ?>
-                            <tr class="text-center">
-                                <td><?= $lap['nama']; ?></td>
-                                <td><?= $lap['nim_mhs']; ?></td>
-                                <td><?= $lap['email']; ?></td>
-                                <td><?= $lap['telp']; ?></td>
-                                <td><?= $lap['point']; ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                  <tfoot>
-                  <tr>
-                    <th>Nama Mahasiswa</th>
-                    <th>NIM Mahasiswa</th>
-                    <th>Email Mahasiswa</th>
-                    <th>No Telepon</th>
-                    <th>Jumlah Point</th>
-                  </tr>
-                  </tfoot>
-                </table>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
           </div>
-          <!-- /.col -->
+          <!-- /.card-header -->
+          <div class="card-body">
+            <table id="example1" class="table table-bordered table-striped" style="text-align: center;">
+              <thead>
+                <tr>
+                  <th>Nama Mahasiswa</th>
+                  <th>NIM Mahasiswa</th>
+                  <th>Email Mahasiswa</th>
+                  <th>No Telepon</th>
+                  <th>Jumlah Point</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($laporan as $lap) : ?>
+                  <tr class="text-center">
+                    <td><?= $lap['nama']; ?></td>
+                    <td><?= $lap['nim_mhs']; ?></td>
+                    <td><?= $lap['email']; ?></td>
+                    <td><?= $lap['telp']; ?></td>
+                    <td><?= $lap['point']; ?></td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Nama Mahasiswa</th>
+                  <th>NIM Mahasiswa</th>
+                  <th>Email Mahasiswa</th>
+                  <th>No Telepon</th>
+                  <th>Jumlah Point</th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <!-- /.card-body -->
         </div>
-        <!-- /.row -->
+        <!-- /.card -->
       </div>
-      <!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
   </div>
-  <!-- /.content-wrapper -->
-  
+  <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
 
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
@@ -75,12 +75,14 @@
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
+<!-- <script src="../../dist/js/demo.js"></script> -->
 <!-- Page specific script -->
 <script>
-  $(function () {
+  $(function() {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "responsive": true,
+      "lengthChange": false,
+      "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({
@@ -95,4 +97,5 @@
   });
 </script>
 </body>
+
 </html>

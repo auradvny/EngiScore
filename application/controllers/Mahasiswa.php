@@ -205,6 +205,7 @@ class Mahasiswa extends CI_Controller
         $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
         $data['capaian'] = $this->db->get('tb_sertif_capaian')->result_array();
 
+
         // Ambil nim mahasiswa
         $this->load->model('Model_NIM');
         $nim_mhs = $this->Model_NIM->getNim($data['user']['email']);
@@ -256,6 +257,12 @@ class Mahasiswa extends CI_Controller
         }
     }
 
+    public function getCapaianByBidang($bidang_id)
+    {
+        $this->load->model('Model_Sertifikat');
+        $capaian = $this->Model_Sertifikat->getCapaianByBidang($bidang_id);
+        echo json_encode($capaian);
+    }
 
     public function laporan()
     {

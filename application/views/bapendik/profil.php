@@ -80,6 +80,24 @@
 
                                     <div class="help-block"></div>
                                 </div>
+
+                                <!-- Password update section -->
+                                <!-- <div class="form-group required">
+                                    <label class="control-label" for="current_password">Password Saat Ini</label>
+                                    <input type="password" id="pass" class="form-control" name="pass" value="********" aria-required="true">
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group required">
+                                    <label class="control-label" for="new_password">Password Baru</label>
+                                    <input type="password" id="new_password" class="form-control" name="new_password" aria-required="true">
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group required">
+                                    <label class="control-label" for="confirm_password">Konfirmasi Password Baru</label>
+                                    <input type="password" id="confirm_password" class="form-control" name="confirm_password" aria-required="true">
+                                    <div class="help-block"></div>
+                                </div> -->
+
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-success">Simpan</button>
                                     <!-- <a class="btn btn-secondary" href="bapendik/profil">Kembali</a> -->

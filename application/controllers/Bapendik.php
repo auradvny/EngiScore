@@ -70,6 +70,7 @@ class Bapendik extends CI_Controller
         $this->form_validation->set_rules('agama', 'Agama');
         $this->form_validation->set_rules('goldar', 'Golongan Darah');
 
+
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Update Biodata';
             $data['agama_list'] = $this->db->get('tb_agama')->result_array();
