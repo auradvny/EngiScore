@@ -17,9 +17,11 @@
             <a href="<?= base_url('pimpinan'); ?>" class="nav-link">Home</a>
           <?php endif; ?>
         </li>
-        <!-- <li class="nav-item d-none d-sm-inline-block">
-          <a href="<?= base_url('welcome'); ?>" class="nav-link">Contact</a>
-        </li> -->
+        <?php if ($this->session->userdata('role_id') == 2) : ?>
+          <li class="nav-item d-none d-sm-inline-block">
+            <a href="<?= base_url('bapendik/registrasi'); ?>" class="nav-link">Bapendik</a>
+          </li>
+        <?php endif; ?>
       </ul>
     </nav>
     <!-- /.navbar -->

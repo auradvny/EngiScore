@@ -50,6 +50,38 @@ class Bapendik extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    public function registrasi()
+    {
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
+        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[tb_user.email]', [
+            'is_unique' => 'Email inni sudah terdaftar'
+        ]);
+        $this->form_validation->set_rules('pass1', 'Password', 'required|trim|min_length[3]|matches[pass2]', ['matches' => 'Password tidak sama', 'min_length' => 'Password terlalu pendek!']);
+        $this->form_validation->set_rules('pass2', 'Password', 'required|trim|matches[pass1]');
+
+        if ($this->form_validation->run() == FALSE) {
+            $data['title'] = 'Registrasi User';
+
+            $this->load->view('templates/auth_header', $data);
+            $this->load->view('bapendik/registrasi');
+            $this->load->view('templates/auth_footer');
+        } else {
+            $data = [
+                'nama' => htmlspecialchars($this->input->post('nama', TRUE)),
+                'email' => htmlspecialchars($this->input->post('email', TRUE)),
+                'image' => 'bapendik.jpg',
+                'pass' => password_hash($this->input->post('pass1'), PASSWORD_DEFAULT),
+                'role_id' => 2,
+                'is_active' => 1,
+                'tgl_dibuat' => time(),
+            ];
+
+            $this->db->insert('tb_user', $data);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">
+            Akun Berhasil DiBuat!</div>');
+            redirect('auth');
+        }
+    }
 
     public function updatebiodata()
     {

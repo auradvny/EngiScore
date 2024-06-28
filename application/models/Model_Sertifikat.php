@@ -53,4 +53,16 @@ class Model_Sertifikat extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    public function getKategoriByBidangAndCapaian($bidang_id, $capaian_id)
+    {
+        $this->db->distinct();
+        $this->db->select('tb_sertif_kategori.id, tb_sertif_kategori.kategori');
+        $this->db->from('tb_sertif_kategori');
+        $this->db->join('tb_sertif', 'tb_sertif.kategori_id = tb_sertif_kategori.id');
+        $this->db->where('tb_sertif.bidang_id', $bidang_id);
+        $this->db->where('tb_sertif.capaian_id', $capaian_id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 }

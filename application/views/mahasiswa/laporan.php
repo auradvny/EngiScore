@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,6 +81,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="page-content">
         <div class="row justify-content-center">
@@ -103,16 +105,28 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><p class="m-b-10 f-w-600">Nama</p></td>
-                                            <td><h6 class="text-muted f-w-400"><?= isset($user['nama']) ? $user['nama'] : ''; ?></h6></td>
+                                            <td>
+                                                <p class="m-b-10 f-w-600">Nama</p>
+                                            </td>
+                                            <td>
+                                                <h6 class="text-muted f-w-400"><?= isset($user['nama']) ? $user['nama'] : ''; ?></h6>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td><p class="m-b-10 f-w-600">NIM</p></td>
-                                            <td><h6 class="text-muted f-w-400"><?= isset($nim_mhs) ? $nim_mhs : ''; ?></h6></td>
+                                            <td>
+                                                <p class="m-b-10 f-w-600">NIM</p>
+                                            </td>
+                                            <td>
+                                                <h6 class="text-muted f-w-400"><?= isset($nim_mhs) ? $nim_mhs : ''; ?></h6>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td><p class="m-b-10 f-w-600">Jumlah Point</p></td>
-                                            <td><h6 class="text-muted f-w-400"><?= isset($points) ? $points : ''; ?></h6></td>
+                                            <td>
+                                                <p class="m-b-10 f-w-600">Jumlah Point</p>
+                                            </td>
+                                            <td>
+                                                <h6 class="text-muted f-w-400"><?= isset($points) ? $points : ''; ?></h6>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -136,7 +150,7 @@
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $("#example").DataTable({
                 paging: false,
                 info: false,
@@ -146,4 +160,5 @@
         });
     </script>
 </body>
+
 </html>

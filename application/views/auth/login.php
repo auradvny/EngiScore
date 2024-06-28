@@ -12,14 +12,15 @@
                         <div class="col-lg">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Login</h1>
+                                    <img src="assets/img/logo.png" alt="Logo" width="100px" style="margin-bottom: 20px;">
+                                    <h1 class="h4 text-gray-900 mb-4">SISTEM POINT - LOGIN</h1>
                                 </div>
 
                                 <?= $this->session->flashdata('pesan'); ?>
 
                                 <form class="user" method="post" action="<?= base_url('auth'); ?>">
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-user" id="email" name="email" placeholder="Enter Email Address..." value="<?= set_value('email'); ?>">
+                                        <input type="text" class="form-control form-control-user" id="email" name="email" placeholder="Email Address" value="<?= set_value('email'); ?>">
                                         <?= form_error('email', '<small class="text-danger pl-3">', '</small>'); ?>
                                     </div>
                                     <div class="form-group">
@@ -27,7 +28,7 @@
                                         <?= form_error('pass', '<small class="text-danger pl-3">', '</small>'); ?>
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-user btn-block">
-                                        Login
+                                        LOGIN
                                     </button>
                                 </form>
                                 <hr>

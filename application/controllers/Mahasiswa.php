@@ -264,6 +264,13 @@ class Mahasiswa extends CI_Controller
         echo json_encode($capaian);
     }
 
+    public function getKategoriByBidangAndCapaian($bidang_id, $capaian_id)
+    {
+        $this->load->model('Model_Sertifikat');
+        $kategori = $this->Model_Sertifikat->getKategoriByBidangAndCapaian($bidang_id, $capaian_id);
+        echo json_encode($kategori);
+    }
+
     public function laporan()
     {
         $data['title'] = 'Laporan';

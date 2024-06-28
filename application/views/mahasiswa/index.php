@@ -119,7 +119,7 @@
                                     } elseif ($mhs_data['pembiayaan'] == 'pemerintah') {
                                         echo 'Pemerintah';
                                     } else {
-                                        echo 'Pembiayaan Tidak Diketahui';
+                                        echo '-';
                                     }
                                     ?>
                                 </td>
@@ -133,7 +133,7 @@
                                     } elseif ($user['is_active'] == 2) {
                                         echo 'Tidak Aktif';
                                     } else {
-                                        echo 'Status Tidak Diketahui';
+                                        echo '-';
                                     }
                                     ?></td>
                             </tr>
@@ -153,5 +153,3 @@
             </div>
         </div><!--/. container-fluid -->
     </section>
-    <!-- /.content -->
-    <!-- /.content-wrapper -->

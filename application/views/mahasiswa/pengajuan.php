@@ -31,9 +31,7 @@
             <div class="form-group">
                 <select name="kategori_id" id="kategori_id" class="form-control">
                     <option value="" disabled selected>Pilih Kategori</option>
-                    <?php foreach ($kategori as $k) : ?>
-                        <option value="<?= $k['id']; ?>"><?= $k['kategori']; ?></option>
-                    <?php endforeach; ?>
+
                 </select>
             </div>
             <?= form_error('kategori_id', "<div class='alert alert-danger' role='alert'>", '</div>'); ?>
@@ -83,7 +81,7 @@
                         } elseif ($p['persetujuan'] == 2) {
                             echo 'Ditolak';
                         } else {
-                            echo 'Status Tidak Diketahui';
+                            echo '-';
                         }
                         ?>
                     </td>
@@ -111,6 +109,24 @@
                         option.textContent = capaian.capaian;
                         capaianSelect.appendChild(option);
                     }
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    document.getElementById('capaian_id').addEventListener('change', function() {
+        var bidang_id = document.getElementById('bidang_id').value;
+        var capaian_id = this.value;
+        fetch('<?= base_url('mahasiswa/getKategoriByBidangAndCapaian/'); ?>' + bidang_id + '/' + capaian_id)
+            .then(response => response.json())
+            .then(data => {
+                var kategoriSelect = document.getElementById('kategori_id');
+                kategoriSelect.innerHTML = '<option value="" disabled selected>Pilih Kategori</option>';
+                data.forEach(function(kategori) {
+                    var option = document.createElement('option');
+                    option.value = kategori.id;
+                    option.textContent = kategori.kategori;
+                    kategoriSelect.appendChild(option);
                 });
             })
             .catch(error => console.error('Error:', error));
