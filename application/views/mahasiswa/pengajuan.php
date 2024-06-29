@@ -49,7 +49,8 @@
     </div>
 </form>
 
-<div class="col-lg-12">
+<div class="col-lg-12 mt-4">
+    <h4>DAFTAR SERTIFIKAT</h4>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -70,8 +71,15 @@
                     <td><?= $p['capaian']; ?></td>
                     <td><?= $p['kategori']; ?></td>
                     <td>
-                        <img src="<?= base_url('assets/img/sertifikat/' . $p['file']); ?>" alt="Sertifikat" style="width:100px; height:auto;">
+                        <?php if (in_array(pathinfo($p['file'], PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'pdf'])) : ?>
+                            <a href="<?= base_url('assets/img/sertifikat/') . $p['file']; ?>" class="btn btn-sm btn-success" target="_blank"><i class="fas fa-download"></i> Download</a>
+                        <?php else : ?>
+                            <span>File tidak didukung</span>
+                        <?php endif; ?>
                     </td>
+                    <!-- <td>
+                        <img src="<?= base_url('assets/img/sertifikat/' . $p['file']); ?>" alt="Sertifikat" style="width:100px; height:auto;">
+                    </td> -->
                     <td>
                         <?php
                         if ($p['persetujuan'] == 0) {
@@ -86,11 +94,11 @@
                         ?>
                     </td>
                 </tr>
+
             <?php endforeach; ?>
         </tbody>
     </table>
 </div>
-
 
 <script>
     document.getElementById('bidang_id').addEventListener('change', function() {

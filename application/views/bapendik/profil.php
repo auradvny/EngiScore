@@ -7,6 +7,9 @@
                     <h3 class="card-title">Update Biodata: <span style="text-transform: uppercase;font-weight: bold;"><?= $user['nama']; ?></span></h3>
                 </div>
                 <div class="card-body">
+                    <div class="flashdata-message">
+                        <?= $this->session->flashdata('message'); ?>
+                    </div>
                     <form name="update" action="<?php echo base_url('Bapendik/updatebiodata'); ?>" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="_csrf">
                         <div class="row">
@@ -115,12 +118,15 @@
             </div>
         </div> <!-- /.row -->
 
-        <div class="calonbapendik-update">
+        <div class="calonbapendikpass-update">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Update Password: <span style="text-transform: uppercase;font-weight: bold;"><?= $user['nama']; ?></span></h3>
                 </div>
                 <div class="card-body">
+                    <div class="flashdata-message">
+                        <?= $this->session->flashdata('pesan'); ?>
+                    </div>
                     <form name="update" action="<?php echo base_url('Bapendik/updatepassword'); ?>" method="post">
                         <input type="hidden" name="_csrf">
                         <div class="row">

@@ -9,6 +9,7 @@
                             <img src="../assets/img/logo.png" alt="Logo" width="100px" style="margin-bottom: 20px;">
                             <h1 class="h4 text-gray-900 mb-4">BAPENDIK - SIGN UP</h1>
                         </div>
+                        <?= $this->session->flashdata('message'); ?>
                         <form class="user" method="post" action="<?= base_url('auth/registrasi'); ?>">
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-user" id="nama" name="nama" placeholder="Full Name" value="<?= set_value('nama'); ?>">

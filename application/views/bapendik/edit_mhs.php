@@ -41,7 +41,10 @@
     <div class="form-group">
         <label for="image">Profile Mahasiswa</label><br>
         <?php if (isset($mahasiswa['image']) && !empty($mahasiswa['image'])) : ?>
-            <img src="<?= base_url('assets/img/profile/') . $mahasiswa['image']; ?>" alt="current image" width="100">
+            <!-- Link untuk membuka modal -->
+            <a href="#" data-toggle="modal" data-target="#imageModal">
+                <img src="<?= base_url('assets/img/profile/') . $mahasiswa['image']; ?>" alt="current image" width="100">
+            </a>
         <?php endif; ?>
         <input type="file" class="form-control" id="image" name="image">
         <?= form_error('image', "<div class='alert alert-danger' role='alert'>", '</div>'); ?>
@@ -67,4 +70,27 @@
     <a class="btn btn-secondary btn-sm" href="<?= base_url('bapendik/mahasiswa') ?>"><i class="fas fa-arrow-left"></i> Kembali</a>
     <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-save"></i> Simpan</button>
     <button type="reset" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Reset</button>
+
+    <!-- Modal untuk menampilkan gambar dalam ukuran besar -->
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel"><span style="text-transform: uppercase;font-weight: bold;"><?= set_value('nama', isset($mahasiswa['nama']) ? $mahasiswa['nama'] : ''); ?></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <?php if (isset($mahasiswa['image']) && !empty($mahasiswa['image'])) : ?>
+                        <img src="<?= base_url('assets/img/profile/') . $mahasiswa['image']; ?>" class="img-fluid">
+                    <?php endif; ?>
+                </div>
+                <div class="modal-footer">
+                    <a href="<?= base_url('assets/img/profile/') . $mahasiswa['image']; ?>" class="btn btn-primary" target="_blank" download>Unduh</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>

@@ -182,8 +182,70 @@ class Mahasiswa extends CI_Controller
             // Update biodata
             $this->Model_Mahasiswa->update_biodata($user_id, $updateData);
 
-            $this->session->set_flashdata('message', 'Biodata updated successfully!');
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Biodata Berhasil Diubah!');
             redirect('mahasiswa/profil');
+        }
+    }
+
+    public function updatepassword()
+    {
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $this->form_validation->set_rules('current_password', 'Password Saat Ini', 'required|trim', [
+            'required' => 'Password Baru harus diisi'
+        ]);
+        $this->form_validation->set_rules('new_password', 'Password Baru', 'required|trim|min_length[8]|callback_valid_password|matches[confirm_password]', [
+            'required' => 'Password Baru harus diisi',
+            'matches' => 'Password tidak sesuai',
+            'min_length' => 'Password terlalu pendek'
+        ]);
+        $this->form_validation->set_rules('confirm_password', 'Konfirmasi Password Baru', 'required|trim|matches[new_password]', [
+            'required' => 'Konfirmasi Password harus diisi',
+            'matches' => 'Password tidak sesuai',
+            'min_length' => 'Password terlalu pendek'
+        ]);
+
+        if ($this->form_validation->run() == false) {
+            $this->profil();
+        } else {
+            $current_password = $this->input->post('current_password');
+            $new_password = $this->input->post('new_password');
+
+            // Memeriksa apakah password saat ini sesuai
+            if (!password_verify($current_password, $data['user']['pass'])) {
+                $this->session->set_flashdata('pesan', 'Password Salah');
+            } else {
+                // Memeriksa apakah password baru sama dengan password lama
+                if ($current_password == $new_password) {
+                    $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Password baru tidak boleh sama dengan password lama');
+                } else {
+                    // Hash password baru
+                    $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
+
+                    // Simpan password baru ke dalam basis data
+                    $this->db->set('pass', $password_hash);
+                    $this->db->where('email', $this->session->userdata('email'));
+                    $this->db->update('tb_user');
+
+                    $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Password Berhasil Diubah!</div>');
+                }
+            }
+
+            // Setelah proses selesai, redirect ke halaman profil
+            redirect('mahasiswa/profil');
+        }
+    }
+
+    public function valid_password($password)
+    {
+        $password = trim($password);
+        $regex = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).+$/';
+
+        if (preg_match($regex, $password)) {
+            return TRUE;
+        } else {
+            $this->form_validation->set_message('valid_password', 'The password must be at least 8 characters long, containing at least one capital letter, one lowercase letter, one number, and one symbol.');
+            return FALSE;
         }
     }
 

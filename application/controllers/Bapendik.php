@@ -55,7 +55,7 @@ class Bapendik extends CI_Controller
     {
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[tb_user.email]', [
-            'is_unique' => 'Email ini sudah terdaftar'
+            'is_unique' => 'This email has already been registered'
         ]);
         $this->form_validation->set_rules('nip', 'NIP', 'required|trim');
         $this->form_validation->set_rules('pass1', 'Password', 'required|trim|min_length[8]|callback_valid_password|matches[pass2]', [
@@ -79,14 +79,26 @@ class Bapendik extends CI_Controller
                 'role_id' => 2,
                 'agama_id' => 8,
                 'goldar_id' => 5,
-                'role_id' => 2,
                 'is_active' => 1,
                 'tgl_dibuat' => time(),
             ];
 
             $this->db->insert('tb_user', $data);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Akun berhasil dibuat!</div>');
-            redirect('bapendik');
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Akun berhasil dibuat!</div>');
+            redirect('bapendik/registrasi');
+        }
+    }
+
+    public function check_nip_unique($nip)
+    {
+        $this->db->where('nip', $nip);
+        $query = $this->db->get('tb_user');
+
+        if ($query->num_rows() > 0) {
+            $this->form_validation->set_message('check_nip_unique', 'This NIP has already been registered');
+            return FALSE;
+        } else {
+            return TRUE;
         }
     }
 
@@ -103,7 +115,9 @@ class Bapendik extends CI_Controller
             'min_length' => 'Password terlalu pendek'
         ]);
         $this->form_validation->set_rules('confirm_password', 'Konfirmasi Password Baru', 'required|trim|matches[new_password]', [
-            'required' => 'Konfirmasi Password harus diisi'
+            'required' => 'Konfirmasi Password harus diisi',
+            'matches' => 'Password tidak sesuai',
+            'min_length' => 'Password terlalu pendek'
         ]);
 
         if ($this->form_validation->run() == false) {
@@ -114,11 +128,11 @@ class Bapendik extends CI_Controller
 
             // Memeriksa apakah password saat ini sesuai
             if (!password_verify($current_password, $data['user']['pass'])) {
-                $this->session->set_flashdata('message', 'Password Salah');
+                $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Password Salah');
             } else {
                 // Memeriksa apakah password baru sama dengan password lama
                 if ($current_password == $new_password) {
-                    $this->session->set_flashdata('message', 'Password Baru tidak boleh sama dengan password lama');
+                    $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Password baru tidak boleh sama dengan password lama');
                 } else {
                     // Hash password baru
                     $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
@@ -128,7 +142,7 @@ class Bapendik extends CI_Controller
                     $this->db->where('email', $this->session->userdata('email'));
                     $this->db->update('tb_user');
 
-                    $this->session->set_flashdata('message', 'Password Berhasil Diubah');
+                    $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Password Berhasil Diubah');
                 }
             }
 
@@ -238,7 +252,7 @@ class Bapendik extends CI_Controller
             // Update biodata
             $this->Model_User->update_biodata($user_id, $updateData);
 
-            $this->session->set_flashdata('message', 'Biodata updated successfully!');
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Biodata Berhasil Diubah!');
             redirect('bapendik/profil');
         }
     }
@@ -598,7 +612,7 @@ class Bapendik extends CI_Controller
             $this->db->where('id', $id);
             $this->db->delete('tb_sertif_capaian');
 
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Capaian dan sertifikat terkait berhasil dihapus!</div>');
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Capaian berhasil dihapus!</div>');
         } else {
             $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Capaian tidak ditemukan atau sudah dihapus.</div>');
         }

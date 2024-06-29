@@ -16,8 +16,8 @@
                     <th>No</th>
                     <th>NIM</th>
                     <th>Bidang</th>
-                    <th>Kategori</th>
                     <th>Capaian</th>
+                    <th>Kategori</th>
                     <th>File</th>
                     <th>Verifikasi</th>
                     <th>Aksi</th>
@@ -29,9 +29,9 @@
                     <tr class="text-center">
                         <td><?= $no++ ?></td>
                         <td><?= $verif['nim_mhs']; ?></td>
-                        <td><?= $verif['bidang']; ?></td>
-                        <td><?= $verif['kategori']; ?></td>
-                        <td><?= $verif['capaian']; ?></td>
+                        <td><?= $verif['bidang'] !== 'Tidak Tersedia' ? $verif['bidang'] : '<span class="text-danger">Tidak Tersedia</span>'; ?></td>
+                        <td><?= $verif['capaian'] !== 'Tidak Tersedia' ? $verif['capaian'] : '<span class="text-danger">Tidak Tersedia</span>'; ?></td>
+                        <td><?= $verif['kategori'] !== 'Tidak Tersedia' ? $verif['kategori'] : '<span class="text-danger">Tidak Tersedia</span>'; ?></td>
                         <td>
                             <a href="#" data-toggle="modal" data-target="#modalGambar<?= $verif['id']; ?>">
                                 <img src="<?= base_url('assets/img/sertifikat/' . $verif['file']); ?>" alt="Sertifikat" style="width:100px; height:auto;">
@@ -42,7 +42,7 @@
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="modalGambarLabel<?= $verif['id']; ?>">Sertifikat</h5>
+                                            <h5 class="modal-title" id="modalGambarLabel<?= $verif['id']; ?>">SERTIFIKAT - <span style="font-weight: bold;"><?= $verif['nim_mhs']; ?></span></h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
