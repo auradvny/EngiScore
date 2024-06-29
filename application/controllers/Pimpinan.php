@@ -6,9 +6,8 @@ class Pimpinan extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        is_logged_in();
         $this->load->model('Model_User');
-
-        // is_logged_in();
     }
 
     public function index()

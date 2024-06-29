@@ -38,7 +38,7 @@
         <?= form_error('telp', '<div class="text-small text-danger">', '</div>'); ?>
     </div>
     <div class="form-group">
-        <label for="image">Gambar</label>
+        <label for="image">Profile Mahasiswa</label>
         <input type="file" class="form-control" id="image" name="image">
         <?= form_error('image', '<div class="text-small text-danger">', '</div>'); ?>
     </div>
@@ -56,7 +56,7 @@
         <input type="text" name="pa" class="form-control" placeholder="Nama Dosen PA" value="<?= set_value('pa'); ?>">
         <?= form_error('pa', '<div class="text-small text-danger">', '</div>'); ?>
     </div>
-    <a class="btn btn-secondary" href="<?= base_url('bapendik/mahasiswa') ?>">Kembali</a>
+    <a class="btn btn-secondary btn-sm" href="<?= base_url('bapendik/mahasiswa') ?>"><i class="fas fa-arrow-left"></i> Kembali</a>
     <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-save"></i> Simpan</button>
     <button type="reset" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Reset</button>
 </form>

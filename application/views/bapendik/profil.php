@@ -56,7 +56,7 @@
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group required">
-                                    <label class="control-label" for="tgl_lahir">Tanggal Lahir Pegawai (Tahun-Bulan-Tanggal)</label>
+                                    <label class="control-label" for="tgl_lahir">Tanggal Lahir Pegawai</label>
                                     <input type="date" id="tgl_lahir" class="form-control" name="tgl_lahir" value="<?= $user['tgl_lahir']; ?>" placeholder="Pilih Tanggal Lahir Mahasiswa" style="cursor: pointer;">
                                     <div class="help-block"></div>
                                 </div>
@@ -70,7 +70,7 @@
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group required">
-                                    <label class="control-label" for="telp">No HP Pegawai</label>
+                                    <label class="control-label" for="telp">No Telepon</label>
                                     <input type="text" id="telp" class="form-control" name="telp" value="<?= $user['telp']; ?>" maxlength="25" aria-required="true">
                                     <div class="help-block"></div>
                                 </div>
@@ -80,23 +80,45 @@
 
                                     <div class="help-block"></div>
                                 </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-success">Simpan</button>
+                                    <!-- <a class="btn btn-secondary" href="bapendik/profil">Kembali</a> -->
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div> <!-- /.row -->
 
+        <div class="calonbapendik-update">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Update Password: <span style="text-transform: uppercase;font-weight: bold;"><?= $user['nama']; ?></span></h3>
+                </div>
+                <div class="card-body">
+                    <form name="update" action="<?php echo base_url('Bapendik/updatepassword'); ?>" method="post">
+                        <input type="hidden" name="_csrf">
+                        <div class="row">
+                            <div class="col-md-12">
                                 <!-- Password update section -->
-                                <!-- <div class="form-group required">
+                                <div class="form-group required">
                                     <label class="control-label" for="current_password">Password Saat Ini</label>
-                                    <input type="password" id="pass" class="form-control" name="pass" value="********" aria-required="true">
+                                    <input type="password" id="current_password" class="form-control" name="current_password" aria-required="true">
                                     <div class="help-block"></div>
+                                    <?= form_error('current_password', '<small class="text-danger">', '</small>'); ?>
                                 </div>
                                 <div class="form-group required">
                                     <label class="control-label" for="new_password">Password Baru</label>
                                     <input type="password" id="new_password" class="form-control" name="new_password" aria-required="true">
                                     <div class="help-block"></div>
+                                    <?= form_error('new_password', '<small class="text-danger">', '</small>'); ?>
                                 </div>
                                 <div class="form-group required">
                                     <label class="control-label" for="confirm_password">Konfirmasi Password Baru</label>
                                     <input type="password" id="confirm_password" class="form-control" name="confirm_password" aria-required="true">
                                     <div class="help-block"></div>
-                                </div> -->
+                                    <?= form_error('confirm_password', '<small class="text-danger">', '</small>'); ?>
+                                </div>
 
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-success">Simpan</button>

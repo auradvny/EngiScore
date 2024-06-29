@@ -12,18 +12,19 @@
                 <tr class="text-center">
                     <th>No</th>
                     <th>NIM</th>
-                    <th>Nama</th>
+                    <th>Nama Mahasiswa</th>
                     <th>Email</th>
                     <th>Jenis Kelamin</th>
                     <th>Prodi</th>
-                    <th>No Telp</th>
+                    <th>No Telepon</th>
                     <th>Status</th>
                     <th>Point</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                <?php $no = 1; foreach ($mahasiswa as $mhs) : ?>
+                <?php $no = 1;
+                foreach ($mahasiswa as $mhs) : ?>
                     <tr class="text-center">
                         <td><?= $no++ ?></td>
                         <td><?= $mhs['nim_mhs']; ?></td>

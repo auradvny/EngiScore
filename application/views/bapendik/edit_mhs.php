@@ -1,15 +1,13 @@
-
-
 <form action="<?= base_url('bapendik/update_mhs/' . $mahasiswa['user_id']) ?>" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="user_id" value="<?= isset($mahasiswa['user_id']) ? $mahasiswa['user_id'] : ''; ?>">
     <div class="form-group">
         <label for="nama">Nama Mahasiswa</label>
-        <input type="text" class="form-control" id="nama" name="nama" value="<?= set_value('nama', isset($mahasiswa['nama']) ? $mahasiswa['nama'] : ''); ?>">
+        <input type="text" class="form-control" id="nama" name="nama" value="<?= set_value('nama', isset($mahasiswa['nama']) ? $mahasiswa['nama'] : ''); ?>" readonly>
         <?= form_error('nama', '<div class="text-small text-danger">', '</div>'); ?>
     </div>
     <div class="form-group">
         <label for="email">Email Mahasiswa</label>
-        <input type="text" class="form-control" id="email" name="email" value="<?= set_value('email', isset($mahasiswa['email']) ? $mahasiswa['email'] : ''); ?>">
+        <input type="text" class="form-control" id="email" name="email" value="<?= set_value('email', isset($mahasiswa['email']) ? $mahasiswa['email'] : ''); ?>" readonly>
         <?= form_error('email', '<div class="text-small text-danger">', '</div>'); ?>
     </div>
     <div class="form-group">
@@ -36,16 +34,16 @@
         <?= form_error('prodi_id', '<div class="text-small text-danger">', '</div>'); ?>
     </div>
     <div class="form-group">
-        <label for="telp">No Telp Mahasiswa</label>
+        <label for="telp">No Telepon Mahasiswa</label>
         <input type="text" class="form-control" id="telp" name="telp" value="<?= set_value('telp', isset($mahasiswa['telp']) ? $mahasiswa['telp'] : ''); ?>">
         <?= form_error('telp', '<div class="text-small text-danger">', '</div>'); ?>
     </div>
     <div class="form-group">
-        <label for="image">Gambar</label>
-        <input type="file" class="form-control" id="image" name="image">
+        <label for="image">Profile Mahasiswa</label><br>
         <?php if (isset($mahasiswa['image']) && !empty($mahasiswa['image'])) : ?>
             <img src="<?= base_url('assets/img/profile/') . $mahasiswa['image']; ?>" alt="current image" width="100">
         <?php endif; ?>
+        <input type="file" class="form-control" id="image" name="image">
         <?= form_error('image', "<div class='alert alert-danger' role='alert'>", '</div>'); ?>
     </div>
     <div class="form-group">
@@ -63,10 +61,10 @@
     </div>
     <div class="form-group">
         <label for="point">Point</label>
-        <input type="text" name="point" class="form-control" value="<?= set_value('point', isset($mahasiswa['point']) ? $mahasiswa['point'] : ''); ?>">
+        <input type="text" name="point" class="form-control" value="<?= set_value('point', isset($mahasiswa['point']) ? $mahasiswa['point'] : ''); ?>" readonly>
         <?= form_error('point', '<div class="text-small text-danger">', '</div>'); ?>
     </div>
-    <a class="btn btn-secondary" href="<?= base_url('bapendik/mahasiswa') ?>">Kembali</a>
+    <a class="btn btn-secondary btn-sm" href="<?= base_url('bapendik/mahasiswa') ?>"><i class="fas fa-arrow-left"></i> Kembali</a>
     <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-save"></i> Simpan</button>
     <button type="reset" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Reset</button>
 </form>

@@ -6,12 +6,13 @@ class Bapendik extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        is_logged_in();
+
         $this->load->model('Model_Mahasiswa');
         $this->load->model('Model_User');
         $this->load->model('Model_Sertifikat');
         $this->load->model('Model_Verifikasi');
 
-        // is_logged_in();
         //check_admin();
     }
 
@@ -64,7 +65,7 @@ class Bapendik extends CI_Controller
         $this->form_validation->set_rules('pass2', 'Password', 'required|trim|matches[pass1]');
 
         if ($this->form_validation->run() == FALSE) {
-            $data['title'] = 'Registrasi User';
+            $data['title'] = 'Registrasi Bapendik';
             $this->load->view('templates/auth_header', $data);
             $this->load->view('bapendik/registrasi');
             $this->load->view('templates/auth_footer');
@@ -73,7 +74,7 @@ class Bapendik extends CI_Controller
                 'nama' => htmlspecialchars($this->input->post('nama', TRUE)),
                 'email' => htmlspecialchars($this->input->post('email', TRUE)),
                 'nip' => htmlspecialchars($this->input->post('nip', TRUE)),
-                'image' => 'default.jpg',
+                'image' => 'admin.jpg',
                 'pass' => password_hash($this->input->post('pass1'), PASSWORD_DEFAULT),
                 'role_id' => 2,
                 'agama_id' => 8,
@@ -89,6 +90,53 @@ class Bapendik extends CI_Controller
         }
     }
 
+    public function updatepassword()
+    {
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $this->form_validation->set_rules('current_password', 'Password Saat Ini', 'required|trim', [
+            'required' => 'Password Baru harus diisi'
+        ]);
+        $this->form_validation->set_rules('new_password', 'Password Baru', 'required|trim|min_length[8]|callback_valid_password2|matches[confirm_password]', [
+            'required' => 'Password Baru harus diisi',
+            'matches' => 'Password tidak sesuai',
+            'min_length' => 'Password terlalu pendek'
+        ]);
+        $this->form_validation->set_rules('confirm_password', 'Konfirmasi Password Baru', 'required|trim|matches[new_password]', [
+            'required' => 'Konfirmasi Password harus diisi'
+        ]);
+
+        if ($this->form_validation->run() == false) {
+            $this->profil();
+        } else {
+            $current_password = $this->input->post('current_password');
+            $new_password = $this->input->post('new_password');
+
+            // Memeriksa apakah password saat ini sesuai
+            if (!password_verify($current_password, $data['user']['pass'])) {
+                $this->session->set_flashdata('message', 'Password Salah');
+            } else {
+                // Memeriksa apakah password baru sama dengan password lama
+                if ($current_password == $new_password) {
+                    $this->session->set_flashdata('message', 'Password Baru tidak boleh sama dengan password lama');
+                } else {
+                    // Hash password baru
+                    $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
+
+                    // Simpan password baru ke dalam basis data
+                    $this->db->set('pass', $password_hash);
+                    $this->db->where('email', $this->session->userdata('email'));
+                    $this->db->update('tb_user');
+
+                    $this->session->set_flashdata('message', 'Password Berhasil Diubah');
+                }
+            }
+
+            // Setelah proses selesai, redirect ke halaman profil
+            redirect('bapendik/profil');
+        }
+    }
+
     public function valid_password($password)
     {
         $password = trim($password);
@@ -101,6 +149,20 @@ class Bapendik extends CI_Controller
             return FALSE;
         }
     }
+
+    public function valid_password2($password)
+    {
+        $password = trim($password);
+        $regex = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).+$/';
+
+        if (preg_match($regex, $password)) {
+            return TRUE;
+        } else {
+            $this->form_validation->set_message('valid_password2', 'Password harus terdiri dari minimal 8 karakter, berisi minimal satu huruf kapital, satu huruf kecil, satu angka, dan satu simbol.');
+            return FALSE;
+        }
+    }
+
 
     public function updatebiodata()
     {
@@ -154,7 +216,7 @@ class Bapendik extends CI_Controller
                     }
                 } else {
                     $this->session->set_flashdata('error', $this->upload->display_errors());
-                    redirect('mahasiswa/profil');
+                    redirect('bapendik/profil');
                     return;
                 }
             } else {
@@ -631,30 +693,30 @@ class Bapendik extends CI_Controller
 
         // Validasi Form
         $this->form_validation->set_rules('nim_mhs', 'NIM', 'required|trim', [
-            'required' => 'NIM harus diisi!'
+            'required' => 'NIM Mahasiswa harus diisi!'
         ]);
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim', [
-            'required' => 'Nama harus diisi!'
+            'required' => 'Nama Mahasiswa harus diisi!'
         ]);
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[tb_user.email]', [
-            'required' => 'Email harus diisi!',
-            'valid_email' => 'Email tidak valid!',
+            'required' => 'Email Mahasiswa harus diisi!',
+            'valid_email' => 'Email Mahasiswa tidak valid!',
             'is_unique' => 'Email ini sudah terdaftar!'
         ]);
         $this->form_validation->set_rules('gender', 'Jenis Kelamin', 'required|trim', [
             'required' => 'Jenis Kelamin harus diisi!'
         ]);
         $this->form_validation->set_rules('prodi_id', 'Prodi', 'required|trim', [
-            'required' => 'Prodi harus diisi!'
+            'required' => 'Prodi Mahasiswa harus diisi!'
         ]);
         $this->form_validation->set_rules('telp', 'No Telp', 'required|trim', [
-            'required' => 'No Telp harus diisi!'
+            'required' => 'No Telepon Mahasiswa harus diisi!'
         ]);
         $this->form_validation->set_rules('pembiayaan', 'Pembiayaan', 'required|trim', [
-            'required' => 'Pembiayaan harus diisi!'
+            'required' => 'Pembiayaan Mahasiswa harus diisi!'
         ]);
         $this->form_validation->set_rules('pa', 'Pembimbing Akademik', 'required|trim', [
-            'required' => 'Pembimbing Akademik harus diisi!'
+            'required' => 'Pembimbing Akademik Mahasiswa harus diisi!'
         ]);
         $data['prodi'] = $this->db->get('tb_prodi')->result_array();
 
@@ -674,7 +736,7 @@ class Bapendik extends CI_Controller
         $data_user = array(
             'nama' => htmlspecialchars($this->input->post('nama', TRUE)),
             'email' => htmlspecialchars($this->input->post('email', TRUE)),
-            'image' => 'default.jpg', // Default image if no upload
+            'image' => 'user.jpg',
             'pass' => password_hash($nim, PASSWORD_DEFAULT),
             'gender' => $this->input->post('gender'),
             'telp' => $this->input->post('telp'),

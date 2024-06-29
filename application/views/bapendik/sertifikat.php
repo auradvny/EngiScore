@@ -3,14 +3,14 @@
             <div class="col-lg-6">
                 <!-- Tabel untuk Bidang -->
                 <div class="mb-4">
-                    <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newBidangModal">Tambah Bidang</a>
+                    <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newBidangModal"><i class="fas fa-plus"></i> Tambah Bidang</a>
                     <div class="card">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
                                     <th scope="col">Bidang</th>
-                                    <th scope="col">Actions</th>
+                                    <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -86,13 +86,14 @@
             <!--Kategori-->
             <hr class="my-4">
             <div class="col-lg-6">
-                <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newKategoriModal">Tambah Kategori</a>
+                <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newKategoriModal"><i class="fas fa-plus"></i> Tambah Kategori</a>
                 <div class="card">
                     <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Kategori</th>
+                                <th scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -174,13 +175,14 @@
         <!--Capaian-->
         <hr class="my-4">
         <div class="col-lg-6">
-            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newCapaianModal">Tambah Capaian</a>
+            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newCapaianModal"><i class="fas fa-plus"></i> Tambah Capaian</a>
             <div class="card">
                 <table class="table table-hover">
                     <thead>
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Capaian</th>
+                            <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -257,7 +259,7 @@
         <!--Sertifikat-->
         <hr class="my-4">
         <div class="col-lg-12">
-            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSertifikatModal">Tambah Sertifikat</a>
+            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSertifikatModal"><i class="fas fa-plus"></i> Tambah Sertifikat</a>
             <table class="table table-hover">
                 <thead>
                     <tr>
