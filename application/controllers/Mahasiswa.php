@@ -338,8 +338,27 @@ class Mahasiswa extends CI_Controller
     {
         $data['title'] = 'Laporan';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-        $data['nim_mhs'] = $this->Model_NIM->getNim($data['user']['email']);
-        $data['points'] = $this->Model_Mahasiswa->getPoin($data['user']['email']);
+
+        // Memastikan Model_Mahasiswa dimuat
+        $this->load->model('Model_Mahasiswa');
+
+        // Mendapatkan data mahasiswa termasuk nim_mhs berdasarkan email
+        $mahasiswa = $this->Model_Mahasiswa->getDataMhs($data['user']['email']);
+        
+        if ($mahasiswa) {
+            $data['nim_mhs'] = $mahasiswa['nim_mhs'];
+            $data['points'] = $this->Model_Mahasiswa->getPoin($data['user']['email']);
+
+            // Mendapatkan data permohonan berdasarkan nim_mhs
+            $data['permohonan'] = $this->Model_Mahasiswa->getPermohonanByNim($data['nim_mhs']);
+            // Mendapatkan data sertifikat
+            $data['sertif'] = $this->Model_Sertifikat->getSertif();
+        } else {
+            $data['nim_mhs'] = null;
+            $data['points'] = [];
+            $data['permohonan'] = [];
+            $data['sertif'] = [];
+        }
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
