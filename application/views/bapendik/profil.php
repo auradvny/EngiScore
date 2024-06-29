@@ -12,8 +12,33 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="text-center">
-                                    <img src="<?= base_url('assets/img/profile/') . $user['image']; ?>" alt="Profile Image" width="200px" id="profileImage" style="cursor: pointer;">
+                                    <!-- Link untuk tampilkan gambar dalam modal -->
+                                    <a href="#" data-toggle="modal" data-target="#modalGambarProfil">
+                                        <img src="<?= base_url('assets/img/profile/') . $user['image']; ?>" alt="Profile Image" width="200px" id="profileImage" style="cursor: pointer;">
+                                    </a>
                                 </div>
+
+                                <!-- Modal untuk gambar profil -->
+                                <div class="modal fade" id="modalGambarProfil" tabindex="-1" aria-labelledby="modalGambarProfilLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalGambarProfilLabel"><span style="text-transform: uppercase;font-weight: bold;"><?= $user['nama']; ?></span></h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <img src="<?= base_url('assets/img/profile/') . $user['image']; ?>" alt="Profile Image" style="max-width: 100%; max-height: 70vh;">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a href="<?= base_url('assets/img/profile/') . $user['image']; ?>" class="btn btn-primary" download>Unduh</a>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="form-group required">
                                     <label class="control-label" for="nip">NIP Pegawai</label>
                                     <input type=" text" id="nip" class=" form-control" name="nip" value=" <?= $user['nip']; ?>" maxlength="25" aria-required="true" readonly="true">

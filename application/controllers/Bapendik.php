@@ -543,13 +543,18 @@ class Bapendik extends CI_Controller
         $bidang = $this->db->get_where('tb_sertif_bidang', ['id' => $id])->row_array();
 
         if ($bidang) {
+            // Delete rows from tb_sertif with the same bidang_id
+            $this->db->where('bidang_id', $id);
+            $this->db->delete('tb_sertif');
+
+            // Delete the bidang itself
             $this->db->where('id', $id);
             $this->db->delete('tb_sertif_bidang');
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Bidang berhasil dihapus!</div>');
+
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Bidang dan sertifikat terkait berhasil dihapus!</div>');
         } else {
             $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Bidang tidak ditemukan atau sudah dihapus.</div>');
         }
-
         redirect('bapendik/sertifikat');
     }
 
@@ -582,14 +587,20 @@ class Bapendik extends CI_Controller
     public function delete_capaian($id)
     {
         // Check if the ID exists in the database
-        $bidang = $this->db->get_where('tb_sertif_capaian', ['id' => $id])->row_array();
+        $capaian = $this->db->get_where('tb_sertif_capaian', ['id' => $id])->row_array();
 
-        if ($bidang) {
+        if ($capaian) {
+            // Delete rows from tb_sertif with the same capaian_id
+            $this->db->where('capaian_id', $id);
+            $this->db->delete('tb_sertif');
+
+            // Delete the capaian itself
             $this->db->where('id', $id);
             $this->db->delete('tb_sertif_capaian');
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Capaian berhasil dihapus!</div>');
+
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Capaian dan sertifikat terkait berhasil dihapus!</div>');
         } else {
-            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">capaian tidak ditemukan atau sudah dihapus.</div>');
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Capaian tidak ditemukan atau sudah dihapus.</div>');
         }
 
         redirect('bapendik/sertifikat');
@@ -650,16 +661,21 @@ class Bapendik extends CI_Controller
     public function delete_kategori($id)
     {
         // Check if the ID exists in the database
-        $bidang = $this->db->get_where('tb_sertif_kategori', ['id' => $id])->row_array();
+        $kategori = $this->db->get_where('tb_sertif_kategori', ['id' => $id])->row_array();
 
-        if ($bidang) {
+        if ($kategori) {
+            // Delete rows from tb_sertif with the same kategori_id
+            $this->db->where('kategori_id', $id);
+            $this->db->delete('tb_sertif');
+
+            // Delete the kategori itself
             $this->db->where('id', $id);
             $this->db->delete('tb_sertif_kategori');
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori berhasil dihapus!</div>');
+
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori dan sertifikat terkait berhasil dihapus!</div>');
         } else {
             $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Kategori tidak ditemukan atau sudah dihapus.</div>');
         }
-
         redirect('bapendik/sertifikat');
     }
 
