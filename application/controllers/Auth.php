@@ -124,7 +124,7 @@ class Auth extends CI_Controller
 		$this->session->unset_userdata('email');
 		$this->session->unset_userdata('role_id');
 		$this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">
-            Anda Berhasil Keluar!</div>');
+            You successfully logged out!</div>');
 		redirect('auth');
 	}
 

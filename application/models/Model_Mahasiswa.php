@@ -15,7 +15,7 @@ class Model_Mahasiswa extends CI_Model
         JOIN tb_user ON tb_mhs.user_id = tb_user.id 
         JOIN tb_prodi ON tb_mhs.prodi_id = tb_prodi.id
         WHERE tb_user.role_id = 1
-        ORDER BY tb_user.id DESC";
+        ORDER BY tb_mhs.nim_mhs";
         return $this->db->query($query)->result_array();
     }
 

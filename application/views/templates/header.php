@@ -27,4 +27,32 @@
   <!-- Custom styles for this template-->
   <link href="<?= base_url('assets/'); ?>css/sb-admin-2.min.css" rel="stylesheet">
 
-</head>
+  <style>
+    /* Style untuk header fixed */
+    .main-header {
+      position: fixed;
+      width: 100%;
+      z-index: 1030;
+      /* Menentukan layer stacking order */
+    }
+
+    /* Style untuk footer solid */
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #f8f9fa;
+      border-top: 1px solid #dee2e6;
+      padding: 10px 0;
+      text-align: center;
+    }
+
+
+    /* Style untuk konten utama */
+    .content-wrapper {
+      margin-top: 0px;
+      /* Sesuaikan dengan tinggi header Anda */
+      margin-bottom: 50px;
+      /* Sesuaikan dengan tinggi footer Anda */
+    }
+  </style>

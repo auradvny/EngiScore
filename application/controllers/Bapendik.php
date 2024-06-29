@@ -89,94 +89,18 @@ class Bapendik extends CI_Controller
         }
     }
 
-    public function check_nip_unique($nip)
+    public function check_nip_exists($nip)
     {
         $this->db->where('nip', $nip);
-        $query = $this->db->get('tb_user');
+        $result = $this->db->get('tb_user');
 
-        if ($query->num_rows() > 0) {
-            $this->form_validation->set_message('check_nip_unique', 'This NIP has already been registered');
+        if ($result->num_rows() > 0) {
+            $this->form_validation->set_message('check_nip_exists', 'NIP sudah terdaftar!');
             return FALSE;
         } else {
             return TRUE;
         }
     }
-
-    public function updatepassword()
-    {
-        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-
-        $this->form_validation->set_rules('current_password', 'Password Saat Ini', 'required|trim', [
-            'required' => 'Password Baru harus diisi'
-        ]);
-        $this->form_validation->set_rules('new_password', 'Password Baru', 'required|trim|min_length[8]|callback_valid_password2|matches[confirm_password]', [
-            'required' => 'Password Baru harus diisi',
-            'matches' => 'Password tidak sesuai',
-            'min_length' => 'Password terlalu pendek'
-        ]);
-        $this->form_validation->set_rules('confirm_password', 'Konfirmasi Password Baru', 'required|trim|matches[new_password]', [
-            'required' => 'Konfirmasi Password harus diisi',
-            'matches' => 'Password tidak sesuai',
-            'min_length' => 'Password terlalu pendek'
-        ]);
-
-        if ($this->form_validation->run() == false) {
-            $this->profil();
-        } else {
-            $current_password = $this->input->post('current_password');
-            $new_password = $this->input->post('new_password');
-
-            // Memeriksa apakah password saat ini sesuai
-            if (!password_verify($current_password, $data['user']['pass'])) {
-                $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Password Salah');
-            } else {
-                // Memeriksa apakah password baru sama dengan password lama
-                if ($current_password == $new_password) {
-                    $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Password baru tidak boleh sama dengan password lama');
-                } else {
-                    // Hash password baru
-                    $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
-
-                    // Simpan password baru ke dalam basis data
-                    $this->db->set('pass', $password_hash);
-                    $this->db->where('email', $this->session->userdata('email'));
-                    $this->db->update('tb_user');
-
-                    $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Password Berhasil Diubah');
-                }
-            }
-
-            // Setelah proses selesai, redirect ke halaman profil
-            redirect('bapendik/profil');
-        }
-    }
-
-    public function valid_password($password)
-    {
-        $password = trim($password);
-        $regex = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).+$/';
-
-        if (preg_match($regex, $password)) {
-            return TRUE;
-        } else {
-            $this->form_validation->set_message('valid_password', 'The password must be at least 8 characters long, containing at least one capital letter, one lowercase letter, one number, and one symbol.');
-            return FALSE;
-        }
-    }
-
-    public function valid_password2($password)
-    {
-        $password = trim($password);
-        $regex = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).+$/';
-
-        if (preg_match($regex, $password)) {
-            return TRUE;
-        } else {
-            $this->form_validation->set_message('valid_password2', 'Password harus terdiri dari minimal 8 karakter, berisi minimal satu huruf kapital, satu huruf kecil, satu angka, dan satu simbol.');
-            return FALSE;
-        }
-    }
-
 
     public function updatebiodata()
     {
@@ -257,17 +181,79 @@ class Bapendik extends CI_Controller
         }
     }
 
-    public function laporan()
+    public function valid_password($password)
     {
-        $data['title'] = 'Laporan';
-        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-        $this->load->model('Model_Laporan');
-        $data['laporan'] = $this->Model_Laporan->get_laporan();
+        $password = trim($password);
+        $regex = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).+$/';
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('bapendik/laporan', $data);
-        $this->load->view('templates/footer');
+        if (preg_match($regex, $password)) {
+            return TRUE;
+        } else {
+            $this->form_validation->set_message('valid_password', 'The password must be at least 8 characters long, containing at least one capital letter, one lowercase letter, one number, and one symbol.');
+            return FALSE;
+        }
+    }
+
+    public function updatepassword()
+    {
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $this->form_validation->set_rules('current_password', 'Password Saat Ini', 'required|trim', [
+            'required' => 'Password Baru harus diisi'
+        ]);
+        $this->form_validation->set_rules('new_password', 'Password Baru', 'required|trim|min_length[8]|callback_valid_password2|matches[confirm_password]', [
+            'required' => 'Password Baru harus diisi',
+            'matches' => 'Password tidak sesuai',
+            'min_length' => 'Password terlalu pendek'
+        ]);
+        $this->form_validation->set_rules('confirm_password', 'Konfirmasi Password Baru', 'required|trim|matches[new_password]', [
+            'required' => 'Konfirmasi Password harus diisi',
+            'matches' => 'Password tidak sesuai',
+            'min_length' => 'Password terlalu pendek'
+        ]);
+
+        if ($this->form_validation->run() == false) {
+            $this->profil();
+        } else {
+            $current_password = $this->input->post('current_password');
+            $new_password = $this->input->post('new_password');
+
+            // Memeriksa apakah password saat ini sesuai
+            if (!password_verify($current_password, $data['user']['pass'])) {
+                $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Password Salah');
+            } else {
+                // Memeriksa apakah password baru sama dengan password lama
+                if ($current_password == $new_password) {
+                    $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Password baru tidak boleh sama dengan password lama');
+                } else {
+                    // Hash password baru
+                    $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
+
+                    // Simpan password baru ke dalam basis data
+                    $this->db->set('pass', $password_hash);
+                    $this->db->where('email', $this->session->userdata('email'));
+                    $this->db->update('tb_user');
+
+                    $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Password Berhasil Diubah');
+                }
+            }
+
+            // Setelah proses selesai, redirect ke halaman profil
+            redirect('bapendik/profil');
+        }
+    }
+
+    public function valid_password2($password)
+    {
+        $password = trim($password);
+        $regex = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).+$/';
+
+        if (preg_match($regex, $password)) {
+            return TRUE;
+        } else {
+            $this->form_validation->set_message('valid_password2', 'Password harus terdiri dari minimal 8 karakter, berisi minimal satu huruf kapital, satu huruf kecil, satu angka, dan satu simbol.');
+            return FALSE;
+        }
     }
 
     public function mahasiswa()
@@ -285,444 +271,13 @@ class Bapendik extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function verifikasi()
-    {
-        $data['title'] = 'Verifikasi';
-        // $this->db->order_by('id', 'DESC');
-        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-
-        //  $data['verifikasi'] = $this->db->get_where('tb_permo', ['persetujuan' => 0])->result_array();
-
-        $data['verifikasi'] = $this->Model_Verifikasi->getVerif();
-        // $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
-        // $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
-        // $data['capaian'] = $this->db->get('tb_sertif_capaian')->result_array();
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('bapendik/verifikasi', $data);
-        $this->load->view('templates/footer');
-    }
-
-    public function tambah_verif()
-    {
-        $persetujuan_list = $this->input->post('persetujuan');
-        $ids = $this->input->post('id');
-        $nim_mhs_list = $this->input->post('nim_mhs');
-        $bidang_id_list = $this->input->post('bidang_id');
-        $kategori_id_list = $this->input->post('kategori_id');
-        $capaian_id_list = $this->input->post('capaian_id');
-
-        foreach ($ids as $id) {
-            $persetujuan = isset($persetujuan_list[$id]) ? $persetujuan_list[$id] : null;
-            $nim_mhs = isset($nim_mhs_list[$id]) ? $nim_mhs_list[$id] : null;
-            $bidang_id = isset($bidang_id_list[$id]) ? $bidang_id_list[$id] : null;
-            $kategori_id = isset($kategori_id_list[$id]) ? $kategori_id_list[$id] : null;
-            $capaian_id = isset($capaian_id_list[$id]) ? $capaian_id_list[$id] : null;
-
-            if ($persetujuan !== null && $nim_mhs !== null) {
-                $data = [
-                    'persetujuan' => $persetujuan
-                ];
-
-                // Update the persetujuan field in tb_permo
-                $this->db->where('id', $id);
-                $this->db->update('tb_permo', $data);
-
-                if ($persetujuan == 1 && $bidang_id !== null && $kategori_id !== null && $capaian_id !== null) {
-                    // Fetch the points from tb_sertif
-                    $this->db->select('skor');
-                    $this->db->from('tb_sertif');
-                    $this->db->where('bidang_id', $bidang_id);
-                    $this->db->where('kategori_id', $kategori_id);
-                    $this->db->where('capaian_id', $capaian_id);
-                    $sertif = $this->db->get()->row_array();
-
-                    if ($sertif) {
-                        $points = $sertif['skor'];
-
-                        // Fetch the current point from tb_mhs
-                        $this->db->select('point');
-                        $this->db->from('tb_mhs');
-                        $this->db->where('nim_mhs', $nim_mhs);
-                        $mhs = $this->db->get()->row_array();
-
-                        if ($mhs) {
-                            $current_points = $mhs['point'];
-                            $new_points = $current_points + $points;
-
-                            // Update the points in tb_mhs
-                            $this->db->set('point', $new_points);
-                            $this->db->where('nim_mhs', $nim_mhs);
-                            $this->db->update('tb_mhs');
-                        } else {
-                            // Handle case where the student is not found in tb_mhs
-                            // Optional: Insert the student with the new points if not found
-                            $new_points = $points;
-
-                            $this->db->insert('tb_mhs', [
-                                'nim_mhs' => $nim_mhs,
-                                'point' => $new_points
-                            ]);
-                        }
-                    }
-                    redirect('bapendik/verif_setuju');
-                }
-                redirect('bapendik/verif_tolak');
-            }
-        }
-
-        // Set flashdata for notification
-        $this->session->set_flashdata('success', 'Persetujuan berhasil disimpan.');
-
-        // Redirect based on the value of persetujuan
-        if ($persetujuan == 1) {
-            redirect('bapendik/verif_setuju');
-        } elseif ($persetujuan == 2) {
-            redirect('bapendik/verif_tolak');
-        } else {
-            redirect('bapendik/verifikasi');
-        }
-    }
-
-
-    public function verif_setuju()
-    {
-        $data['title'] = 'Verifikasi Disetujui';
-        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-
-        // $data['verifikasi'] = $this->Model_Verifikasi->getVerifikasi();
-        // $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
-        // $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
-        // $data['capaian'] = $this->db->get('tb_sertif_capaian')->result_array();
-        // $this->db->order_by('id', 'DESC');
-        // $data['verifikasi'] = $this->db->get_where('tb_permo', ['persetujuan' => 1])->result_array();
-
-        $data['verifikasi'] = $this->Model_Verifikasi->getVerifSetuju();
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('bapendik/verif_setuju', $data);
-        $this->load->view('templates/footer');
-    }
-
-    public function verif_tolak()
-    {
-        $data['title'] = 'Verifikasi Ditolak';
-        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-
-        // $data['verifikasi'] = $this->Model_Verifikasi->getVerifikasi();
-        // $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
-        // $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
-        // $data['capaian'] = $this->db->get('tb_sertif_capaian')->result_array();
-        // $this->db->order_by('id', 'DESC');
-        // $data['verifikasi'] = $this->db->get_where('tb_permo', ['persetujuan' => 2])->result_array();
-
-        $data['verifikasi'] = $this->Model_Verifikasi->getVerifTolak();
-
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('bapendik/verif_tolak', $data);
-        $this->load->view('templates/footer');
-    }
-
-
-    public function sertifikat()
-    {
-        $data['title'] = 'Sertifikat';
-        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-
-        $data['sertifikat'] = $this->Model_Sertifikat->getSertif();
-        $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
-        $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
-        $data['capaian'] = $this->db->get('tb_sertif_capaian')->result_array();
-
-        $this->form_validation->set_rules('bidang_id', 'Bidang', 'required', array('required' => 'Bidang harus diisi.'));
-        $this->form_validation->set_rules('capaian_id', 'Capaian', 'required', array('required' => 'Capaian harus diisi.'));
-        $this->form_validation->set_rules('kategori_id', 'Kategori', 'required', array('required' => 'Kategori harus diisi.'));
-        $this->form_validation->set_rules('skor', 'Skor', 'required', array('required' => 'Skor harus diisi.'));
-
-        if ($this->form_validation->run() == FALSE) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('bapendik/sertifikat', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $sertif_data = [
-                'bidang_id' => $this->input->post('bidang_id'),
-                'capaian_id' => $this->input->post('capaian_id'),
-                'kategori_id' => $this->input->post('kategori_id'),
-                'skor' => $this->input->post('skor')
-            ];
-            $this->db->insert('tb_sertif', $sertif_data);
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Data sertifikat berhasil ditambahkan!</div>');
-            redirect('bapendik/sertifikat');
-        }
-    }
-
-    public function edit_sertif($id)
-    {
-        $bidang_id = $this->input->post('bidang_id');
-        $capaian_id = $this->input->post('capaian_id');
-        $kategori_id = $this->input->post('kategori_id');
-        $skor = $this->input->post('skor');
-
-        if ($bidang_id && $capaian_id && $kategori_id && $skor) {
-            $data = [
-                'bidang_id' => $bidang_id,
-                'capaian_id' => $capaian_id,
-                'kategori_id' => $kategori_id,
-                'skor' => $skor
-            ];
-            $this->db->where('id', $id);
-            $this->db->update('tb_sertif', $data);
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Sertifikat berhasil diupdate!</div>');
-        } else {
-            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Semua field harus diisi!</div>');
-        }
-        redirect('bapendik/sertifikat');
-    }
-
-    public function delete_sertifikat($id)
-    {
-        // Check if the ID exists in the database
-        $bidang = $this->db->get_where('tb_sertif', ['id' => $id])->row_array();
-
-        if ($bidang) {
-            $this->db->where('id', $id);
-            $this->db->delete('tb_sertif');
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Sertifikat berhasil dihapus!</div>');
-        } else {
-            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Sertifikat tidak ditemukan atau sudah dihapus.</div>');
-        }
-
-        redirect('bapendik/sertifikat');
-    }
-
-    public function tambah_bidang()
-    {
-        $nama_bidang = $this->input->post('nama_bidang');
-        if ($nama_bidang) {
-            $this->db->insert('tb_sertif_bidang', ['bidang' => $nama_bidang]);
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Bidang berhasil ditambahkan!</div>');
-        } else {
-            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama bidang harus diisi!</div>');
-        }
-        redirect('bapendik/sertifikat');
-    }
-
-    public function edit_bidang($id)
-    {
-        $bidang = $this->input->post('bidang');
-        if ($bidang) {
-            $this->db->where('id', $id);
-            $this->db->update('tb_sertif_bidang', ['bidang' => $bidang]);
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Bidang berhasil diupdate!</div>');
-        } else {
-            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama bidang harus diisi!</div>');
-        }
-        redirect('bapendik/sertifikat');
-    }
-
-    public function update_bidang()
-    {
-        // Get the data from the form
-        $id = $this->input->post('id');
-        $bidang = $this->input->post('bidang');
-
-        // Prepare the data to be updated
-        $data = [
-            'bidang' => $bidang
-        ];
-
-        // Call the model function to update the data
-        $result = $this->Model_Sertifikat->updateBidang($id, $data);
-
-        // Check if the update was successful
-        if ($result) {
-            // Set a success message
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Bidang berhasil diupdate!</div>');
-        } else {
-            // Set an error message
-            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Bidang gagal diupdate!</div>');
-        }
-
-        // Redirect to the bidang page
-        redirect('bapendik/sertifikat');
-    }
-
-    public function delete_bidang($id)
-    {
-        // Check if the ID exists in the database
-        $bidang = $this->db->get_where('tb_sertif_bidang', ['id' => $id])->row_array();
-
-        if ($bidang) {
-            // Delete rows from tb_sertif with the same bidang_id
-            $this->db->where('bidang_id', $id);
-            $this->db->delete('tb_sertif');
-
-            // Delete the bidang itself
-            $this->db->where('id', $id);
-            $this->db->delete('tb_sertif_bidang');
-
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Bidang dan sertifikat terkait berhasil dihapus!</div>');
-        } else {
-            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Bidang tidak ditemukan atau sudah dihapus.</div>');
-        }
-        redirect('bapendik/sertifikat');
-    }
-
-
-    public function tambah_capaian()
-    {
-        $nama_capaian = $this->input->post('nama_capaian');
-        if ($nama_capaian) {
-            $this->db->insert('tb_sertif_capaian', ['capaian' => $nama_capaian]);
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Capaian berhasil ditambahkan!</div>');
-        } else {
-            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama capaian harus diisi!</div>');
-        }
-        redirect('bapendik/sertifikat');
-    }
-
-    public function edit_capaian($id)
-    {
-        $capaian = $this->input->post('nama_capaian');
-        if ($capaian) {
-            $this->db->where('id', $id);
-            $this->db->update('tb_sertif_capaian', ['capaian' => $capaian]);
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Capaian berhasil diupdate!</div>');
-        } else {
-            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama capaian harus diisi!</div>');
-        }
-        redirect('bapendik/sertifikat');
-    }
-
-    public function delete_capaian($id)
-    {
-        // Check if the ID exists in the database
-        $capaian = $this->db->get_where('tb_sertif_capaian', ['id' => $id])->row_array();
-
-        if ($capaian) {
-            // Delete rows from tb_sertif with the same capaian_id
-            $this->db->where('capaian_id', $id);
-            $this->db->delete('tb_sertif');
-
-            // Delete the capaian itself
-            $this->db->where('id', $id);
-            $this->db->delete('tb_sertif_capaian');
-
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Capaian berhasil dihapus!</div>');
-        } else {
-            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Capaian tidak ditemukan atau sudah dihapus.</div>');
-        }
-
-        redirect('bapendik/sertifikat');
-    }
-
-    public function tambah_kategori()
-    {
-        $nama_kategori = $this->input->post('nama_kategori');
-        if ($nama_kategori) {
-            $this->db->insert('tb_sertif_kategori', ['kategori' => $nama_kategori]);
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori berhasil ditambahkan!</div>');
-        } else {
-            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama kategori harus diisi!</div>');
-        }
-        redirect('bapendik/sertifikat');
-    }
-
-    public function edit_kategori($id)
-    {
-        $kategori = $this->input->post('kategori');
-        if ($kategori) {
-            $this->db->where('id', $id);
-            $this->db->update('tb_sertif_kategori', ['kategori' => $kategori]);
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori berhasil diupdate!</div>');
-        } else {
-            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama kategori harus diisi!</div>');
-        }
-        redirect('bapendik/sertifikat');
-    }
-
-    public function update_kategori()
-    {
-        // Get the data from the form
-        $id = $this->input->post('id');
-        $kategori = $this->input->post('kategori');
-
-        // Prepare the data to be updated
-        $data = [
-            'kategori' => $kategori
-        ];
-
-        // Call the model function to update the data
-        $result = $this->Model_Sertifikat->updateKategori($id, $data);
-
-        // Check if the update was successful
-        if ($result) {
-            // Set a success message
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Kategori berhasil diupdate!</div>');
-        } else {
-            // Set an error message
-            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Kategori gagal diupdate!</div>');
-        }
-
-        // Redirect to the bidang page
-        redirect('bapendik/sertifikat');
-    }
-
-    public function delete_kategori($id)
-    {
-        // Check if the ID exists in the database
-        $kategori = $this->db->get_where('tb_sertif_kategori', ['id' => $id])->row_array();
-
-        if ($kategori) {
-            // Delete rows from tb_sertif with the same kategori_id
-            $this->db->where('kategori_id', $id);
-            $this->db->delete('tb_sertif');
-
-            // Delete the kategori itself
-            $this->db->where('id', $id);
-            $this->db->delete('tb_sertif_kategori');
-
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori dan sertifikat terkait berhasil dihapus!</div>');
-        } else {
-            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Kategori tidak ditemukan atau sudah dihapus.</div>');
-        }
-        redirect('bapendik/sertifikat');
-    }
-
-    public function sertif_kategori()
-    {
-        $data['title'] = 'Kategori Sertifikat';
-        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-
-        $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
-
-        $this->form_validation->set_rules('kategori', 'Kategori', 'required', array('required' => 'Kategori harus diisi.'));
-
-        if ($this->form_validation->run() == FALSE) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('bapendik/kategori_sertif', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $this->db->insert('tb_sertif_kategori', ['kategori' => $this->input->post('kategori')]);
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori berhasil ditambahkan!</div>');
-            redirect('bapendik/sertifikat');
-        }
-    }
-
     public function tambah_mhs()
     {
         $data['title'] = 'Tambah Mahasiswa';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
 
-
-
         // Validasi Form
-        $this->form_validation->set_rules('nim_mhs', 'NIM', 'required|trim', [
+        $this->form_validation->set_rules('nim_mhs', 'NIM', 'required|trim|callback_check_nim_exists', [
             'required' => 'NIM Mahasiswa harus diisi!'
         ]);
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim', [
@@ -757,6 +312,19 @@ class Bapendik extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $this->tambah_aksi();
+        }
+    }
+
+    public function check_nim_exists($nim)
+    {
+        $this->db->where('nim_mhs', $nim);
+        $result = $this->db->get('tb_mhs');
+
+        if ($result->num_rows() > 0) {
+            $this->form_validation->set_message('check_nim_exists', 'NIM ini sudah terdaftar!');
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -891,8 +459,6 @@ class Bapendik extends CI_Controller
         redirect('bapendik/mahasiswa');
     }
 
-
-
     public function hapusMahasiswa($id)
     {
         // Load the model if it's not autoloaded
@@ -914,46 +480,424 @@ class Bapendik extends CI_Controller
         redirect('bapendik/mahasiswa');
     }
 
+    public function tambah_bidang()
+    {
+        $nama_bidang = $this->input->post('nama_bidang');
+        if ($nama_bidang) {
+            $this->db->insert('tb_sertif_bidang', ['bidang' => $nama_bidang]);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Bidang berhasil ditambahkan!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama bidang harus diisi!</div>');
+        }
+        redirect('bapendik/sertifikat');
+    }
 
-    // public function edit_mhs($id)
-    // {
-    //     $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+    public function edit_bidang($id)
+    {
+        $bidang = $this->input->post('bidang');
+        if ($bidang) {
+            $this->db->where('id', $id);
+            $this->db->update('tb_sertif_bidang', ['bidang' => $bidang]);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Bidang berhasil diupdate!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama bidang harus diisi!</div>');
+        }
+        redirect('bapendik/sertifikat');
+    }
 
-    //     $this->_rules();
+    public function update_bidang()
+    {
+        // Get the data from the form
+        $id = $this->input->post('id');
+        $bidang = $this->input->post('bidang');
 
-    //     if ($this->form_validation->run() == FALSE) {
-    //         $this->index();
-    //     } else {
-    //         $data = array(
-    //             'id' => $id,
-    //             //'nim_mhs' => $nim_mhs,
-    //             'nama' => $this->input->post('nama'),
-    //             'email' => $this->input->post('email'),
-    //             // 'pass_mhs' => $this->input->post('pass_mhs'),
-    //             'gender' => $this->input->post('gender'),
-    //             'prodi' => $this->input->post('prodi'),
-    //             'telp' => $this->input->post('telp'),
-    //             'alamat' => $this->input->post('alamat'),
-    //         );
+        // Prepare the data to be updated
+        $data = [
+            'bidang' => $bidang
+        ];
 
-    //         $this->Model_Mahasiswa->update_data($data, 'tb_user');
-    //         $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-    //         Data Berhasil Diubah!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    //         <span aria-hidden="true">&times;</span></button></div>');
-    //         redirect('mahasiswa');
-    //     }
-    // }
+        // Call the model function to update the data
+        $result = $this->Model_Sertifikat->updateBidang($id, $data);
 
-    // public function delete_mhs($id)
-    // {
-    //     $where = array('id' => $id);
+        // Check if the update was successful
+        if ($result) {
+            // Set a success message
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Bidang berhasil diupdate!</div>');
+        } else {
+            // Set an error message
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Bidang gagal diupdate!</div>');
+        }
 
-    //     $this->Model_Mahasiswa->delete($where, 'tb_user');
-    //     $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-    //     Data Berhasil Di Hapus!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    //         <span aria-hidden="true">&times;</span></button></div>');
-    //     redirect('bapendik/mahasiswa');
-    // }
+        // Redirect to the bidang page
+        redirect('bapendik/sertifikat');
+    }
+
+    public function delete_bidang($id)
+    {
+        // Check if the ID exists in the database
+        $bidang = $this->db->get_where('tb_sertif_bidang', ['id' => $id])->row_array();
+
+        if ($bidang) {
+            // Delete rows from tb_sertif with the same bidang_id
+            $this->db->where('bidang_id', $id);
+            $this->db->delete('tb_sertif');
+
+            // Delete the bidang itself
+            $this->db->where('id', $id);
+            $this->db->delete('tb_sertif_bidang');
+
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Bidang dan sertifikat terkait berhasil dihapus!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Bidang tidak ditemukan atau sudah dihapus.</div>');
+        }
+        redirect('bapendik/sertifikat');
+    }
+
+    public function tambah_capaian()
+    {
+        $nama_capaian = $this->input->post('nama_capaian');
+        if ($nama_capaian) {
+            $this->db->insert('tb_sertif_capaian', ['capaian' => $nama_capaian]);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Capaian berhasil ditambahkan!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama capaian harus diisi!</div>');
+        }
+        redirect('bapendik/sertifikat');
+    }
+
+    public function edit_capaian($id)
+    {
+        $capaian = $this->input->post('nama_capaian');
+        if ($capaian) {
+            $this->db->where('id', $id);
+            $this->db->update('tb_sertif_capaian', ['capaian' => $capaian]);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Capaian berhasil diupdate!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama capaian harus diisi!</div>');
+        }
+        redirect('bapendik/sertifikat');
+    }
+
+    public function delete_capaian($id)
+    {
+        // Check if the ID exists in the database
+        $capaian = $this->db->get_where('tb_sertif_capaian', ['id' => $id])->row_array();
+
+        if ($capaian) {
+            // Delete rows from tb_sertif with the same capaian_id
+            $this->db->where('capaian_id', $id);
+            $this->db->delete('tb_sertif');
+
+            // Delete the capaian itself
+            $this->db->where('id', $id);
+            $this->db->delete('tb_sertif_capaian');
+
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Capaian berhasil dihapus!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Capaian tidak ditemukan atau sudah dihapus.</div>');
+        }
+
+        redirect('bapendik/sertifikat');
+    }
+
+    public function sertif_kategori()
+    {
+        $data['title'] = 'Kategori Sertifikat';
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
+
+        $this->form_validation->set_rules('kategori', 'Kategori', 'required', array('required' => 'Kategori harus diisi.'));
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('bapendik/kategori_sertif', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->db->insert('tb_sertif_kategori', ['kategori' => $this->input->post('kategori')]);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori berhasil ditambahkan!</div>');
+            redirect('bapendik/sertifikat');
+        }
+    }
+
+    public function tambah_kategori()
+    {
+        $nama_kategori = $this->input->post('nama_kategori');
+        if ($nama_kategori) {
+            $this->db->insert('tb_sertif_kategori', ['kategori' => $nama_kategori]);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori berhasil ditambahkan!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama kategori harus diisi!</div>');
+        }
+        redirect('bapendik/sertifikat');
+    }
+
+    public function edit_kategori($id)
+    {
+        $kategori = $this->input->post('kategori');
+        if ($kategori) {
+            $this->db->where('id', $id);
+            $this->db->update('tb_sertif_kategori', ['kategori' => $kategori]);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori berhasil diupdate!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Nama kategori harus diisi!</div>');
+        }
+        redirect('bapendik/sertifikat');
+    }
+
+    public function update_kategori()
+    {
+        // Get the data from the form
+        $id = $this->input->post('id');
+        $kategori = $this->input->post('kategori');
+
+        // Prepare the data to be updated
+        $data = [
+            'kategori' => $kategori
+        ];
+
+        // Call the model function to update the data
+        $result = $this->Model_Sertifikat->updateKategori($id, $data);
+
+        // Check if the update was successful
+        if ($result) {
+            // Set a success message
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Kategori berhasil diupdate!</div>');
+        } else {
+            // Set an error message
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Kategori gagal diupdate!</div>');
+        }
+
+        // Redirect to the bidang page
+        redirect('bapendik/sertifikat');
+    }
+
+    public function delete_kategori($id)
+    {
+        // Check if the ID exists in the database
+        $kategori = $this->db->get_where('tb_sertif_kategori', ['id' => $id])->row_array();
+
+        if ($kategori) {
+            // Delete rows from tb_sertif with the same kategori_id
+            $this->db->where('kategori_id', $id);
+            $this->db->delete('tb_sertif');
+
+            // Delete the kategori itself
+            $this->db->where('id', $id);
+            $this->db->delete('tb_sertif_kategori');
+
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Kategori dan sertifikat terkait berhasil dihapus!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Kategori tidak ditemukan atau sudah dihapus.</div>');
+        }
+        redirect('bapendik/sertifikat');
+    }
+
+    public function sertifikat()
+    {
+        $data['title'] = 'Sertifikat';
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data['sertifikat'] = $this->Model_Sertifikat->getSertif();
+        $data['bidang'] = $this->db->get('tb_sertif_bidang')->result_array();
+        $data['kategori'] = $this->db->get('tb_sertif_kategori')->result_array();
+        $data['capaian'] = $this->db->get('tb_sertif_capaian')->result_array();
+
+        $this->form_validation->set_rules('bidang_id', 'Bidang', 'required', array('required' => 'Bidang harus diisi.'));
+        $this->form_validation->set_rules('capaian_id', 'Capaian', 'required', array('required' => 'Capaian harus diisi.'));
+        $this->form_validation->set_rules('kategori_id', 'Kategori', 'required', array('required' => 'Kategori harus diisi.'));
+        $this->form_validation->set_rules('skor', 'Skor', 'required', array('required' => 'Skor harus diisi.'));
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('bapendik/sertifikat', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $sertif_data = [
+                'bidang_id' => $this->input->post('bidang_id'),
+                'capaian_id' => $this->input->post('capaian_id'),
+                'kategori_id' => $this->input->post('kategori_id'),
+                'skor' => $this->input->post('skor')
+            ];
+            $this->db->insert('tb_sertif', $sertif_data);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Data sertifikat berhasil ditambahkan!</div>');
+            redirect('bapendik/sertifikat');
+        }
+    }
+
+    public function edit_sertif($id)
+    {
+        $bidang_id = $this->input->post('bidang_id');
+        $capaian_id = $this->input->post('capaian_id');
+        $kategori_id = $this->input->post('kategori_id');
+        $skor = $this->input->post('skor');
+
+        if ($bidang_id && $capaian_id && $kategori_id && $skor) {
+            $data = [
+                'bidang_id' => $bidang_id,
+                'capaian_id' => $capaian_id,
+                'kategori_id' => $kategori_id,
+                'skor' => $skor
+            ];
+            $this->db->where('id', $id);
+            $this->db->update('tb_sertif', $data);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Sertifikat berhasil diupdate!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Semua field harus diisi!</div>');
+        }
+        redirect('bapendik/sertifikat');
+    }
+
+    public function delete_sertifikat($id)
+    {
+        // Check if the ID exists in the database
+        $bidang = $this->db->get_where('tb_sertif', ['id' => $id])->row_array();
+
+        if ($bidang) {
+            $this->db->where('id', $id);
+            $this->db->delete('tb_sertif');
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Sertifikat berhasil dihapus!</div>');
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Sertifikat tidak ditemukan atau sudah dihapus.</div>');
+        }
+
+        redirect('bapendik/sertifikat');
+    }
+
+    public function verifikasi()
+    {
+        $data['title'] = 'Verifikasi';
+        // $this->db->order_by('id', 'DESC');
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data['verifikasi'] = $this->Model_Verifikasi->getVerif();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('bapendik/verifikasi', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function tambah_verif()
+    {
+        $persetujuan_list = $this->input->post('persetujuan');
+        $ids = $this->input->post('id');
+        $nim_mhs_list = $this->input->post('nim_mhs');
+        $bidang_id_list = $this->input->post('bidang_id');
+        $kategori_id_list = $this->input->post('kategori_id');
+        $capaian_id_list = $this->input->post('capaian_id');
+
+        foreach ($ids as $id) {
+            $persetujuan = isset($persetujuan_list[$id]) ? $persetujuan_list[$id] : null;
+            $nim_mhs = isset($nim_mhs_list[$id]) ? $nim_mhs_list[$id] : null;
+            $bidang_id = isset($bidang_id_list[$id]) ? $bidang_id_list[$id] : null;
+            $kategori_id = isset($kategori_id_list[$id]) ? $kategori_id_list[$id] : null;
+            $capaian_id = isset($capaian_id_list[$id]) ? $capaian_id_list[$id] : null;
+
+            if ($persetujuan !== null && $nim_mhs !== null) {
+                $data = [
+                    'persetujuan' => $persetujuan
+                ];
+
+                // Update the persetujuan field in tb_permo
+                $this->db->where('id', $id);
+                $this->db->update('tb_permo', $data);
+
+                if ($persetujuan == 1 && $bidang_id !== null && $kategori_id !== null && $capaian_id !== null) {
+                    // Fetch the points from tb_sertif
+                    $this->db->select('skor');
+                    $this->db->from('tb_sertif');
+                    $this->db->where('bidang_id', $bidang_id);
+                    $this->db->where('kategori_id', $kategori_id);
+                    $this->db->where('capaian_id', $capaian_id);
+                    $sertif = $this->db->get()->row_array();
+
+                    if ($sertif) {
+                        $points = $sertif['skor'];
+
+                        // Fetch the current point from tb_mhs
+                        $this->db->select('point');
+                        $this->db->from('tb_mhs');
+                        $this->db->where('nim_mhs', $nim_mhs);
+                        $mhs = $this->db->get()->row_array();
+
+                        if ($mhs) {
+                            $current_points = $mhs['point'];
+                            $new_points = $current_points + $points;
+
+                            // Update the points in tb_mhs
+                            $this->db->set('point', $new_points);
+                            $this->db->where('nim_mhs', $nim_mhs);
+                            $this->db->update('tb_mhs');
+                        } else {
+                            // Handle case where the student is not found in tb_mhs
+                            // Optional: Insert the student with the new points if not found
+                            $new_points = $points;
+
+                            $this->db->insert('tb_mhs', [
+                                'nim_mhs' => $nim_mhs,
+                                'point' => $new_points
+                            ]);
+                        }
+                    }
+                    redirect('bapendik/verif_setuju');
+                }
+                redirect('bapendik/verif_tolak');
+            }
+        }
+
+        // Set flashdata for notification
+        $this->session->set_flashdata('success', 'Persetujuan berhasil disimpan.');
+
+        // Redirect based on the value of persetujuan
+        if ($persetujuan == 1) {
+            redirect('bapendik/verif_setuju');
+        } elseif ($persetujuan == 2) {
+            redirect('bapendik/verif_tolak');
+        } else {
+            redirect('bapendik/verifikasi');
+        }
+    }
+
+    public function verif_setuju()
+    {
+        $data['title'] = 'Verifikasi Disetujui';
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data['verifikasi'] = $this->Model_Verifikasi->getVerifSetuju();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('bapendik/verif_setuju', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function verif_tolak()
+    {
+        $data['title'] = 'Verifikasi Ditolak';
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data['verifikasi'] = $this->Model_Verifikasi->getVerifTolak();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('bapendik/verif_tolak', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function laporan()
+    {
+        $data['title'] = 'Laporan';
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Model_Laporan');
+        $data['laporan'] = $this->Model_Laporan->get_laporan();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('bapendik/laporan', $data);
+        $this->load->view('templates/footer');
+    }
 
     public function _rules()
     {

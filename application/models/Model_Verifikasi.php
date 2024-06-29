@@ -32,11 +32,11 @@ class Model_Verifikasi extends CI_Model
 
     public function getVerifSetuju()
     {
-        // $this->db->select('tb_permo.*, tb_sertif_bidang.bidang, tb_sertif_kategori.kategori, tb_sertif_capaian.capaian');
-        $this->db->select('tb_permo.*, 
-        IFNULL(tb_sertif_bidang.bidang, "Tidak Tersedia") as bidang, 
-        IFNULL(tb_sertif_kategori.kategori, "Tidak Tersedia") as kategori, 
-        IFNULL(tb_sertif_capaian.capaian, "Tidak Tersedia") as capaian');
+        $this->db->select('tb_permo.*, tb_sertif_bidang.bidang, tb_sertif_kategori.kategori, tb_sertif_capaian.capaian');
+        // $this->db->select('tb_permo.*, 
+        // IFNULL(tb_sertif_bidang.bidang, "Tidak Tersedia") as bidang, 
+        // IFNULL(tb_sertif_kategori.kategori, "Tidak Tersedia") as kategori, 
+        // IFNULL(tb_sertif_capaian.capaian, "Tidak Tersedia") as capaian');
 
         $this->db->from('tb_permo');
         $this->db->join('tb_sertif_bidang', 'tb_permo.bidang_id = tb_sertif_bidang.id', 'left');
@@ -49,11 +49,11 @@ class Model_Verifikasi extends CI_Model
 
     public function getVerifTolak()
     {
-        // $this->db->select('tb_permo.*, tb_sertif_bidang.bidang, tb_sertif_kategori.kategori, tb_sertif_capaian.capaian');
-        $this->db->select('tb_permo.*, 
-       IFNULL(tb_sertif_bidang.bidang, "Tidak Tersedia") as bidang, 
-       IFNULL(tb_sertif_kategori.kategori, "Tidak Tersedia") as kategori, 
-       IFNULL(tb_sertif_capaian.capaian, "Tidak Tersedia") as capaian');
+        $this->db->select('tb_permo.*, tb_sertif_bidang.bidang, tb_sertif_kategori.kategori, tb_sertif_capaian.capaian');
+        //     $this->db->select('tb_permo.*, 
+        //    IFNULL(tb_sertif_bidang.bidang, "Tidak Tersedia") as bidang, 
+        //    IFNULL(tb_sertif_kategori.kategori, "Tidak Tersedia") as kategori, 
+        //    IFNULL(tb_sertif_capaian.capaian, "Tidak Tersedia") as capaian');
 
         $this->db->from('tb_permo');
         $this->db->join('tb_sertif_bidang', 'tb_permo.bidang_id = tb_sertif_bidang.id', 'left');

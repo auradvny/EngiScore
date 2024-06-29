@@ -75,7 +75,7 @@
 
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">BIODATA</h3>
+                    <h3 class="card-title"><span style="font-weight: bold;">BIODATA</span></h3>
                 </div>
                 <div class="row">
                     <div class="col-md-2 text-center card-body box-profile">
@@ -96,7 +96,7 @@
                             <tr>
                                 <td>No HP</td>
                                 <td>:</td>
-                                <td><?= $user['telp']; ?></td>
+                                <td><?= !empty($user['telp']) ? $user['telp'] : '-'; ?></td>
                             </tr>
                             <tr>
                                 <td>E-Mail</td>

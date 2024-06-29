@@ -84,12 +84,12 @@
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group required">
-                                    <label class="control-label" for="tgl_lahir">Tanggal Lahir Mahasiswa (Tahun-Bulan-Tanggal)</label>
+                                    <label class="control-label" for="tgl_lahir">Tanggal Lahir</label>
                                     <input type="date" id="tgl_lahir" class="form-control" name="tgl_lahir" value="<?= $user['tgl_lahir']; ?>" placeholder="Pilih Tanggal Lahir Mahasiswa" style="cursor: pointer;">
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label" for="gender">Gender</label>
+                                    <label class="control-label" for="gender">Jenis Kelamin</label>
                                     <select id="gender" class="form-control" name="gender">
                                         <option value="" disabled <?= empty($user['gender']) ? 'selected' : ''; ?>>Pilih Gender</option>
                                         <option value="L" <?= $user['gender'] == 'L' ? 'selected' : ''; ?>>LAKI-LAKI</option>
@@ -98,7 +98,7 @@
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group required">
-                                    <label class="control-label" for="telp">No HP Mahasiswa</label>
+                                    <label class="control-label" for="telp">No Telepon</label>
                                     <input type="text" id="telp" class="form-control" name="telp" value="<?= $user['telp']; ?>" maxlength="25" aria-required="true">
                                     <div class="help-block"></div>
                                 </div>
@@ -109,14 +109,13 @@
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-success">Simpan</button>
-                                    <!-- <a class="btn btn-secondary" href="bapendik/profil">Kembali</a> -->
                                 </div>
                             </div>
                     </form>
                 </div>
             </div>
         </div> <!-- /.row -->
-        <div class="calonbapendikpass-update">
+        <div class="calonmahasiswapass-update">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Update Password: <span style="text-transform: uppercase;font-weight: bold;"><?= $user['nama']; ?></span></h3>

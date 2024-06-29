@@ -20,9 +20,9 @@
                     <tr class="text-center">
                         <td><?= $no++ ?></td>
                         <td><?= $verif['nim_mhs']; ?></td>
-                        <td><?= $verif['bidang']; ?></td>
-                        <td><?= $verif['capaian']; ?></td>
-                        <td><?= $verif['kategori']; ?></td>
+                        <td><?= !empty($verif['bidang']) ? $verif['bidang'] : '<i>Tidak Tersedia</i>'; ?></td>
+                        <td><?= !empty($verif['capaian']) ? $verif['capaian'] : '<i>Tidak Tersedia</i>'; ?></td>
+                        <td><?= !empty($verif['kategori']) ? $verif['kategori'] : '<i>Tidak Tersedia</i>'; ?></td>
                         <td>
                             <a href="#" data-toggle="modal" data-target="#modalGambar<?= $verif['id']; ?>">
                                 <img src="<?= base_url('assets/img/sertifikat/' . $verif['file']); ?>" alt="Sertifikat" style="width:100px; height:auto;">
