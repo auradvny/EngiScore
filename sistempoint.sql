@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 19, 2024 at 10:12 AM
+-- Generation Time: Jun 29, 2024 at 09:34 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -90,11 +90,11 @@ CREATE TABLE `tb_mhs` (
 
 INSERT INTO `tb_mhs` (`nim_mhs`, `point`, `user_id`, `prodi_id`, `pembiayaan`, `cuti`, `pa`) VALUES
 ('H1D022000', 100, 2, 1, 'Biaya Sendiri', 0, 'ABC'),
-('H1D022002', 0, 1, 5, '', 0, ''),
+('H1D022011', 0, 7, 2, 'biaya_sendiri', 0, 'EFG'),
 ('H1D022015', 0, 5, 4, '', 0, ''),
 ('H1D022048', 0, 0, 0, '', 0, ''),
 ('H1D022049', 0, 6, 4, 'biaya_sendiri', 0, 'BCD'),
-('H1D022092', 0, 7, 3, 'biaya_sendiri', 0, 'EFG');
+('H1D024001', 0, 8, 4, 'biaya_sendiri', 0, 'Eko Budi Setiawan');
 
 -- --------------------------------------------------------
 
@@ -288,13 +288,13 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id`, `nama`, `email`, `image`, `pass`, `role_id`, `is_active`, `tgl_dibuat`, `gender`, `agama_id`, `tempat_lahir`, `tgl_lahir`, `goldar_id`, `telp`, `alamat`, `nip`) VALUES
-(1, 'Aura', 'aura@gmail.com', 'default.jpg', '1234', 1, 0, 1716451375, 'P', 0, '', '0000-00-00', 0, '0987654321', 'Cilacap', ''),
 (2, 'Mahasiswa Aura', 'mhs@gmail.com', 'mahasiswa.jpg', '$2y$10$8Yhl04CQGtHVZ1.0aO.JX.ojq2fg/tp/r9I5dqweWo9gxscrbZ.OS', 1, 1, 1716451375, 'L', 2, 'Purbalingga', '2014-06-03', 3, '02987654321', 'Cilacap', ''),
-(3, 'Admin Aura', 'admin@gmail.com', 'bapendik.jpg', '$2y$10$Nx9FnYwhnE8oFCyHuNOsXO2lQwi.TkGLi2t/sgeJEPbBYRCsr6Q4S', 2, 1, 1716455594, 'P', 4, 'Purwokerto', '1994-06-02', 3, '0987654321', 'Purwokerto', '198011112009121'),
+(3, 'Admin Aura', 'admin@gmail.com', 'bapendik.jpg', '$2y$10$4RpAAJcEbzbOcjL07QyvR.d./coBhejE72NGFSOUkIneiweWmSA.2', 2, 1, 1716455594, 'P', 4, 'Purwokerto', '1994-06-02', 3, '0987654321', 'Purwokerto', '198011112009121'),
 (4, 'Pimpinan Aura', 'pimpinan@gmail.com', 'pimpinan.jpg', '$2y$10$seKytyUYdL149iIPzJ3DMuasCTLGLAMbkhQHH5kkhGfKjT486mrVq', 3, 1, 1716518241, 'L', 0, '', '0000-00-00', 0, '0987654321', 'Purbalingga', '199074837186438'),
 (5, 'Aura Devany Salsabila Bachtiar', 'aura.bachtiar@mhs.unsoed.ac.id', 'default.jpg', '$2y$10$P4Ip82ngGQbIS1ouh4HCG.t6sjt9m/EXQuc8p76z4fod3NT1U7i9m', 1, 1, 1717217366, 'P', 0, '', '0000-00-00', 0, '09876543212', 'Cilacap', ''),
 (6, 'Calista Anindita', 'calista.anindita@mhs.unsoed.ac.id', 'kucing.png', '$2y$10$8OuDEl0iXxLAwcvybn8NxeW.9I/kRbpPiJ.gcap8Qla6i6OcrpvQm', 1, 1, 1718560464, 'P', 0, '', '0000-00-00', 0, '098765678947', '', ''),
-(7, 'Apelku', 'a@gmail.com', 'cat-removebg-preview.png', '$2y$10$lEXpTkG8mjVvgbgdELCeF.ioy6QekTpoJuKRBU9iRs2t0sTOhltOe', 1, 1, 1718616498, 'P', 0, '', '0000-00-00', 0, '098765678947', '', '');
+(7, 'apelku', 'apel@gmail.com', 'cat-removebg-preview.png', '$2y$10$lEXpTkG8mjVvgbgdELCeF.ioy6QekTpoJuKRBU9iRs2t0sTOhltOe', 1, 0, 1718616498, 'P', 0, '', '0000-00-00', 0, '098765678947', '', ''),
+(8, 'Tasya Adinda Saraswati', 'tasya@mhs.unsoed.ac.id', 'user.jpg', '$2y$10$rQ6t9hVcSMwwzxFsmcVpeeB.x8dXiIhEra.S6/xF53M/fTlogHSV2', 1, 1, 1719645539, 'P', 0, '', '0000-00-00', 0, '089767854437', '', '');
 
 -- --------------------------------------------------------
 
@@ -533,7 +533,7 @@ ALTER TABLE `tb_sertif_kategori`
 -- AUTO_INCREMENT for table `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tb_user_akses_menu`
