@@ -174,4 +174,17 @@ class Model_Mahasiswa extends CI_Model
         $this->db->update('tb_mhs', $data);
         return $this->db->affected_rows();
     }
+
+    public function getPermohonanByNim($nim_mhs)
+    {
+        $this->db->select('tb_permo.*, tb_sertif_bidang.bidang, tb_sertif_capaian.capaian, tb_sertif_kategori.kategori');
+        $this->db->from('tb_permo');
+        $this->db->join('tb_sertif_bidang', 'tb_permo.bidang_id = tb_sertif_bidang.id', 'left');
+        $this->db->join('tb_sertif_capaian', 'tb_permo.capaian_id = tb_sertif_capaian.id', 'left');
+        $this->db->join('tb_sertif_kategori', 'tb_permo.kategori_id = tb_sertif_kategori.id', 'left');
+        $this->db->where('tb_permo.nim_mhs', $nim_mhs);
+        $this->db->where('tb_permo.persetujuan', 1);  // Hanya mengambil laporan yang disetujui
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 }
