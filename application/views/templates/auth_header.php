@@ -20,4 +20,5 @@
 
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-gradient-white">
+    <!-- <body class="bg-gradient-primary"> -->

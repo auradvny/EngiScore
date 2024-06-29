@@ -15,6 +15,10 @@ class Auth extends CI_Controller
 
 	public function index()
 	{
+		if ($this->session->userdata('email')) {
+			redirect('user');
+		}
+
 		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
 		$this->form_validation->set_rules('pass', 'Password', 'trim|required');
 
@@ -59,31 +63,38 @@ class Auth extends CI_Controller
 					}
 					//redirect('mahasiswa');
 				} else {
-					$this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Password salah</div>');
+					$this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Incorrect password</div>');
 					redirect('auth');
 				}
 			} else {
-				$this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Email ini belum di aktivasi</div>');
+				$this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">This email has not been activated</div>');
 				redirect('auth');
 			}
 		} else {
-			$this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Email tidak terdaftar</div>');
+			$this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Email not registered</div>');
 			redirect('auth');
 		}
 	}
 
 	public function registrasi()
 	{
+		if ($this->session->userdata('email')) {
+			redirect('user');
+		}
+
 		$this->form_validation->set_rules('nama', 'Nama', 'required|trim');
 		$this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[tb_user.email]', [
-			'is_unique' => 'Email inni sudah terdaftar'
+			'is_unique' => 'Email ini sudah terdaftar'
 		]);
-		$this->form_validation->set_rules('pass1', 'Password', 'required|trim|min_length[3]|matches[pass2]', ['matches' => 'Password tidak sama', 'min_length' => 'Password terlalu pendek!']);
+		$this->form_validation->set_rules('nip', 'NIP', 'required|trim');
+		$this->form_validation->set_rules('pass1', 'Password', 'required|trim|min_length[8]|callback_valid_password|matches[pass2]', [
+			'matches' => 'Password is not the same!',
+			'min_length' => 'The password is too short!'
+		]);
 		$this->form_validation->set_rules('pass2', 'Password', 'required|trim|matches[pass1]');
 
 		if ($this->form_validation->run() == FALSE) {
 			$data['title'] = 'Registrasi User';
-
 			$this->load->view('templates/auth_header', $data);
 			$this->load->view('auth/registrasi');
 			$this->load->view('templates/auth_footer');
@@ -91,16 +102,19 @@ class Auth extends CI_Controller
 			$data = [
 				'nama' => htmlspecialchars($this->input->post('nama', TRUE)),
 				'email' => htmlspecialchars($this->input->post('email', TRUE)),
+				'nip' => htmlspecialchars($this->input->post('nip', TRUE)),
 				'image' => 'default.jpg',
 				'pass' => password_hash($this->input->post('pass1'), PASSWORD_DEFAULT),
+				'role_id' => 2,
+				'agama_id' => 8,
+				'goldar_id' => 5,
 				'role_id' => 2,
 				'is_active' => 1,
 				'tgl_dibuat' => time(),
 			];
 
 			$this->db->insert('tb_user', $data);
-			$this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">
-            Akun Berhasil DiBuat!</div>');
+			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Akun berhasil dibuat!</div>');
 			redirect('auth');
 		}
 	}

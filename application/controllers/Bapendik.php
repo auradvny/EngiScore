@@ -54,14 +54,17 @@ class Bapendik extends CI_Controller
     {
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[tb_user.email]', [
-            'is_unique' => 'Email inni sudah terdaftar'
+            'is_unique' => 'Email ini sudah terdaftar'
         ]);
-        $this->form_validation->set_rules('pass1', 'Password', 'required|trim|min_length[3]|matches[pass2]', ['matches' => 'Password tidak sama', 'min_length' => 'Password terlalu pendek!']);
+        $this->form_validation->set_rules('nip', 'NIP', 'required|trim');
+        $this->form_validation->set_rules('pass1', 'Password', 'required|trim|min_length[8]|callback_valid_password|matches[pass2]', [
+            'matches' => 'Password is not the same!',
+            'min_length' => 'The password is too short!'
+        ]);
         $this->form_validation->set_rules('pass2', 'Password', 'required|trim|matches[pass1]');
 
         if ($this->form_validation->run() == FALSE) {
             $data['title'] = 'Registrasi User';
-
             $this->load->view('templates/auth_header', $data);
             $this->load->view('bapendik/registrasi');
             $this->load->view('templates/auth_footer');
@@ -69,17 +72,33 @@ class Bapendik extends CI_Controller
             $data = [
                 'nama' => htmlspecialchars($this->input->post('nama', TRUE)),
                 'email' => htmlspecialchars($this->input->post('email', TRUE)),
-                'image' => 'bapendik.jpg',
+                'nip' => htmlspecialchars($this->input->post('nip', TRUE)),
+                'image' => 'default.jpg',
                 'pass' => password_hash($this->input->post('pass1'), PASSWORD_DEFAULT),
+                'role_id' => 2,
+                'agama_id' => 8,
+                'goldar_id' => 5,
                 'role_id' => 2,
                 'is_active' => 1,
                 'tgl_dibuat' => time(),
             ];
 
             $this->db->insert('tb_user', $data);
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">
-            Akun Berhasil DiBuat!</div>');
-            redirect('auth');
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Akun berhasil dibuat!</div>');
+            redirect('bapendik');
+        }
+    }
+
+    public function valid_password($password)
+    {
+        $password = trim($password);
+        $regex = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).+$/';
+
+        if (preg_match($regex, $password)) {
+            return TRUE;
+        } else {
+            $this->form_validation->set_message('valid_password', 'The password must be at least 8 characters long, containing at least one capital letter, one lowercase letter, one number, and one symbol.');
+            return FALSE;
         }
     }
 

@@ -30,7 +30,7 @@
                         <div class="info-box-content">
                             <span class="info-box-text">Permohonan Diajukan</span>
                             <span class="info-box-number">
-                                <?= $jumlah_permo ?>
+                                <?= $jumlah_permo ?> <small>buah</small>
                             </span>
                         </div>
                         <!-- /.info-box-content -->
@@ -49,7 +49,7 @@
                         <div class="info-box-content">
                             <span class="info-box-text">Permohonan Disetujui</span>
                             <span class="info-box-number">
-                                <?= $jumlah_permosetuju ?>
+                                <?= $jumlah_permosetuju ?> <small>buah</small>
                             </span>
                         </div>
                         <!-- /.info-box-content -->
@@ -63,7 +63,7 @@
                         <div class="info-box-content">
                             <span class="info-box-text">Permohonan Ditolak</span>
                             <span class="info-box-number">
-                                <?= $jumlah_permotolak ?>
+                                <?= $jumlah_permotolak ?> <small>buah</small>
                             </span>
                         </div>
                         <!-- /.info-box-content -->
@@ -75,7 +75,7 @@
 
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Biodata</h3>
+                    <h3 class="card-title">BIODATA</h3>
                 </div>
                 <div class="row">
                     <div class="col-md-2 text-center card-body box-profile">
@@ -117,7 +117,7 @@
                                     } elseif ($user['is_active'] == 0) {
                                         echo 'Tidak Aktif';
                                     } else {
-                                        echo 'Status Tidak Diketahui';
+                                        echo '-';
                                     }
                                     ?></td>
                             </tr>

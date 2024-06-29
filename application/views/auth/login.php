@@ -32,6 +32,9 @@
                                     </button>
                                 </form>
                                 <hr>
+                                <!-- <div class="btn btn-light btn-user btn-block">
+                                    <a href="<?= base_url('welcome') ?>"><i class="fas da-plus"></i>BACK</a>
+                                </div> -->
                                 <!-- <div class="text-center">
                                     <a class="small" href="forgot-password.html">Forgot Password?</a>
                                 </div>
