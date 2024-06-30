@@ -32,6 +32,7 @@
     .main-header {
       position: fixed;
       width: 100%;
+      top: 0;
       z-index: 1030;
       /* Menentukan layer stacking order */
     }
@@ -39,20 +40,44 @@
     /* Style untuk footer solid */
     footer {
       position: fixed;
-      bottom: 0;
+      bottom: 0px;
       width: 100%;
-      background-color: #f8f9fa;
-      border-top: 1px solid #dee2e6;
-      padding: 10px 0;
-      text-align: center;
-    }
+      z-index: 1030;
+      /* Menentukan layer stacking order */
 
+    }
 
     /* Style untuk konten utama */
     .content-wrapper {
-      margin-top: 0px;
+      margin-top: 55px;
       /* Sesuaikan dengan tinggi header Anda */
-      margin-bottom: 50px;
+      margin-bottom: 55px;
       /* Sesuaikan dengan tinggi footer Anda */
+      padding: 5px;
+    }
+
+    #time-box {
+      /* background-color: #2E3B4E; */
+      background-color: #304463;
+      color: #FFFFFF;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: center;
+      font-family: 'Arial', sans-serif;
+    }
+
+    #current-date {
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    #current-time {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .sidebar-active {
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+      /* Bayangan putih transparan */
     }
   </style>

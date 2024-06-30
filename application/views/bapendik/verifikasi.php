@@ -18,6 +18,7 @@
                     <th>Bidang</th>
                     <th>Capaian</th>
                     <th>Kategori</th>
+                    <th>Tanggal Pengajuan</th>
                     <th>File</th>
                     <th>Verifikasi</th>
                     <th>Aksi</th>
@@ -32,6 +33,7 @@
                         <td><?= $verif['bidang'] !== 'Tidak Tersedia' ? $verif['bidang'] : '<span class="text-danger">Tidak Tersedia</span>'; ?></td>
                         <td><?= $verif['capaian'] !== 'Tidak Tersedia' ? $verif['capaian'] : '<span class="text-danger">Tidak Tersedia</span>'; ?></td>
                         <td><?= $verif['kategori'] !== 'Tidak Tersedia' ? $verif['kategori'] : '<span class="text-danger">Tidak Tersedia</span>'; ?></td>
+                        <td><?= date('d F Y H:i', $verif['tgl_permo']); ?></td>
                         <td>
                             <a href="#" data-toggle="modal" data-target="#modalGambar<?= $verif['id']; ?>">
                                 <img src="<?= base_url('assets/img/sertifikat/' . $verif['file']); ?>" alt="Sertifikat" style="width:100px; height:auto;">

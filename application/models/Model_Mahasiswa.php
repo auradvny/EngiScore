@@ -84,7 +84,7 @@ class Model_Mahasiswa extends CI_Model
     public function getPermohonan($nim_mhs)
     {
         // Select fields from tb_permo and joined tables
-        $this->db->select('tb_permo.kategori_id, tb_sertif_kategori.kategori, tb_permo.bidang_id, tb_sertif_bidang.bidang, tb_permo.capaian_id, tb_sertif_capaian.capaian, tb_permo.file, tb_permo.persetujuan');
+        $this->db->select('tb_permo.kategori_id, tb_sertif_kategori.kategori, tb_permo.bidang_id, tb_sertif_bidang.bidang, tb_permo.capaian_id, tb_sertif_capaian.capaian, tb_permo.file, tb_permo.persetujuan, tb_permo.tgl_permo');
         $this->db->from('tb_permo');
 
         // Join with tb_sertif_kategori
@@ -162,7 +162,7 @@ class Model_Mahasiswa extends CI_Model
 
     public function getMhsById($user_id)
     {
-        $this->db->select('tb_mhs.*, tb_user.nama, tb_user.email, tb_user.gender, tb_user.telp, tb_user.image');
+        $this->db->select('tb_mhs.*, tb_user.nama, tb_user.email, tb_user.gender, tb_user.telp, tb_user.image, tb_user.is_active');
         $this->db->join('tb_user', 'tb_user.id = tb_mhs.user_id');
         $this->db->where('tb_mhs.user_id', $user_id);
         return $this->db->get('tb_mhs')->row_array();

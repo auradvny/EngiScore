@@ -254,6 +254,8 @@ class Mahasiswa extends CI_Controller
         $data['title'] = 'Pengajuan';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
 
+        date_default_timezone_set('Asia/Jakarta');
+
         // Load model Model_NIM dan ambil nim_mhs berdasarkan email pengguna yang login
         $this->load->model('Model_NIM');
         $nim_mhs = $this->Model_NIM->getNim($data['user']['email']);
@@ -304,6 +306,7 @@ class Mahasiswa extends CI_Controller
                     'bidang_id' => $this->input->post('bidang_id'),
                     'capaian_id' => $this->input->post('capaian_id'),
                     'kategori_id' => $this->input->post('kategori_id'),
+                    'tgl_permo' => time(),
                     'file' => $file_data['file_name'],
                 ];
 

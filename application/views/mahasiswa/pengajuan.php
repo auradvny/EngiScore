@@ -16,7 +16,7 @@
 
         <!-- Capaian -->
         <div class="form-group">
-            <label for="capaian_id">Capaian Sertfikat</label>
+            <label for="capaian_id">Capaian Sertifikat</label>
             <div class="form-group">
                 <select name="capaian_id" id="capaian_id" class="form-control">
                     <option value="" disabled selected>Pilih Capaian</option>
@@ -59,6 +59,7 @@
                 <th scope="col">Capaian</th>
                 <th scope="col">Kategori</th>
                 <th scope="col">File</th>
+                <th scope="col">Tanggal Pengajuan</th>
                 <th scope="col">Status</th>
             </tr>
         </thead>
@@ -80,6 +81,7 @@
                     <!-- <td>
                         <img src="<?= base_url('assets/img/sertifikat/' . $p['file']); ?>" alt="Sertifikat" style="width:100px; height:auto;">
                     </td> -->
+                    <td><?= date('d F Y H:i', $p['tgl_permo']); ?></td>
                     <td>
                         <?php
                         if ($p['persetujuan'] == 0) {

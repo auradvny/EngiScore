@@ -11,6 +11,7 @@
                     <th>Bidang</th>
                     <th>Capaian</th>
                     <th>Kategori</th>
+                    <th>Tanggal Verifikasi</th>
                     <th>File</th>
                 </tr>
             </thead>
@@ -23,6 +24,7 @@
                         <td><?= !empty($verif['bidang']) ? $verif['bidang'] : '<i>Tidak Tersedia</i>'; ?></td>
                         <td><?= !empty($verif['capaian']) ? $verif['capaian'] : '<i>Tidak Tersedia</i>'; ?></td>
                         <td><?= !empty($verif['kategori']) ? $verif['kategori'] : '<i>Tidak Tersedia</i>'; ?></td>
+                        <td><?= date('d F Y H:i', $verif['tgl_verif']); ?></td>
                         <td>
                             <a href="#" data-toggle="modal" data-target="#modalGambar<?= $verif['id']; ?>">
                                 <img src="<?= base_url('assets/img/sertifikat/' . $verif['file']); ?>" alt="Sertifikat" style="width:100px; height:auto;">

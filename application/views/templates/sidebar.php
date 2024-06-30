@@ -73,17 +73,20 @@
               <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
+
                   <li class="nav-item">
                     <?php if ($this->session->userdata('role_id') == 1) : ?>
-                      <a href="<?= base_url('mahasiswa'); ?>" class="nav-link">
+                      <a href="<?= base_url('mahasiswa'); ?>" class="nav-link <?php if ($title == 'Dashboard') echo 'sidebar-active'; ?>">
                       <?php elseif ($this->session->userdata('role_id') == 2) : ?>
-                        <a href="<?= base_url('bapendik'); ?>" class="nav-link">
+                        <a href="<?= base_url('bapendik'); ?>" class="nav-link <?php if ($title == 'Dashboard') echo 'sidebar-active'; ?>">
                         <?php elseif ($this->session->userdata('role_id') == 3) : ?>
-                          <a href="<?= base_url('pimpinan'); ?>" class="nav-link">
-                          <?php endif; ?> <i class="nav-icon fas fa-tachometer-alt"></i>
+                          <a href="<?= base_url('pimpinan'); ?>" class="nav-link <?php if ($title == 'Dashboard') echo 'active'; ?>">
+                          <?php endif; ?>
+                          <i class="nav-icon fas fa-tachometer-alt"></i>
                           <p>Dashboard</p>
                           </a>
                   </li>
+
 
                   <?php
                   $role_id = $this->session->userdata('role_id');
@@ -117,7 +120,7 @@
 
                     <?php foreach ($subMenu as $sm) : ?>
                       <?php if ($title == $sm['title']) : ?>
-                        <li class="nav-item active">
+                        <li class="nav-item active sidebar-active">
                         <?php else : ?>
                         <li class="nav-item">
                         <?php endif; ?>
@@ -137,6 +140,16 @@
                         <p>Logout</p>
                       </a>
                     </li>
+
+
+                    <!-- Kotak Waktu -->
+                    <li class="nav-item">
+                      <div class="nav-link" id="time-box">
+                        <div id="current-date"></div>
+                        <div id="current-time"></div>
+                      </div>
+                    </li>
+
                 </ul>
               </nav>
               <!-- /.sidebar-menu -->

@@ -339,6 +339,8 @@ class Bapendik extends CI_Controller
             'gender' => $this->input->post('gender'),
             'telp' => $this->input->post('telp'),
             'role_id' => 1,
+            'agama_id' => 8,
+            'goldar_id' => 5,
             'is_active' => 1,
             'tgl_dibuat' => time(),
         );
@@ -769,7 +771,9 @@ class Bapendik extends CI_Controller
     public function verifikasi()
     {
         $data['title'] = 'Verifikasi';
-        // $this->db->order_by('id', 'DESC');
+
+        date_default_timezone_set('Asia/Jakarta');
+
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
 
         $data['verifikasi'] = $this->Model_Verifikasi->getVerif();
@@ -797,7 +801,8 @@ class Bapendik extends CI_Controller
 
             if ($persetujuan !== null && $nim_mhs !== null) {
                 $data = [
-                    'persetujuan' => $persetujuan
+                    'persetujuan' => $persetujuan,
+                    'tgl_verif' => time(),
                 ];
 
                 // Update the persetujuan field in tb_permo
@@ -865,6 +870,9 @@ class Bapendik extends CI_Controller
         $data['title'] = 'Verifikasi Disetujui';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
 
+        date_default_timezone_set('Asia/Jakarta');
+
+
         $data['verifikasi'] = $this->Model_Verifikasi->getVerifSetuju();
 
         $this->load->view('templates/header', $data);
@@ -877,6 +885,9 @@ class Bapendik extends CI_Controller
     {
         $data['title'] = 'Verifikasi Ditolak';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+
+        date_default_timezone_set('Asia/Jakarta');
+
 
         $data['verifikasi'] = $this->Model_Verifikasi->getVerifTolak();
 
