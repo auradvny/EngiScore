@@ -2,18 +2,27 @@
     .hero-container {
         position: relative;
     }
+
     .carousel-container {
         text-align: left;
-        padding-left: 10px; /* Mengurangi padding kiri untuk membuatnya lebih ke kiri */
+        padding-left: 10px;
+        /* Mengurangi padding kiri untuk membuatnya lebih ke kiri */
         position: absolute;
-        top: 20%; /* Sesuaikan nilai ini untuk mengatur posisi vertikal */
+        top: 20%;
+        /* Sesuaikan nilai ini untuk mengatur posisi vertikal */
         left: 0;
-        transform: translateY(-20%) translateX(-20%); /* Menambahkan translateX untuk menggeser ke kiri */
+        transform: translateY(-20%);
+        /* Menambahkan translateX untuk menggeser ke kiri */
+        z-index: 10;
+        /* Memastikan elemen berada di depan */
     }
+
     .hero-text {
         color: white;
         font-family: Georgia, 'Times New Roman', Times, serif;
         font-size: 50px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        /* Menambahkan bayangan */
     }
 </style>
 
@@ -28,10 +37,8 @@
                         <h1 class="hero-text">Selamat Datang di EngiScore</h1>
                     </div>
                     <div class="carousel-container2">
-                      
-                    </div>
-                    
 
+                    </div>
                 </div>
             </div>
         </div>
@@ -41,7 +48,6 @@
 <!-- ======= Contact Section ======= -->
 <section id="contact" class="contact">
     <div class="container">
-        
         <div class="section-title">
             <h2 style="font-family: Times, serif">Alamat Kami</h2>
         </div>

@@ -36,11 +36,11 @@
       </div>
 
       <!-- Navbar -->
-      <nav id="navbar" class="navbar navbar-expand-lg" style="padding-right: 30%;">
+      <nav id="navbar" class="navbar navbar-expand-lg" style="padding-right: 3%;">
         <div class="container-fluid justify-content-center"> <!-- Menggunakan container-fluid dan justify-content-center untuk navbar -->
           <ul class="navbar-nav">
             <li class="nav-item"><a class="nav-link scrollto active" href="<?= base_url('dashboard'); ?>" style="color: black;">Home</a></li>
-            <li class="nav-item"><a class="nav-link scrollto" href="#contact" style="color: black;">Kontak</a></li>
+            <li class="nav-item"><a class="nav-link scrollto" href="#contact" style="color: black;">Contact</a></li>
           </ul>
         </div>
       </nav>
