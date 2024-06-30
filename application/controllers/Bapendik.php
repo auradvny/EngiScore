@@ -462,10 +462,10 @@ class Bapendik extends CI_Controller
         // Check if the deletion was successful
         if ($result) {
             // Set a success message
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data mahasiswa berhasil dihapus!</div>');
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Data mahasiswa berhasil dihapus!</div>');
         } else {
             // Set an error message
-            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Data mahasiswa gagal dihapus!</div>');
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Data mahasiswa gagal dihapus!</div>');
         }
 
         // Redirect to the mahasiswa page
