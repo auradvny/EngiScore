@@ -1,21 +1,21 @@
 <div class="col-lg-12">
     <div class="col-lg-6">
-        <table class="table" border="0">
-            <tbody>
-                <tr>
-                    <td><strong>Nama:</strong></td>
-                    <td><?= isset($user['nama']) ? $user['nama'] : ''; ?></td>
-                </tr>
-                <tr>
-                    <td><strong>NIM:</strong></td>
-                    <td><?= isset($nim_mhs) ? $nim_mhs : ''; ?></td>
-                </tr>
-                <tr>
-                    <td><strong>Jumlah Poin:</strong></td>
-                    <td><?= isset($points) ? $points : ''; ?></td>
-                </tr>
-            </tbody>
-        </table>
+    <table class="table" border="0">
+        <tbody>
+            <tr>
+                <td><strong>Nama:</strong></td>
+                <td><?= isset($user['nama']) ? $user['nama'] : ''; ?></td>
+            </tr>
+            <tr>
+                <td><strong>NIM:</strong></td>
+                <td><?= isset($nim_mhs) ? $nim_mhs : ''; ?></td>
+            </tr>
+            <tr>
+                <td><strong>Jumlah Poin:</strong></td>
+                <td><?= isset($points) ? $points : ''; ?></td>
+            </tr>
+        </tbody>
+</table>
     </div>
 
     <table id="example1" class="table table-hover table-striped">
@@ -28,19 +28,19 @@
             </tr>
         </thead>
         <tbody>
-            <?php if (isset($permohonan) && !empty($permohonan)): ?>
+            <?php if (isset($permohonan) && !empty($permohonan)) : ?>
                 <?php $i = 1; ?>
                 <?php foreach ($permohonan as $p) : ?>
                     <tr>
-                        <td><?= $i++ ?></td>
+                        <th scope="row"><?= $i++ ?></th>
                         <td><?= $p['bidang']; ?></td>
                         <td><?= $p['capaian']; ?></td>
                         <td><?= $p['kategori']; ?></td>
                     </tr>
                 <?php endforeach; ?>
-            <?php else: ?>
+            <?php else : ?>
                 <tr>
-                    <td colspan="4" class="text-center">Data tidak tersedia</td>
+                    <td colspan="6" class="text-center">Data tidak tersedia</td>
                 </tr>
             <?php endif; ?>
         </tbody>
@@ -61,43 +61,40 @@
 
 <script>
 $(document).ready(function() {
-    // Check if DataTable is already initialized
-    if (!$.fn.DataTable.isDataTable('#example1')) {
-        var table = $('#example1').DataTable({
-            "lengthChange": false,
-            "buttons": [
-                {
-                    extend: 'excelHtml5',
-                    title: 'Laporan Mahasiswa',
-                    messageTop: function() {
-                        return 'Nama: <?= isset($user["nama"]) ? $user["nama"] : ""; ?>\nNIM: <?= isset($nim_mhs) ? $nim_mhs : ""; ?>\nJumlah Point: <?= isset($points) ? $points : ""; ?>';
-                    }
-                },
-                {
-                    extend: 'csvHtml5',
-                    title: 'Laporan Mahasiswa',
-                    messageTop: function() {
-                        return 'Nama: <?= isset($user["nama"]) ? $user["nama"] : ""; ?>\nNIM: <?= isset($nim_mhs) ? $nim_mhs : ""; ?>\nJumlah Point: <?= isset($points) ? $points : ""; ?>';
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    title: 'Laporan Mahasiswa',
-                    messageTop: function() {
-                        return 'Nama: <?= isset($user["nama"]) ? $user["nama"] : ""; ?>\nNIM: <?= isset($nim_mhs) ? $nim_mhs : ""; ?>\nJumlah Point: <?= isset($points) ? $points : ""; ?>';
-                    }
-                },
-                {
-                    extend: 'print',
-                    title: 'Laporan Mahasiswa',
-                    messageTop: function() {
-                        return 'Nama: <?= isset($user["nama"]) ? $user["nama"] : ""; ?>\nNIM: <?= isset($nim_mhs) ? $nim_mhs : ""; ?>\nJumlah Point: <?= isset($points) ? $points : ""; ?>';
-                    }
+    var table = $('#example1').DataTable({
+        "lengthChange": false,
+        "buttons": [
+            {
+                extend: 'excelHtml5',
+                title: 'Laporan Mahasiswa',
+                messageTop: function() {
+                    return 'Nama: <?= isset($user["nama"]) ? $user["nama"] : ""; ?>\nNIM: <?= isset($nim_mhs) ? $nim_mhs : ""; ?>\nJumlah Point: <?= isset($points) ? $points : ""; ?>';
                 }
-            ]
-        });
+            },
+            {
+                extend: 'csvHtml5',
+                title: 'Laporan Mahasiswa',
+                messageTop: function() {
+                    return 'Nama: <?= isset($user["nama"]) ? $user["nama"] : ""; ?>\nNIM: <?= isset($nim_mhs) ? $nim_mhs : ""; ?>\nJumlah Point: <?= isset($points) ? $points : ""; ?>';
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                title: 'Laporan Mahasiswa',
+                messageTop: function() {
+                    return 'Nama: <?= isset($user["nama"]) ? $user["nama"] : ""; ?>\nNIM: <?= isset($nim_mhs) ? $nim_mhs : ""; ?>\nJumlah Point: <?= isset($points) ? $points : ""; ?>';
+                }
+            },
+            {
+                extend: 'print',
+                title: 'Laporan Mahasiswa',
+                messageTop: function() {
+                    return 'Nama: <?= isset($user["nama"]) ? $user["nama"] : ""; ?>\nNIM: <?= isset($nim_mhs) ? $nim_mhs : ""; ?>\nJumlah Point: <?= isset($points) ? $points : ""; ?>';
+                }
+            }
+        ]
+    });
 
-        table.buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    }
+    table.buttons().container().appendTo( '#example1_wrapper .col-md-6:eq(0)' );
 });
 </script>

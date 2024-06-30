@@ -11,6 +11,7 @@ class Model_Sertifikat extends CI_Model
         JOIN tb_sertif_capaian ON tb_sertif.capaian_id = tb_sertif_capaian.id 
         JOIN tb_sertif_kategori ON tb_sertif.kategori_id = tb_sertif_kategori.id
         ORDER BY tb_sertif.id DESC";
+
         return $this->db->query($query)->result_array();
     }
 

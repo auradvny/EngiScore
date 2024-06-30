@@ -182,8 +182,70 @@ class Mahasiswa extends CI_Controller
             // Update biodata
             $this->Model_Mahasiswa->update_biodata($user_id, $updateData);
 
-            $this->session->set_flashdata('message', 'Biodata updated successfully!');
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Biodata Berhasil Diubah!');
             redirect('mahasiswa/profil');
+        }
+    }
+
+    public function updatepassword()
+    {
+        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $this->form_validation->set_rules('current_password', 'Password Saat Ini', 'required|trim', [
+            'required' => 'Password Baru harus diisi'
+        ]);
+        $this->form_validation->set_rules('new_password', 'Password Baru', 'required|trim|min_length[8]|callback_valid_password|matches[confirm_password]', [
+            'required' => 'Password Baru harus diisi',
+            'matches' => 'Password tidak sesuai',
+            'min_length' => 'Password terlalu pendek'
+        ]);
+        $this->form_validation->set_rules('confirm_password', 'Konfirmasi Password Baru', 'required|trim|matches[new_password]', [
+            'required' => 'Konfirmasi Password harus diisi',
+            'matches' => 'Password tidak sesuai',
+            'min_length' => 'Password terlalu pendek'
+        ]);
+
+        if ($this->form_validation->run() == false) {
+            $this->profil();
+        } else {
+            $current_password = $this->input->post('current_password');
+            $new_password = $this->input->post('new_password');
+
+            // Memeriksa apakah password saat ini sesuai
+            if (!password_verify($current_password, $data['user']['pass'])) {
+                $this->session->set_flashdata('pesan', 'Password Salah');
+            } else {
+                // Memeriksa apakah password baru sama dengan password lama
+                if ($current_password == $new_password) {
+                    $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Password baru tidak boleh sama dengan password lama');
+                } else {
+                    // Hash password baru
+                    $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
+
+                    // Simpan password baru ke dalam basis data
+                    $this->db->set('pass', $password_hash);
+                    $this->db->where('email', $this->session->userdata('email'));
+                    $this->db->update('tb_user');
+
+                    $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Password Berhasil Diubah!</div>');
+                }
+            }
+
+            // Setelah proses selesai, redirect ke halaman profil
+            redirect('mahasiswa/profil');
+        }
+    }
+
+    public function valid_password($password)
+    {
+        $password = trim($password);
+        $regex = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).+$/';
+
+        if (preg_match($regex, $password)) {
+            return TRUE;
+        } else {
+            $this->form_validation->set_message('valid_password', 'The password must be at least 8 characters long, containing at least one capital letter, one lowercase letter, one number, and one symbol.');
+            return FALSE;
         }
     }
 
@@ -191,6 +253,8 @@ class Mahasiswa extends CI_Controller
     {
         $data['title'] = 'Pengajuan';
         $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
+
+        date_default_timezone_set('Asia/Jakarta');
 
         // Load model Model_NIM dan ambil nim_mhs berdasarkan email pengguna yang login
         $this->load->model('Model_NIM');
@@ -242,6 +306,7 @@ class Mahasiswa extends CI_Controller
                     'bidang_id' => $this->input->post('bidang_id'),
                     'capaian_id' => $this->input->post('capaian_id'),
                     'kategori_id' => $this->input->post('kategori_id'),
+                    'tgl_permo' => time(),
                     'file' => $file_data['file_name'],
                 ];
 
@@ -282,7 +347,7 @@ class Mahasiswa extends CI_Controller
 
         // Mendapatkan data mahasiswa termasuk nim_mhs berdasarkan email
         $mahasiswa = $this->Model_Mahasiswa->getDataMhs($data['user']['email']);
-        
+
         if ($mahasiswa) {
             $data['nim_mhs'] = $mahasiswa['nim_mhs'];
             $data['points'] = $this->Model_Mahasiswa->getPoin($data['user']['email']);
@@ -302,71 +367,6 @@ class Mahasiswa extends CI_Controller
         $this->load->view('templates/sidebar', $data);
         $this->load->view('mahasiswa/laporan', $data);
         $this->load->view('templates/footer');
-    }
-
-    public function tambah()
-    {
-        $data['title'] = 'Tambah Mahasiswa';
-        $data['user'] = $this->db->get_where('tb_user', ['email' => $this->session->userdata('email')])->row_array();
-        $this['mahasiswa'] = $this->db->get('tb_user')->result_array();
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('tambah_mahasiswa');
-        $this->load->view('templates/footer');
-    }
-
-    public function tambah_aksi()
-    {
-        $this->_rules();
-
-        if ($this->form_validation->run() == FALSE) {
-            $this->tambah();
-        } else {
-            $data = array(
-
-                'nim_mhs' => $this->input->post('nim_mhs'),
-                'nama_mhs' => $this->input->post('nama_mhs'),
-                'email_mhs' => $this->input->post('email_mhs'),
-                'pass_mhs' => $this->input->post('pass_mhs'),
-                'prodi_mhs' => $this->input->post('prodi_mhs'),
-                'jekel_mhs' => $this->input->post('jekel_mhs'),
-                'telp_mhs' => $this->input->post('telp_mhs'),
-                'alamat_mhs' => $this->input->post('alamat_mhs'),
-            );
-
-            $this->Model_Mahasiswa->insert_data($data, 'tb_mhs');
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-            Data Berhasil di Tambahkan!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button></div>');
-            redirect('bapendik/mahasiswa');
-        }
-    }
-
-    public function edit($nim_mhs)
-    {
-        $this->_rules();
-
-        if ($this->form_validation->run() == FALSE) {
-            $this->index();
-        } else {
-            $data = array(
-                'nim_mhs' => $nim_mhs,
-                'nama_mhs' => $this->input->post('nama_mhs'),
-                'email_mhs' => $this->input->post('email_mhs'),
-                'pass_mhs' => $this->input->post('pass_mhs'),
-                'prodi_mhs' => $this->input->post('prodi_mhs'),
-                'jekel_mhs' => $this->input->post('jekel_mhs'),
-                'telp_mhs' => $this->input->post('telp_mhs'),
-                'alamat_mhs' => $this->input->post('alamat_mhs'),
-            );
-
-            $this->Model_Mahasiswa->update_data($data, 'tb_mhs');
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-            Data Berhasil Diubah!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button></div>');
-            redirect('mahasiswa');
-        }
     }
 
     public function print()
@@ -418,16 +418,5 @@ class Mahasiswa extends CI_Controller
         $this->form_validation->set_rules('alamat_mhs', 'Alamat Mahasiswa', 'required', array(
             'required' => '%s harus diisi!'
         ));
-    }
-
-    public function delete($nim)
-    {
-        $where = array('nim_mhs' => $nim);
-
-        $this->Model_Mahasiswa->delete($where, 'tb_mhs');
-        $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-        Data Berhasil Di Hapus!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button></div>');
-        redirect('mahasiswa');
     }
 }

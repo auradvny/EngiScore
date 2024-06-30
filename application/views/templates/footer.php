@@ -66,6 +66,32 @@
       "responsive": true,
     });
   });
+
+
+  function updateTime() {
+    var now = new Date();
+
+    var days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    var months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+    var day = days[now.getDay()];
+    var date = now.getDate();
+    var month = months[now.getMonth()];
+    var year = now.getFullYear();
+
+    var hours = now.getHours().toString().padStart(2, '0');
+    var minutes = now.getMinutes().toString().padStart(2, '0');
+    var seconds = now.getSeconds().toString().padStart(2, '0');
+
+    var dateString = `${day}, ${date} ${month} ${year}`;
+    var timeString = `${hours} : ${minutes} : ${seconds}`;
+
+    document.getElementById('current-date').textContent = dateString;
+    document.getElementById('current-time').textContent = timeString;
+  }
+
+  setInterval(updateTime, 1000);
+  updateTime(); // Memanggil fungsi sekali untuk menampilkan waktu segera setelah halaman dimuat
 </script>
 </body>
 

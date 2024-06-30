@@ -7,6 +7,9 @@
                     <h3 class="card-title">Update Biodata: <span style="text-transform: uppercase;font-weight: bold;"><?= $user['nama']; ?></span></h3>
                 </div>
                 <div class="card-body">
+                    <div class="flashdata-message">
+                        <?= $this->session->flashdata('message'); ?>
+                    </div>
                     <form name="update" action="<?php echo base_url('Bapendik/updatebiodata'); ?>" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="_csrf">
                         <div class="row">
@@ -40,7 +43,7 @@
                                 </div>
 
                                 <div class="form-group required">
-                                    <label class="control-label" for="nip">NIP Pegawai</label>
+                                    <label class="control-label" for="nip">NIP</label>
                                     <input type=" text" id="nip" class=" form-control" name="nip" value=" <?= $user['nip']; ?>" maxlength="25" aria-required="true" readonly="true">
                                     <div class="help-block"></div>
                                 </div>
@@ -81,12 +84,12 @@
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group required">
-                                    <label class="control-label" for="tgl_lahir">Tanggal Lahir Pegawai</label>
+                                    <label class="control-label" for="tgl_lahir">Tanggal Lahir</label>
                                     <input type="date" id="tgl_lahir" class="form-control" name="tgl_lahir" value="<?= $user['tgl_lahir']; ?>" placeholder="Pilih Tanggal Lahir Mahasiswa" style="cursor: pointer;">
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label" for="gender">Gender</label>
+                                    <label class="control-label" for="gender">Jenis Kelamin</label>
                                     <select id="gender" class="form-control" name="gender">
                                         <option value="" disabled <?= empty($user['gender']) ? 'selected' : ''; ?>>Pilih Gender</option>
                                         <option value="L" <?= $user['gender'] == 'L' ? 'selected' : ''; ?>>LAKI-LAKI</option>
@@ -121,6 +124,9 @@
                     <h3 class="card-title">Update Password: <span style="text-transform: uppercase;font-weight: bold;"><?= $user['nama']; ?></span></h3>
                 </div>
                 <div class="card-body">
+                    <div class="flashdata-message">
+                        <?= $this->session->flashdata('pesan'); ?>
+                    </div>
                     <form name="update" action="<?php echo base_url('Bapendik/updatepassword'); ?>" method="post">
                         <input type="hidden" name="_csrf">
                         <div class="row">
