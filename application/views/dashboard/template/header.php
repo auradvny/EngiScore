@@ -49,6 +49,19 @@
       text-decoration: underline;
       /* Garis bawah tetap ada saat link aktif dihover */
     }
+
+    #footer {
+      padding: 10px 0;
+      /* Adjust the padding as needed */
+      background-color: #343a40;
+      /* Example background color */
+    }
+
+    #footer p {
+      margin: 5px 0;
+      /* Atur jarak margin atas dan bawah menjadi 5px, dan 0 untuk margin kiri dan kanan */
+      color: white;
+    }
   </style>
 </head>
 
