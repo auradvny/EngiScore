@@ -4,7 +4,6 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
   <title>Engine Score</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
@@ -32,13 +31,21 @@
   <header id="header" class="d-flex align-items-center" style="background-color: white;">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-      <div class="logo me-auto">
-        <h1><a href="index.html" style="color: black; font-family:Georgia, 'Times New Roman', Times, serif;">EngiScore</a></h1>
-        <!-- Uncomment below if you prefer to use an image logo -->
-        <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      <div class="logo me-auto"> <!-- Tambahkan padding kiri pada logo -->
+        <h1><img src="<?= base_url('assets/template/') ?>Logo-UNSOED.png" alt="" style="padding-right: 10px;padding-bottom: 10px;"><a href="index.html" style="color: black; font-family:Georgia, 'Times New Roman', Times, serif;">EngiScore</a></h1>
       </div>
 
-      <a href="<?= base_url('auth'); ?>" style="background-color: #4e73df;" class="book-a-table-btn scrollto">Login</a>
+      <!-- Navbar -->
+      <nav id="navbar" class="navbar navbar-expand-lg" style="padding-right: 30%;">
+        <div class="container-fluid justify-content-center"> <!-- Menggunakan container-fluid dan justify-content-center untuk navbar -->
+          <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link scrollto active" href="<?= base_url('dashboard'); ?>" style="color: black;">Home</a></li>
+            <li class="nav-item"><a class="nav-link scrollto" href="#contact" style="color: black;">Kontak</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <a href="<?= base_url('auth'); ?>" style="background-color: #4e73df; padding: 10px 20px; color: white; text-decoration: none;">Login</a>
 
     </div>
   </header><!-- End Header -->

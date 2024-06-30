@@ -426,8 +426,6 @@ h6 {
 
 #hero .carousel-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
   position: absolute;
   bottom: 0;
   top: 0;
@@ -435,9 +433,6 @@ h6 {
   right: 0;
 }
 
-#hero .carousel-content {
-  text-align: center;
-}
 
 #hero h2 {
   color: #fff;
@@ -497,8 +492,6 @@ h6 {
   width: 54px;
   height: 54px;
   display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 #hero .carousel-control-next-icon:hover,
