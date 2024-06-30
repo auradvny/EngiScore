@@ -34,6 +34,13 @@ class Auth extends CI_Controller
 		}
 	}
 
+	public function page(){
+		$data['title'] = 'Login';
+		$this->load->view('auth/template/header', $data);
+		$this->load->view('auth/page');
+		$this->load->view('auth/template/footer');
+	}
+
 	private function _login()
 	{
 		$email = $this->input->post('email');
