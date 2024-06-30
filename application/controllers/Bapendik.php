@@ -53,11 +53,14 @@ class Bapendik extends CI_Controller
 
     public function registrasi()
     {
+        // Aturan validasi form
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[tb_user.email]', [
             'is_unique' => 'This email has already been registered'
         ]);
-        $this->form_validation->set_rules('nip', 'NIP', 'required|trim');
+        $this->form_validation->set_rules('nip', 'NIP', 'required|trim|is_unique[tb_user.nip]', [
+            'is_unique' => 'This NIP has already been registered'
+        ]);
         $this->form_validation->set_rules('pass1', 'Password', 'required|trim|min_length[8]|callback_valid_password|matches[pass2]', [
             'matches' => 'Password is not the same!',
             'min_length' => 'The password is too short!'
@@ -86,19 +89,6 @@ class Bapendik extends CI_Controller
             $this->db->insert('tb_user', $data);
             $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Akun berhasil dibuat!</div>');
             redirect('bapendik/registrasi');
-        }
-    }
-
-    public function check_nip_exists($nip)
-    {
-        $this->db->where('nip', $nip);
-        $result = $this->db->get('tb_user');
-
-        if ($result->num_rows() > 0) {
-            $this->form_validation->set_message('check_nip_exists', 'NIP sudah terdaftar!');
-            return FALSE;
-        } else {
-            return TRUE;
         }
     }
 

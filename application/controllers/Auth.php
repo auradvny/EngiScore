@@ -113,9 +113,39 @@ class Auth extends CI_Controller
 				'tgl_dibuat' => time(),
 			];
 
-			$this->db->insert('tb_user', $data);
+			//$this->db->insert('tb_user', $data);
+
+			$this->_sendEmail();
+
 			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Akun berhasil dibuat!</div>');
 			redirect('auth');
+		}
+	}
+
+	private function _sendEmail()
+	{
+		$config = [
+			'protocol' => 'smtp',
+			'smtp_host' => 'ssl://smtp.googlemail.com',
+			'smtp_user' => 'radevans14@gmail.com',
+			'smtp_pass' => 'Coba_12345',
+			'smtp_port' => 456,
+			'mailtype' => 'html',
+			'charset' => 'utf-8',
+			'newline' => "\r\n"
+
+		];
+
+		$this->load->library('email', $config);
+		$this->email->from('radevans14@gmail.com', 'Aura Devany');
+		$this->email->to('aura.bachtiar@mhs.unsoed.ac.id');
+		$this->email->subject('Tes');
+		$this->email->message('Hello');
+		if ($this->email->send()) {
+			return true;
+		} else {
+			echo $this->email->print_debugger();
+			die;
 		}
 	}
 
