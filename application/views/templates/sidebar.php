@@ -10,13 +10,15 @@
         </li>
         <li class="nav-item d-none d-sm-inline-block">
           <?php if ($this->session->userdata('role_id') == 1) : ?>
-            <a href="<?= base_url('mahasiswa'); ?>" class="nav-link">Home</a>
+            <a href="<?= base_url('mahasiswa'); ?>" class="nav-link <?php if ($title == 'Dashboard') echo 'active'; ?>">Home</a>
           <?php elseif ($this->session->userdata('role_id') == 2) : ?>
-            <a href="<?= base_url('bapendik'); ?>" class="nav-link">Home</a>
+            <a href="<?= base_url('bapendik'); ?>" class="nav-link <?php if ($title == 'Dashboard') echo 'active'; ?>">Home</a>
           <?php elseif ($this->session->userdata('role_id') == 3) : ?>
-            <a href="<?= base_url('pimpinan'); ?>" class="nav-link">Home</a>
+            <a href="<?= base_url('pimpinan'); ?>" class="nav-link <?php if ($title == 'Dashboard') echo 'active'; ?>">Home</a>
           <?php endif; ?>
         </li>
+
+
         <?php if ($this->session->userdata('role_id') == 2) : ?>
           <li class="nav-item d-none d-sm-inline-block">
             <a href="<?= base_url('bapendik/registrasi'); ?>" class="nav-link">Bapendik</a>

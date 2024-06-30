@@ -80,4 +80,32 @@
       box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
       /* Bayangan putih transparan */
     }
+
+    .navbar .nav-link.active {
+      position: relative;
+      /* Membuat posisi relatif untuk elemen */
+      color: #7D8ABC;
+      /* Warna teks untuk link aktif */
+      text-decoration: none;
+      /* Hapus garis bawah bawaan */
+      padding-bottom: 2px;
+      /* Jarak antara teks dan garis bawah */
+    }
+
+    .navbar .nav-link.active::after {
+      content: '';
+      /* Konten tambahan untuk garis bawah */
+      position: absolute;
+      /* Posisi absolut untuk elemen tambahan */
+      left: 0;
+      /* Mulai dari kiri */
+      bottom: 0;
+      /* Di bagian bawah teks */
+      width: 100%;
+      /* Lebar sepanjang teks */
+      height: 2px;
+      /* Tinggi garis bawah */
+      background-image: linear-gradient(120deg, #7D8ABC, #81A1C1);
+      /* Gradient warna */
+    }
   </style>
