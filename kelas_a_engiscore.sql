@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2024 at 01:52 PM
+-- Generation Time: Jul 01, 2024 at 06:06 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `sistempoint`
+-- Database: `kelas_a_engiscore`
 --
 
 -- --------------------------------------------------------
@@ -89,6 +89,7 @@ CREATE TABLE `tb_mhs` (
 --
 
 INSERT INTO `tb_mhs` (`nim_mhs`, `point`, `user_id`, `prodi_id`, `pembiayaan`, `cuti`, `pa`) VALUES
+('H1B024003', 75, 30, 2, 'biaya_sendiri', 0, 'Indra Wijaya'),
 ('H1D022000', 0, 2, 2, 'biaya_sendiri', 0, 'Arif Hidayat'),
 ('H1D022015', 0, 28, 4, 'biaya_sendiri', 0, 'Dadang Iskandar'),
 ('H1D022049', 0, 29, 4, 'biaya_sendiri', 0, 'Lasmedi Afuan');
@@ -110,6 +111,15 @@ CREATE TABLE `tb_permo` (
   `tgl_permo` int(11) NOT NULL,
   `tgl_verif` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_permo`
+--
+
+INSERT INTO `tb_permo` (`id`, `nim_mhs`, `kategori_id`, `bidang_id`, `capaian_id`, `file`, `persetujuan`, `tgl_permo`, `tgl_verif`) VALUES
+(18, 'H1B024003', 1, 1, 2, '1719835464_sertif1.png', 1, 1719835464, 1719835555),
+(19, 'H1B024003', 2, 6, 12, '1719835494_sertif3.png', 2, 1719835494, 1719835563),
+(20, 'H1B024003', 1, 8, 10, '1719835529_sertif2.png', 0, 1719835529, 0);
 
 -- --------------------------------------------------------
 
@@ -273,10 +283,13 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id`, `nama`, `email`, `image`, `pass`, `role_id`, `is_active`, `tgl_dibuat`, `gender`, `agama_id`, `tgl_lahir`, `goldar_id`, `telp`, `alamat`, `nip`) VALUES
-(2, 'Mahasiswa Account', 'mhs@gmail.com', 'mahasiswa.jpg', '$2y$10$8Yhl04CQGtHVZ1.0aO.JX.ojq2fg/tp/r9I5dqweWo9gxscrbZ.OS', 1, 0, 1716451375, 'L', 6, '2014-06-03', 1, '02987654321', 'Cilacap', ''),
-(3, 'Bapendik Account', 'admin@gmail.com', 'bapendik.jpg', '$2y$10$4RpAAJcEbzbOcjL07QyvR.d./coBhejE72NGFSOUkIneiweWmSA.2', 2, 1, 1716455594, 'P', 1, '1994-06-02', 2, '0987654321', 'Purwokerto', '198011112009121'),
+(2, 'Mahasiswa Account', 'mhs@gmail.com', 'mahasiswa.jpg', '$2y$10$8Yhl04CQGtHVZ1.0aO.JX.ojq2fg/tp/r9I5dqweWo9gxscrbZ.OS', 1, 1, 1716451375, 'L', 6, '2014-06-03', 1, '02987654321', 'Cilacap', ''),
+(3, 'Bapendik Account', 'admin@gmail.com', 'bapendik.jpg', '$2y$10$7T48nAFFvao/ngGNUhQQbuNtLG/e6vS2FKyWGMCNTGmV9PlIh.NWi', 2, 1, 1716455594, 'P', 1, '1994-06-02', 2, '0987654321', 'Purwokerto', '198011112009121'),
 (28, 'Aura Devany Salsabila Bachtiar', 'aura.bachtiar@mhs.unsoed.ac.id', 'user.jpg', '$2y$10$bw2UN6CwEQqO.LBzWsIt9eM81DUJwaXJeFR2eUSw4hWc8MZX4.m/e', 1, 1, 1719833890, 'P', 1, '2003-11-14', 3, '087653566321458', 'cilacap', ''),
-(29, 'Calista Anindita', 'calista.anindita@mhs.unsoed.ac.id', 'user.jpg', '$2y$10$FDroLsKcWoGTAs/3ucEnTuS7qdOtJeeiTkLhNEMkdeEuqNw0eGPd2', 1, 1, 1719833934, 'P', 1, '2004-04-22', 4, '087898765437', 'purwokerto', '');
+(29, 'Calista Anindita', 'calista.anindita@mhs.unsoed.ac.id', 'user.jpg', '$2y$10$FDroLsKcWoGTAs/3ucEnTuS7qdOtJeeiTkLhNEMkdeEuqNw0eGPd2', 1, 1, 1719833934, 'P', 1, '2004-04-22', 4, '087898765437', 'purwokerto', ''),
+(30, 'Ilham Rizky Saputra', 'ilham@mhs.unsoed.ac.id', 'ilham-min.jpg', '$2y$10$cpR43onIYIreWCtTolgzQ./GzWTZM/idqsCTVjxfuWy6fiQA7j8t2', 1, 1, 1719835377, 'L', 4, '2005-05-18', 2, '087561342678', 'SEMARANG, jawa tengah', ''),
+(31, 'Indah Permata Sari', 'indah@unsoed.ac.id', 'profile_31.jpg', '$2y$10$j1Rs7.5rhkr2ZDfoBHe..uU5OVIHXYg.rKPSmoo2GWNNWDzvrBBbS', 2, 1, 1719835898, 'P', 3, '1992-07-08', 1, '089767546982', 'Jakarta Barat, dki jakarta', '199207082010031003'),
+(33, 'Dika Ardiansyah Putra', 'dika@unsoed.ac.id', 'admin.jpg', '$2y$10$hR4ZxyLGcET5H9AE1gdr7.rTHHlEWJyGW430U0LGibZn7gq/GPMZ2', 2, 1, 1719847685, 'L', 8, '0000-00-00', 5, '', '', '199011152010021002');
 
 -- --------------------------------------------------------
 
@@ -498,7 +511,7 @@ ALTER TABLE `tb_goldar`
 -- AUTO_INCREMENT for table `tb_permo`
 --
 ALTER TABLE `tb_permo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `tb_prodi`
@@ -510,31 +523,31 @@ ALTER TABLE `tb_prodi`
 -- AUTO_INCREMENT for table `tb_sertif`
 --
 ALTER TABLE `tb_sertif`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `tb_sertif_bidang`
 --
 ALTER TABLE `tb_sertif_bidang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tb_sertif_capaian`
 --
 ALTER TABLE `tb_sertif_capaian`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tb_sertif_kategori`
 --
 ALTER TABLE `tb_sertif_kategori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `tb_user_akses_menu`

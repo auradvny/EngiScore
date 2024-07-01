@@ -1,3 +1,4 @@
+<?= $this->session->flashdata('pesan'); ?>
 <form action="<?= base_url('mahasiswa/pengajuan'); ?>" method="POST" enctype="multipart/form-data">
     <div class="modal-body">
         <!-- Bidang -->

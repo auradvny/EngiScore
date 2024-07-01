@@ -311,7 +311,7 @@ class Mahasiswa extends CI_Controller
                 ];
 
                 $this->db->insert('tb_permo', $sertif_data);
-                $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Data sertifikat berhasil ditambahkan!</div>');
+                $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Data pengajuan sertifikat berhasil ditambahkan!</div>');
                 redirect('mahasiswa/pengajuan');
             } else {
                 $data['error'] = $this->upload->display_errors();

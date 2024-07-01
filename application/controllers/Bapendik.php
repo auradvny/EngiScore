@@ -192,14 +192,14 @@ class Bapendik extends CI_Controller
             'required' => 'Password Baru harus diisi'
         ]);
         $this->form_validation->set_rules('new_password', 'Password Baru', 'required|trim|min_length[8]|callback_valid_password2|matches[confirm_password]', [
-            'required' => 'Password Baru harus diisi',
-            'matches' => 'Password tidak sesuai',
-            'min_length' => 'Password terlalu pendek'
+            'required' => 'Password Baru harus diisi!',
+            'matches' => 'Password tidak sesuai!',
+            'min_length' => 'Password terlalu pendek!'
         ]);
         $this->form_validation->set_rules('confirm_password', 'Konfirmasi Password Baru', 'required|trim|matches[new_password]', [
-            'required' => 'Konfirmasi Password harus diisi',
-            'matches' => 'Password tidak sesuai',
-            'min_length' => 'Password terlalu pendek'
+            'required' => 'Konfirmasi Password harus diisi!',
+            'matches' => 'Password tidak sesuai!',
+            'min_length' => 'Password terlalu pendek!'
         ]);
 
         if ($this->form_validation->run() == false) {
@@ -210,7 +210,7 @@ class Bapendik extends CI_Controller
 
             // Memeriksa apakah password saat ini sesuai
             if (!password_verify($current_password, $data['user']['pass'])) {
-                $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Password Salah');
+                $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Password Salah!');
             } else {
                 // Memeriksa apakah password baru sama dengan password lama
                 if ($current_password == $new_password) {
@@ -584,7 +584,7 @@ class Bapendik extends CI_Controller
             $this->db->where('id', $id);
             $this->db->delete('tb_sertif_capaian');
 
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Capaian berhasil dihapus!</div>');
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Capaian dan sertifikat berhasil dihapus!</div>');
         } else {
             $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">Capaian tidak ditemukan atau sudah dihapus.</div>');
         }

@@ -311,7 +311,7 @@
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
-                                <?= form_error('bidang', "<div class='alert alert-danger' role='alert'>", '</div>'); ?>
+                                <?= form_error('bidang_id', "<div class='alert alert-danger' role='alert'>", '</div>'); ?>
                             </div>
                             <div class="form-group">
                                 <label for="capaian">Capaian</label>
@@ -321,7 +321,7 @@
                                         <option value="<?= $c['id']; ?>"><?= $c['capaian']; ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                                <?= form_error('capaian', "<div class='alert alert-danger' role='alert'>", '</div>'); ?>
+                                <?= form_error('capaian_id', "<div class='alert alert-danger' role='alert'>", '</div>'); ?>
                             </div>
                             <div class="form-group">
                                 <label for="kategori_id">Kategori</label>
