@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 30, 2024 at 11:33 AM
+-- Generation Time: Jul 01, 2024 at 05:13 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -89,12 +89,10 @@ CREATE TABLE `tb_mhs` (
 --
 
 INSERT INTO `tb_mhs` (`nim_mhs`, `point`, `user_id`, `prodi_id`, `pembiayaan`, `cuti`, `pa`) VALUES
-('H1A02402', 0, 26, 1, 'pemerintah', 0, 'Agung Raharjo Pratama'),
-('H1B024003', 100, 24, 2, 'biaya_sendiri', 0, 'Dewi Lestari'),
+('H1B024003', 0, 24, 2, 'biaya_sendiri', 0, 'Dewi Lestari'),
 ('H1C024004', 0, 25, 3, 'biaya_sendiri', 0, 'Dewi Lestari'),
 ('H1D022000', 1200, 2, 1, 'biaya_sendiri', 0, 'ABC'),
 ('H1D022015', 0, 5, 4, '', 0, ''),
-('H1D022048', 0, 0, 0, '', 0, ''),
 ('H1D022049', 0, 6, 4, 'biaya_sendiri', 0, 'BCD'),
 ('H1D024001', 0, 23, 4, 'biaya_sendiri', 0, 'Aditya Putra');
 
@@ -288,27 +286,17 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id`, `nama`, `email`, `image`, `pass`, `role_id`, `is_active`, `tgl_dibuat`, `gender`, `agama_id`, `tempat_lahir`, `tgl_lahir`, `goldar_id`, `telp`, `alamat`, `nip`) VALUES
-(2, 'Mahasiswa Aura', 'mhs@gmail.com', 'mahasiswa.jpg', '$2y$10$8Yhl04CQGtHVZ1.0aO.JX.ojq2fg/tp/r9I5dqweWo9gxscrbZ.OS', 1, 0, 1716451375, 'L', 6, 'Purbalingga', '2014-06-03', 1, '02987654321', 'Cilacap', ''),
-(3, 'Admin Aura', 'admin@gmail.com', 'bapendik.jpg', '$2y$10$4RpAAJcEbzbOcjL07QyvR.d./coBhejE72NGFSOUkIneiweWmSA.2', 2, 1, 1716455594, 'P', 1, 'Purwokerto', '1994-06-02', 2, '0987654321', 'Purwokerto', '198011112009121'),
-(4, 'Pimpinan Aura', 'pimpinan@gmail.com', 'pimpinan.jpg', '$2y$10$seKytyUYdL149iIPzJ3DMuasCTLGLAMbkhQHH5kkhGfKjT486mrVq', 3, 1, 1716518241, 'L', 0, '', '0000-00-00', 0, '0987654321', 'Purbalingga', '199074837186438'),
+(2, 'Mahasiswa Account', 'mhs@gmail.com', 'mahasiswa.jpg', '$2y$10$8Yhl04CQGtHVZ1.0aO.JX.ojq2fg/tp/r9I5dqweWo9gxscrbZ.OS', 1, 0, 1716451375, 'L', 6, 'Purbalingga', '2014-06-03', 1, '02987654321', 'Cilacap', ''),
+(3, 'Admin Account', 'admin@gmail.com', 'bapendik.jpg', '$2y$10$4RpAAJcEbzbOcjL07QyvR.d./coBhejE72NGFSOUkIneiweWmSA.2', 2, 1, 1716455594, 'P', 1, 'Purwokerto', '1994-06-02', 2, '0987654321', 'Purwokerto', '198011112009121'),
 (5, 'Aura Devany Salsabila Bachtiar', 'aura.bachtiar@mhs.unsoed.ac.id', 'default.jpg', '$2y$10$P4Ip82ngGQbIS1ouh4HCG.t6sjt9m/EXQuc8p76z4fod3NT1U7i9m', 1, 1, 1717217366, 'P', 0, '', '0000-00-00', 0, '09876543212', 'Cilacap', ''),
 (6, 'Calista Anindita', 'calista.anindita@mhs.unsoed.ac.id', 'kucing.png', '$2y$10$8OuDEl0iXxLAwcvybn8NxeW.9I/kRbpPiJ.gcap8Qla6i6OcrpvQm', 1, 1, 1718560464, 'P', 0, '', '0000-00-00', 0, '098765678947', '', ''),
-(10, 'q', 'q@gmail.com', 'admin.jpg', '$2y$10$9qwxVdcQlaH4nIOu2.ext.n5ioaFDs/QxURkdowIiLRqFqeGD6q4a', 2, 1, 1719648816, 'L', 8, '', '0000-00-00', 5, '', '', '123456783948'),
-(11, 'dsbcjksnc', 'w@gmail.com', 'admin.jpg', '$2y$10$q1I62AmRdLV0t5jXh80GMOWqbBRsbVhdfk0jMVca9jViio/jPjGkG', 2, 1, 1719648950, 'L', 8, '', '0000-00-00', 5, '', '', '1312493073957'),
-(12, 'aura', 's@gmail.com', 'admin.jpg', '$2y$10$yA2EvyNog8aHnJcPVpyb4OtKtG0e0NShxbu9MrByuv0I.M4KXzcs2', 2, 1, 1719649106, 'L', 8, '', '0000-00-00', 5, '', '', '199012312011033'),
 (13, 'Kevin Ardiansyah Putra', 'k@gmail.com', 'user.jpg', '$2y$10$916ZehI5HJzqvIJdxWnE4.tIXqR0NHXJhijxZNEVrIGLCGva8kXVS', 1, 1, 1719649273, 'L', 0, '', '0000-00-00', 0, '098465775974', '', ''),
-(14, 'aura', 'ka@gmail.com', 'admin.jpg', '$2y$10$fH6pk3LjTxriKAdTlyGQIOhzWqUxFrLKOTmfBaVZniMBhJOv0VHsa', 2, 1, 1719650151, 'L', 8, '', '0000-00-00', 5, '', '', '199012312011033'),
-(15, 'Salsabila', 'kay@gmail.com', 'admin.jpg', '$2y$10$TIyBsBBGDZHnGo3ecWCEL.VJf7oWC.Arpm9r5XF8UeFKADVMfBRMe', 2, 1, 1719651858, 'L', 8, '', '0000-00-00', 5, '', '', '199012312011033'),
-(16, 'Salsabila', 'raa@gmail.com', 'admin.jpg', '$2y$10$H1gJxYxKll2ijmp8/g8cze8KiHY4pA0QXc0HylX3kBkZn3NLTOg6y', 2, 1, 1719662020, 'L', 8, '', '0000-00-00', 5, '', '', '199012312011033'),
-(17, 'dsbcjksnc', 'u@gmail.com', 'admin.jpg', '$2y$10$RmWr7T0wj4dUTTQ.r.Qr2u3hpKUcN/dp8dgCq0EHGmpO6IZRJV05i', 2, 1, 1719662457, 'L', 1, '', '0000-00-00', 5, '', '', '123456783948'),
-(18, 'dsbcjksnc', 'O@gmail.com', '', '$2y$10$2epjDFdNDAyAqgxzP9zMK.acNQ6Zbp5Mtz45Oq3l6pPdMn5KxTe46', 1, 1, 1719662666, 'P', 6, '', '0000-00-00', 0, '02987654321', '', ''),
 (20, 'Dika Ardiansyah Putra', 'dika@unsoed.ac.id', 'admin.jpg', '$2y$10$jo9FiZ1cIugfwSGTsSdZP.St0n7bhPVfkRhRXLjhzJKuRI.OeH2qW', 2, 1, 1719665301, 'L', 8, '', '0000-00-00', 5, '', '', '199011152010021002'),
 (21, 'Ali Akbar Rahman', 'ali@unsoed.ac.id', 'admin.jpg', '$2y$10$oc9sH1f1/IvvMASCErMvZerxYf8/536cGP1/yh/NM.KlaZ837DokG', 2, 1, 1719665326, 'L', 8, '', '0000-00-00', 5, '', '', '198907142010052002'),
 (22, 'Indah Permata Sari', 'indah@unsoed.ac.id', 'profile_221.jpg', '$2y$10$JomM6VQRiLUweYmpcyySke59VG/2hu0Fa2v5P./amSM/GAyHImX06', 2, 1, 1719665353, 'P', 3, '', '1992-07-08', 1, '089765673456', 'semarang', '199207082010031003'),
 (23, 'Tasya Adinda Saraswati', 'tasya@mhs.unsoed.ac.id', 'profile_23.jpg', '$2y$10$GLCOxxhLMtlBTkFxsbEDuOVt7mDWCW3EuDAPMQLOMwlqtctRfPvJq', 1, 0, 1719667299, 'P', 4, '', '2005-02-17', 2, '087657898777', 'BANDUNG', ''),
 (24, 'Ilham Rizky Saputra', 'ilham@mhs.unsoed.ac.id', 'profile_24.jpg', '$2y$10$E.MQF3SjhjwGYLEGsaUK2uKUJDNQVrRrN1EuHuLqt5u/T63OkuDga', 1, 1, 1719667385, 'L', 1, '', '0000-00-00', 2, '087999878654', 'JAKARTA', ''),
-(25, 'Amanda Nurul Azizah', 'amanda@mhs.unsoed.ac.id', 'user.jpg', '$2y$10$8FtnYhnu53I4OT68i.Pa.eqVeWw5c7nNz4hIh09GKwQFmlS/STIBm', 1, 1, 1719668978, 'P', 0, '', '0000-00-00', 0, '087988985434', '', ''),
-(26, 'Dinda Cahaya Intan Permata', 'dinda@mhs.unsoed.ac.id', 'profile_26.jpg', '$2y$10$5o86mSdiGX5nfOpuIIEK2ODZqPgUn1CxwGgsGuZ/TKCOQQN82eM0.', 1, 1, 1719707753, 'P', 1, '', '2006-10-26', 1, '087675923451', 'BEKASI', '');
+(25, 'Amanda Nurul Azizah', 'amanda@mhs.unsoed.ac.id', 'user.jpg', '$2y$10$8FtnYhnu53I4OT68i.Pa.eqVeWw5c7nNz4hIh09GKwQFmlS/STIBm', 1, 1, 1719668978, 'P', 0, '', '0000-00-00', 0, '087988985434', '', '');
 
 -- --------------------------------------------------------
 
