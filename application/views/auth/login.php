@@ -33,7 +33,8 @@
                                 </form>
                                 <hr>
                                 <div class="btn btn-light btn-user btn-block">
-                                    <a href="<?= base_url('dashboard') ?>"><i class="fas da-plus"></i>BACK</a>
+                                    <a href="index.html"><i class="fas da-plus"></i>BACK</a>
+                                    <!-- <a href="<?= base_url('dashboard') ?>"><i class="fas da-plus"></i>BACK</a> -->
                                 </div>
                                 <!-- <div class="text-center">
                                     <a class="small" href="<?= base_url('auth/forgotpassword'); ?>">Forgot Password?</a>
