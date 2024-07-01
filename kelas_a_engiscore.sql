@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2024 at 05:13 AM
+-- Generation Time: Jul 01, 2024 at 01:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -89,12 +89,9 @@ CREATE TABLE `tb_mhs` (
 --
 
 INSERT INTO `tb_mhs` (`nim_mhs`, `point`, `user_id`, `prodi_id`, `pembiayaan`, `cuti`, `pa`) VALUES
-('H1B024003', 0, 24, 2, 'biaya_sendiri', 0, 'Dewi Lestari'),
-('H1C024004', 0, 25, 3, 'biaya_sendiri', 0, 'Dewi Lestari'),
-('H1D022000', 1200, 2, 1, 'biaya_sendiri', 0, 'ABC'),
-('H1D022015', 0, 5, 4, '', 0, ''),
-('H1D022049', 0, 6, 4, 'biaya_sendiri', 0, 'BCD'),
-('H1D024001', 0, 23, 4, 'biaya_sendiri', 0, 'Aditya Putra');
+('H1D022000', 0, 2, 2, 'biaya_sendiri', 0, 'Arif Hidayat'),
+('H1D022015', 0, 28, 4, 'biaya_sendiri', 0, 'Dadang Iskandar'),
+('H1D022049', 0, 29, 4, 'biaya_sendiri', 0, 'Lasmedi Afuan');
 
 -- --------------------------------------------------------
 
@@ -113,15 +110,6 @@ CREATE TABLE `tb_permo` (
   `tgl_permo` int(11) NOT NULL,
   `tgl_verif` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tb_permo`
---
-
-INSERT INTO `tb_permo` (`id`, `nim_mhs`, `kategori_id`, `bidang_id`, `capaian_id`, `file`, `persetujuan`, `tgl_permo`, `tgl_verif`) VALUES
-(15, 'H1D022000', 2, 6, 12, '1719713396_sertif1.png', 2, 1719713397, 1719714138),
-(16, 'H1D022000', 1, 1, 2, '1719713644_sertif2.png', 0, 1719713644, 0),
-(17, 'H1D022000', 1, 8, 10, '1719713849_sertif3.png', 1, 1719713849, 1719714393);
 
 -- --------------------------------------------------------
 
@@ -273,7 +261,6 @@ CREATE TABLE `tb_user` (
   `tgl_dibuat` int(11) NOT NULL,
   `gender` enum('L','P') NOT NULL,
   `agama_id` int(11) NOT NULL,
-  `tempat_lahir` varchar(100) NOT NULL,
   `tgl_lahir` date NOT NULL,
   `goldar_id` int(11) NOT NULL,
   `telp` varchar(15) NOT NULL,
@@ -285,18 +272,11 @@ CREATE TABLE `tb_user` (
 -- Dumping data for table `tb_user`
 --
 
-INSERT INTO `tb_user` (`id`, `nama`, `email`, `image`, `pass`, `role_id`, `is_active`, `tgl_dibuat`, `gender`, `agama_id`, `tempat_lahir`, `tgl_lahir`, `goldar_id`, `telp`, `alamat`, `nip`) VALUES
-(2, 'Mahasiswa Account', 'mhs@gmail.com', 'mahasiswa.jpg', '$2y$10$8Yhl04CQGtHVZ1.0aO.JX.ojq2fg/tp/r9I5dqweWo9gxscrbZ.OS', 1, 0, 1716451375, 'L', 6, 'Purbalingga', '2014-06-03', 1, '02987654321', 'Cilacap', ''),
-(3, 'Admin Account', 'admin@gmail.com', 'bapendik.jpg', '$2y$10$4RpAAJcEbzbOcjL07QyvR.d./coBhejE72NGFSOUkIneiweWmSA.2', 2, 1, 1716455594, 'P', 1, 'Purwokerto', '1994-06-02', 2, '0987654321', 'Purwokerto', '198011112009121'),
-(5, 'Aura Devany Salsabila Bachtiar', 'aura.bachtiar@mhs.unsoed.ac.id', 'default.jpg', '$2y$10$P4Ip82ngGQbIS1ouh4HCG.t6sjt9m/EXQuc8p76z4fod3NT1U7i9m', 1, 1, 1717217366, 'P', 0, '', '0000-00-00', 0, '09876543212', 'Cilacap', ''),
-(6, 'Calista Anindita', 'calista.anindita@mhs.unsoed.ac.id', 'kucing.png', '$2y$10$8OuDEl0iXxLAwcvybn8NxeW.9I/kRbpPiJ.gcap8Qla6i6OcrpvQm', 1, 1, 1718560464, 'P', 0, '', '0000-00-00', 0, '098765678947', '', ''),
-(13, 'Kevin Ardiansyah Putra', 'k@gmail.com', 'user.jpg', '$2y$10$916ZehI5HJzqvIJdxWnE4.tIXqR0NHXJhijxZNEVrIGLCGva8kXVS', 1, 1, 1719649273, 'L', 0, '', '0000-00-00', 0, '098465775974', '', ''),
-(20, 'Dika Ardiansyah Putra', 'dika@unsoed.ac.id', 'admin.jpg', '$2y$10$jo9FiZ1cIugfwSGTsSdZP.St0n7bhPVfkRhRXLjhzJKuRI.OeH2qW', 2, 1, 1719665301, 'L', 8, '', '0000-00-00', 5, '', '', '199011152010021002'),
-(21, 'Ali Akbar Rahman', 'ali@unsoed.ac.id', 'admin.jpg', '$2y$10$oc9sH1f1/IvvMASCErMvZerxYf8/536cGP1/yh/NM.KlaZ837DokG', 2, 1, 1719665326, 'L', 8, '', '0000-00-00', 5, '', '', '198907142010052002'),
-(22, 'Indah Permata Sari', 'indah@unsoed.ac.id', 'profile_221.jpg', '$2y$10$JomM6VQRiLUweYmpcyySke59VG/2hu0Fa2v5P./amSM/GAyHImX06', 2, 1, 1719665353, 'P', 3, '', '1992-07-08', 1, '089765673456', 'semarang', '199207082010031003'),
-(23, 'Tasya Adinda Saraswati', 'tasya@mhs.unsoed.ac.id', 'profile_23.jpg', '$2y$10$GLCOxxhLMtlBTkFxsbEDuOVt7mDWCW3EuDAPMQLOMwlqtctRfPvJq', 1, 0, 1719667299, 'P', 4, '', '2005-02-17', 2, '087657898777', 'BANDUNG', ''),
-(24, 'Ilham Rizky Saputra', 'ilham@mhs.unsoed.ac.id', 'profile_24.jpg', '$2y$10$E.MQF3SjhjwGYLEGsaUK2uKUJDNQVrRrN1EuHuLqt5u/T63OkuDga', 1, 1, 1719667385, 'L', 1, '', '0000-00-00', 2, '087999878654', 'JAKARTA', ''),
-(25, 'Amanda Nurul Azizah', 'amanda@mhs.unsoed.ac.id', 'user.jpg', '$2y$10$8FtnYhnu53I4OT68i.Pa.eqVeWw5c7nNz4hIh09GKwQFmlS/STIBm', 1, 1, 1719668978, 'P', 0, '', '0000-00-00', 0, '087988985434', '', '');
+INSERT INTO `tb_user` (`id`, `nama`, `email`, `image`, `pass`, `role_id`, `is_active`, `tgl_dibuat`, `gender`, `agama_id`, `tgl_lahir`, `goldar_id`, `telp`, `alamat`, `nip`) VALUES
+(2, 'Mahasiswa Account', 'mhs@gmail.com', 'mahasiswa.jpg', '$2y$10$8Yhl04CQGtHVZ1.0aO.JX.ojq2fg/tp/r9I5dqweWo9gxscrbZ.OS', 1, 0, 1716451375, 'L', 6, '2014-06-03', 1, '02987654321', 'Cilacap', ''),
+(3, 'Bapendik Account', 'admin@gmail.com', 'bapendik.jpg', '$2y$10$4RpAAJcEbzbOcjL07QyvR.d./coBhejE72NGFSOUkIneiweWmSA.2', 2, 1, 1716455594, 'P', 1, '1994-06-02', 2, '0987654321', 'Purwokerto', '198011112009121'),
+(28, 'Aura Devany Salsabila Bachtiar', 'aura.bachtiar@mhs.unsoed.ac.id', 'user.jpg', '$2y$10$bw2UN6CwEQqO.LBzWsIt9eM81DUJwaXJeFR2eUSw4hWc8MZX4.m/e', 1, 1, 1719833890, 'P', 1, '2003-11-14', 3, '087653566321458', 'cilacap', ''),
+(29, 'Calista Anindita', 'calista.anindita@mhs.unsoed.ac.id', 'user.jpg', '$2y$10$FDroLsKcWoGTAs/3ucEnTuS7qdOtJeeiTkLhNEMkdeEuqNw0eGPd2', 1, 1, 1719833934, 'P', 1, '2004-04-22', 4, '087898765437', 'purwokerto', '');
 
 -- --------------------------------------------------------
 
@@ -554,7 +534,7 @@ ALTER TABLE `tb_sertif_kategori`
 -- AUTO_INCREMENT for table `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `tb_user_akses_menu`
