@@ -839,11 +839,14 @@ class Bapendik extends CI_Controller
                     redirect('bapendik/verif_setuju');
                 }
                 redirect('bapendik/verif_tolak');
+
+                $this->session->set_flashdata('success', 'Persetujuan berhasil disimpan.');
+            } else {
+                $this->session->set_flashdata('success', 'Persetujuan tidak tersimpan! Pilih persetujuan');
             }
         }
 
         // Set flashdata for notification
-        $this->session->set_flashdata('success', 'Persetujuan berhasil disimpan.');
 
         // Redirect based on the value of persetujuan
         if ($persetujuan == 1) {
