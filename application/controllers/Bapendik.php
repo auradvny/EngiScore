@@ -137,7 +137,7 @@ class Bapendik extends CI_Controller
 
                     // Hapus gambar lama jika bukan default
                     $old_image = $data['user']['image'];
-                    if ($old_image != 'default.jpg') {
+                    if ($old_image != 'admin.jpg') {
                         if (file_exists(FCPATH . 'assets/img/profile/' . $old_image)) {
                             unlink(FCPATH . 'assets/img/profile/' . $old_image);
                         }

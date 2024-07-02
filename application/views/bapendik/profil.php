@@ -118,7 +118,7 @@
             </div>
         </div> <!-- /.row -->
 
-        <div class="calonbapendik-update">
+        <div class="calonbapendikpass-update">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Update Password: <span style="text-transform: uppercase;font-weight: bold;"><?= $user['nama']; ?></span></h3>

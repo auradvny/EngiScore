@@ -151,7 +151,7 @@ class Mahasiswa extends CI_Controller
 
                     // Hapus gambar lama jika bukan default
                     $old_image = $data['user']['image'];
-                    if ($old_image != 'default.png') {
+                    if ($old_image != 'user.jpg') {
                         $old_image_path = './assets/img/profile/' . $old_image;
                         if (file_exists($old_image_path)) {
                             unlink($old_image_path);

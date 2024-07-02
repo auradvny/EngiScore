@@ -40,7 +40,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form action="<?= base_url('bapendik/tambah_bidang'); ?>" method="POST">
+                        <form action="<?= base_url('bapendik/tambah_bidang'); ?>" method="POST" id="formTambahBidang">
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="nama_bidang">Nama Bidang</label>
@@ -60,7 +60,7 @@
                 <div class="modal fade" id="editBidangModal<?= $b['id'] ?>" tabindex="-1" aria-labelledby="editBidangModalLabel<?= $b['id'] ?>" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <form action="<?= base_url('bapendik/edit_bidang/' . $b['id']); ?>" method="post">
+                            <form action="<?= base_url('bapendik/edit_bidang/' . $b['id']); ?>" method="post" id="formEditBidang<?= $b['id'] ?>">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="editBidangModalLabel<?= $b['id'] ?>">Edit Bidang</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -300,7 +300,7 @@
                         </button>
                     </div>
                     <form action="<?= base_url('bapendik/sertifikat'); ?>" method="POST">
-                        <div class="modal-body">
+                        <div class=" modal-body">
                             <div class="form-group">
                                 <label for="bidang_id">Bidang</label>
                                 <div class="form-group">
@@ -443,4 +443,13 @@
                 // Set the value of bidang input field in the corresponding modal
                 $('#editSertifikatModal' + id + ' #editSertifikat' + id).val(nama);
             });
+            $('#formTambahBidang').on('submit', function() {
+                $('#btnTambahBidang').prop('disabled', true);
+            });
+
+            <?php foreach ($bidang as $b) : ?>
+                $('#formEditBidang<?= $b['id'] ?>').on('submit', function() {
+                    $('#btnEditBidang<?= $b['id'] ?>').prop('disabled', true);
+                });
+            <?php endforeach; ?>
         </script>
